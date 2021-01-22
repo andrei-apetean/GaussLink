@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="GaussLink.Views.ItemExplorer.ItemExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:vms="clr-namespace:GaussLink.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Name="Explorer">
+        <Grid.DataContext>
+            <vms:ItemExplorerViewModel/>
+        </Grid.DataContext>
+        <ListBox x:Name="source" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid ToolTip="{Binding Name}" Width="{Binding ActualWidth, ElementName=source}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="25"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="/UI/Images/jobFileIcon.png" Width="16"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontSize="14" />
+                            </Grid>
+                        </Grid >
+                        <Grid  Grid.Column="1">
+                            <Button Style="{DynamicResource DangerButton}"  Command="{Binding DeleteCommand}" >
+                                <Image Source="/UI/Images/binIcon.png" Width="16"/>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+
+</UserControl>

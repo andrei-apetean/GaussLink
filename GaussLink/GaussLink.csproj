@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D9821C83-7B98-464A-A34A-0DC58303CD60}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GaussLink</RootNamespace>
+    <AssemblyName>GaussLink</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Data\Converters\BoolRadioConverter.cs" />
+    <Compile Include="Data\Converters\Extractor.cs" />
+    <Compile Include="Data\Events\ChildrenEventArgs.cs" />
+    <Compile Include="Data\Events\EventAggregator.cs" />
+    <Compile Include="Data\Events\SizeChangedArgs.cs" />
+    <Compile Include="Data\Messages\DataMessage.cs" />
+    <Compile Include="Data\Messages\DisplayHeaderMessage.cs" />
+    <Compile Include="Data\Messages\FileMessage.cs" />
+    <Compile Include="Data\Messages\OpenFileMessage.cs" />
+    <Compile Include="Data\Messages\RemoveJobMessage.cs" />
+    <Compile Include="Data\Messages\SelectionChangedMessage.cs" />
+    <Compile Include="Data\Messages\SizeChangedMessage.cs" />
+    <Compile Include="Data\Store\DataManager.cs" />
+    <Compile Include="Models\AtomDelta.cs" />
+    <Compile Include="Models\Bond.cs" />
+    <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\Molecule3D.cs" />
+    <Compile Include="Models\MoleculeBond.cs" />
+    <Compile Include="Models\OptimizationJob.cs" />
+    <Compile Include="Models\VibrationMode.cs" />
+    <Compile Include="UI\Themes\ColourfulDarkTheme.xaml.cs" />
+    <Compile Include="UI\Themes\ColourfulLightTheme.xaml.cs" />
+    <Compile Include="UI\Themes\DarkTheme.xaml.cs" />
+    <Compile Include="UI\Themes\LightTheme.xaml.cs" />
+    <Compile Include="UI\Themes\ScrollviewerHelper.cs" />
+    <Compile Include="ViewModels\Base\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Base\RelayCommand.cs" />
+    <Compile Include="ViewModels\Inspector\ComponentVM.cs" />
+    <Compile Include="ViewModels\Inspector\FreqComponentVM.cs" />
+    <Compile Include="ViewModels\Inspector\InspectorViewModel.cs" />
+    <Compile Include="ViewModels\Inspector\NMRComponentVM.cs" />
+    <Compile Include="ViewModels\Inspector\OptComponentVM.cs" />
+    <Compile Include="ViewModels\Inspector\TDComponentVM.cs" />
+    <Compile Include="ViewModels\ItemExplorer\ExplorerItem.cs" />
+    <Compile Include="ViewModels\ItemExplorer\ItemExplorerViewModel.cs" />
+    <Compile Include="ViewModels\MainDisplay\DisplayViewModel.cs" />
+    <Compile Include="ViewModels\MainDisplay\DisplayVM.cs" />
+    <Compile Include="ViewModels\MainDisplay\OpenFileDisplay.cs" />
+    <Compile Include="ViewModels\MainDisplay\TabDisplayViewModel.cs" />
+    <Compile Include="ViewModels\MainDisplay\Tabs\FileContentTab.cs" />
+    <Compile Include="ViewModels\MainDisplay\Tabs\OrientationTab.cs" />
+    <Compile Include="ViewModels\MainDisplay\Tabs\TabContent.cs" />
+    <Compile Include="ViewModels\MainDisplay\Tabs\TabHeader.cs" />
+    <Compile Include="ViewModels\MainDisplay\Tabs\TabType.cs" />
+    <Compile Include="ViewModels\MainDisplay\Tabs\VibrationModeTab.cs" />
+    <Compile Include="ViewModels\MainDisplay\Tabs\Viewer3DTab.cs" />
+    <Compile Include="ViewModels\Themes\ThemesController.cs" />
+    <Compile Include="ViewModels\mvvmLight\MainViewModel.cs" />
+    <Compile Include="ViewModels\mvvmLight\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\Window\WindowViewModel.cs" />
+    <Compile Include="Views\Inspector\FreqInspectorComponent.xaml.cs">
+      <DependentUpon>FreqInspectorComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Inspector\InspectorView.xaml.cs">
+      <DependentUpon>InspectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Inspector\NMRInspectorComponent.xaml.cs">
+      <DependentUpon>NMRInspectorComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Inspector\OptInspectorComponent.xaml.cs">
+      <DependentUpon>OptInspectorComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Inspector\TDInspectorComponent.xaml.cs">
+      <DependentUpon>TDInspectorComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemExplorer\ItemExplorerView.xaml.cs">
+      <DependentUpon>ItemExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainDisplay\DisplayView.xaml.cs">
+      <DependentUpon>DisplayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainDisplay\OpenFileDisplayView.xaml.cs">
+      <DependentUpon>OpenFileDisplayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainDisplay\TabDisplayView.xaml.cs">
+      <DependentUpon>TabDisplayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainDisplay\Tabs\FileContentTabView.xaml.cs">
+      <DependentUpon>FileContentTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainDisplay\Tabs\OrientationTabView.xaml.cs">
+      <DependentUpon>OrientationTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainDisplay\Tabs\VibrationModeTabView.xaml.cs">
+      <DependentUpon>VibrationModeTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainDisplay\Tabs\Viewer3DTabView.xaml.cs">
+      <DependentUpon>Viewer3DTabView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\DataAccess\FileManager.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="UI\Themes\ColourfulDarkTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\ColourfulLightTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\DarkTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\LightTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Inspector\FreqInspectorComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Inspector\InspectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Inspector\NMRInspectorComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Inspector\OptInspectorComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Inspector\TDInspectorComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemExplorer\ItemExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainDisplay\DisplayView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainDisplay\OpenFileDisplayView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainDisplay\TabDisplayView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainDisplay\Tabs\FileContentTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainDisplay\Tabs\OrientationTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainDisplay\Tabs\VibrationModeTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainDisplay\Tabs\Viewer3DTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Atom.cs" />
+    <Compile Include="Models\JobFile.cs" />
+    <Compile Include="Models\JobType.cs" />
+    <Compile Include="Models\MoleculeOrientation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Styles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Images\binIcon.png" />
+    <Resource Include="UI\Images\closeIcon.png" />
+    <Resource Include="UI\Images\collapseArrow.png" />
+    <Resource Include="UI\Images\contentIcon.png" />
+    <Resource Include="UI\Images\deleteFileIcon.png" />
+    <Resource Include="UI\Images\expandArrow.png" />
+    <Resource Include="UI\Images\frequencyDataIcon.png" />
+    <Resource Include="UI\Images\icon.ico" />
+    <Resource Include="UI\Images\icon.png" />
+    <Resource Include="UI\Images\jobFileIcon.png" />
+    <Resource Include="UI\Images\openFileIcon.png" />
+    <Resource Include="UI\Images\orientationIcon.png" />
+    <Resource Include="UI\Images\plotIcon.png" />
+    <Resource Include="UI\Images\saveFileIcon.png" />
+    <Resource Include="UI\Images\settings.png" />
+    <Resource Include="UI\Images\structure3D.png" />
+    <Resource Include="UI\Images\vibrationModeIcon.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
