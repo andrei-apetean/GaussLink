@@ -21,9 +21,8 @@ namespace GaussLink.ViewModels.MainDisplay
             Tabs = tabs;
             Messenger.Default.Register<DataMessage>(this, GetJobData);
             Messenger.Default.Register<SizeChangedMessage>(this, SizeHasChanged);
+       
         }
-
-
 
         #region TabHeader Width Handling
         private double totalWidth;
@@ -154,9 +153,16 @@ namespace GaussLink.ViewModels.MainDisplay
                     break;
                 case "Vibration Mode": NewVibrationModeTab(obj.Name, obj.VibrationMode);
                     break;
+                case "Excitation Energy": NewExcitationEnergyTab(obj.JobFile.JobName, obj.JobFile);
+                    break;
             }
         }
 
+
+        private void NewExcitationEnergyTab(string name, JobFile file)
+        {
+            ExcitationEnergy e = Extractor.ExtractExcitationEnergies(file);
+        }
 
         private void New3DTab(JobFile file, bool isStatic, bool isStandard)
         {

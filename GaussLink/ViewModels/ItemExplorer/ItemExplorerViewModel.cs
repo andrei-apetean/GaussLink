@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 
 
 namespace GaussLink.ViewModels
@@ -40,6 +39,10 @@ namespace GaussLink.ViewModels
                     break;
             }
         }
+
+
+
+
 
         private void OnDeleteRequested(object sender, EventArgs e)
         {

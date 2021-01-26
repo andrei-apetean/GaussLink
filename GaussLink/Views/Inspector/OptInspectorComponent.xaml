@@ -30,13 +30,13 @@
                             <StackPanel Orientation="Vertical" Margin="0,0,0,5">
                                 <Button Margin="10,5,10,5" Command="{Binding GetJobContentCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3">
-                                        <Image Source="/UI/Images/contentIcon.png" Height="14"  />
+                                        <Image Source="{Binding ContentIcon}" Height="14"  />
                                         <TextBlock Text=" New Content Tab" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                                 <Button Margin="10,5,10,5" Command="{Binding SaveContentCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3" >
-                                        <Image Source="/UI/Images/saveFileIcon.png" Height="14"/>
+                                        <Image Source="{Binding SaveFileIcon}" Height="14"/>
                                         <TextBlock Text=" Save Content"  FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
@@ -52,13 +52,13 @@
                                 <RadioButton Content="Standard" GroupName="radio2" Margin="10,5,10,3" IsChecked="{Binding InputOrientation, Converter={StaticResource InverseBoolRadioConverter}}"   FontWeight="Light"/>
                                 <Button Margin="10,5,10,5" Command="{Binding GetOrientationCommand}" >
                                     <StackPanel Orientation="Horizontal" Margin="3">
-                                        <Image Source="/UI/Images/orientationIcon.png" Height="14"/>
+                                        <Image Source="{Binding OrientationIcon}" Height="14"/>
                                         <TextBlock Text=" New Orientation Tab" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                                 <Button Margin="10,5,10,10" Command="{Binding SaveOrientationCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3" >
-                                        <Image Source="/UI/Images/saveFileIcon.png" Height="14"/>
+                                        <Image Source="{Binding SaveFileIcon}" Height="14"/>
                                         <TextBlock Text=" Save Orientation"  FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
@@ -71,7 +71,7 @@
                             <StackPanel Orientation="Vertical" Margin="0,0,0,5">
                                 <Button Margin="10,5,10,5" Command="{Binding Get3DStructureCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3">
-                                        <Image Source="/UI/Images/structure3D.png" Height="14"  />
+                                        <Image Source="{Binding View3DIcon}" Height="14"  />
                                         <TextBlock Text=" New 3D Structure Tab" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
@@ -82,7 +82,7 @@
                     </Expander>
                     <Button Grid.Row="3" Height="25"  Margin="10,5,10,5" Command="{Binding RemoveJobCommand}">
                         <StackPanel Orientation="Horizontal" Margin="3">
-                            <Image Source="/UI/Images/deleteFileIcon.png"  Height="14"/>
+                            <Image Source="{Binding DeleteIcon}"  Height="14"/>
                             <TextBlock Text=" Remove Job"  FontWeight="Normal"  />
                         </StackPanel>
                     </Button>

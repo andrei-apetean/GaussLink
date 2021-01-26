@@ -123,10 +123,10 @@ namespace GaussLink.Data
             }
             return new Bond(int.Parse(x),int.Parse(y));
         }
-        private static int GetLastOrientationIndex(JobFile jobFile, string param)
+        private static int GetLastOrientationIndex(JobFile job, string param)
         {
             int index = 0;
-            foreach(string l in jobFile.Content)
+            foreach(string l in job.Content)
             {
                 if(l.Contains(param))
                 {
@@ -136,6 +136,53 @@ namespace GaussLink.Data
             return index;
         }
      
+        public static ExcitationEnergy ExtractExcitationEnergies(JobFile job)
+        {
+            List<ExcitedState> excitedStates = new List<ExcitedState>();
+            ExcitedState e = new ExcitedState();
+            HLGap hlgap;
+            int count = 0;
+            bool start = false;
+            foreach(string line in job.Content)
+            {
+                if(line.Contains(" SavETr"))
+                {
+                    excitedStates.Add(e);
+                    break;
+                }
+                if (start)
+                {
+                    if(!line.Contains("This") && !line.Contains("Total") && !line.Contains("Copy") && !string.IsNullOrWhiteSpace(line) && !line.Contains("Excited State"))
+                    {
+                        bool b = string.IsNullOrWhiteSpace(line);
+                        //0,2,3
+                        string[] data = RetrieveLineData(line.Split(' '));
+                        hlgap = new HLGap(int.Parse(data[0]), int.Parse(data[2]), float.Parse(data[3], CultureInfo.InvariantCulture));
+                        e.HLGaps.Add(hlgap);
+                    }
+                    if (line.Contains("Excited State"))
+                    {
+                        count++;
+                        if(count>1) { excitedStates.Add(e); }
+                        e = new ExcitedState();
+                        string[] data = RetrieveLineData(line.Split(' '));
+                        string eId = data[2].Remove(data[2].Length-1);
+                        e.ID = int.Parse(eId);
+                        e.QuantumState = data[3];
+                        e.ExcitationEnergy = float.Parse(data[4], CultureInfo.InvariantCulture);
+                        e.WaveLength = float.Parse(data[6], CultureInfo.InvariantCulture);
+                        string f = data[8].Remove(0, 2);
+                        e.OscillatorStrength = float.Parse(f, CultureInfo.InvariantCulture);
+                    }
+                }
+                if(line.Contains("Excitation energies and oscillator strengths:"))
+                {
+                    start = true;
+                }
+            }
+            return new ExcitationEnergy(excitedStates);
+        }
+
 
         private static Atom ExtractOrientation(string line)
         {

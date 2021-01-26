@@ -4442,7 +4442,16 @@
         <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
         <Setter Property="Margin" Value="0,0,11,0"/>
         <Setter Property="CornerRadius" Value="0"/>
+        
     </Style>
+
+    <Style x:Key="Simple" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+    </Style>
+
     <Style TargetType="{x:Type ToolBar}">
         <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
@@ -4754,7 +4763,7 @@
                                       VerticalAlignment="Top" Margin="0">
                                     <DockPanel Margin="0,0,130,0">
                                         <Image HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,4,0,0" 
-                                               Source="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}" Height="24"  />
+                                               Source="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}" Height="20"  />
                                         <TextBlock Margin="5,3"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Stretch"

@@ -14,6 +14,7 @@ C:\Users\Andrei\source\repos\GaussLink\GaussLink\bin\Debug\GalaSoft.MvvmLight.Ex
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\bin\Debug\GalaSoft.MvvmLight.Platform.pdb
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\bin\Debug\GalaSoft.MvvmLight.Platform.xml
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\bin\Debug\Microsoft.Expression.Interactions.xml
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.csprojAssemblyReference.cache
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\UI\Themes\ColourfulDarkTheme.baml
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\UI\Themes\ColourfulLightTheme.baml
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\UI\Themes\DarkTheme.baml
@@ -62,4 +63,3 @@ C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.csproj.Core
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.csproj.CopyComplete
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.exe
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.pdb
-C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.csprojAssemblyReference.cache

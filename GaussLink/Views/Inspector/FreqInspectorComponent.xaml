@@ -26,13 +26,13 @@
                             <StackPanel Orientation="Vertical" Margin="0,0,0,5">
                                 <Button Margin="10,5,10,5" Command="{Binding GetJobContentCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3">
-                                        <Image Source="/UI/Images/contentIcon.png" Height="14"  />
+                                        <Image Source="{Binding ContentIcon}" Height="14"  />
                                         <TextBlock Text=" New Content Tab" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                                 <Button Margin="10,5,10,5" Command="{Binding SaveContentCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3" >
-                                        <Image Source="/UI/Images/saveFileIcon.png" Height="14"/>
+                                        <Image Source="{Binding SaveFileIcon}" Height="14"/>
                                         <TextBlock Text=" Save Content"  FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
@@ -46,13 +46,13 @@
                             <StackPanel Orientation="Vertical"  Margin="0,0,0,5">
                                 <Button Margin="10,5,10,5" Command="{Binding GetFreqDataCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3">
-                                        <Image Source="/UI/Images/frequencyDataIcon.png" Height="14"/>
+                                        <Image Source="{Binding FreqDataIcon}" Height="14"/>
                                         <TextBlock Text=" New Frequency Data Tab" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                                 <Button   Margin="10,5,10,5" Command="{Binding SaveFreqCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3" >
-                                        <Image Source="/UI/Images/saveFileIcon.png" Height="14"/>
+                                        <Image Source="{Binding SaveFileIcon}" Height="14"/>
                                         <TextBlock Text=" Save Frequency Data"  FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
@@ -74,19 +74,37 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Select Vibration Mode" FontWeight="Normal" ToolTip="Select Vibration Mode" TextTrimming="CharacterEllipsis" />
-                                    <TextBox Grid.Column="1" FontWeight="Normal" Text="{Binding SelectedMode, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Grid.Column="0" Text="Select Vibration Mode" VerticalAlignment="Bottom" FontWeight="Normal" ToolTip="Select Vibration Mode" TextTrimming="CharacterEllipsis" />
+                                    <Grid Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="20"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Height="20" Grid.Column="0" VerticalAlignment="Bottom" Text="{Binding SelectedMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="10"/>
+                                                <RowDefinition Height="10"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Grid.Row="0" Command="{Binding IncrementCommand}">
+                                                <Image Source="{Binding IncrementIcon}" />
+                                            </Button>
+                                            <Button Grid.Row="1" Command="{Binding DecrementCommand}">
+                                                <Image Source="{Binding DecrementIcon}" />
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                                 <Button   Margin="10,5,10,5" Command="{Binding GetVibrationModeDataCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3">
-                                        <Image Source="/UI/Images/vibrationModeIcon.png" Height="14"/>
+                                        <Image Source="{Binding  FreqDataIcon}" Height="14"/>
                                         <TextBlock Text=" New Vibration Mode Tab" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                                 <Button  Margin="10,5,10,5" Command="{Binding SaveContentCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3" >
-                                        <Image Source="/UI/Images/saveFileIcon.png" Height="14"/>
-                                        <TextBlock Text=" Save Frequency Data"  FontWeight="Normal" />
+                                        <Image Source="{Binding SaveFileIcon}" Height="14"/>
+                                        <TextBlock Text=" Save Vibration Mode Data"  FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -99,8 +117,8 @@
                             <StackPanel Orientation="Vertical"  Margin="0,0,0,10">
                                 <Button   Margin="10,5,10,5" Command="{Binding Vibration3DCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3">
-                                        <Image Source="/UI/Images/structure3D.png" Height="14"/>
-                                        <TextBlock Text="  New 3D Freq Tab" FontWeight="Normal" />
+                                        <Image Source="{Binding DeleteIcon}" Height="14"/>
+                                        <TextBlock Text="  New 3D Vibration Tab" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -110,7 +128,7 @@
                     </Expander>
                     <Button Grid.Row="4" Style="{DynamicResource DangerButton}"  Height="25"  Margin="10,5,10,5" Command="{Binding RemoveJobCommand}">
                         <StackPanel Orientation="Horizontal" Margin="3">
-                            <Image Source="/UI/Images/deleteFileIcon.png"  Height="14"/>
+                            <Image Source="{Binding DeleteIcon}"  Height="14"/>
                             <TextBlock Text=" Remove Job"  FontWeight="Normal"  />
                         </StackPanel>
                     </Button>

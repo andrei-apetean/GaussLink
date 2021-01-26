@@ -87,9 +87,13 @@
     <Compile Include="Data\Messages\RemoveJobMessage.cs" />
     <Compile Include="Data\Messages\SelectionChangedMessage.cs" />
     <Compile Include="Data\Messages\SizeChangedMessage.cs" />
+    <Compile Include="Data\Messages\ThemeChangedMessage.cs" />
     <Compile Include="Data\Store\DataManager.cs" />
     <Compile Include="Models\AtomDelta.cs" />
     <Compile Include="Models\Bond.cs" />
+    <Compile Include="Models\ExcitationEnergy.cs" />
+    <Compile Include="Models\ExcitedState.cs" />
+    <Compile Include="Models\HLGap.cs" />
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\Molecule3D.cs" />
     <Compile Include="Models\MoleculeBond.cs" />
@@ -124,6 +128,7 @@
     <Compile Include="ViewModels\Themes\ThemesController.cs" />
     <Compile Include="ViewModels\mvvmLight\MainViewModel.cs" />
     <Compile Include="ViewModels\mvvmLight\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\Themes\ThemeType.cs" />
     <Compile Include="ViewModels\Window\WindowViewModel.cs" />
     <Compile Include="Views\Inspector\FreqInspectorComponent.xaml.cs">
       <DependentUpon>FreqInspectorComponent.xaml</DependentUpon>
@@ -281,23 +286,42 @@
     <Folder Include="UI\Styles\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\Images\binIcon.png" />
-    <Resource Include="UI\Images\closeIcon.png" />
-    <Resource Include="UI\Images\collapseArrow.png" />
-    <Resource Include="UI\Images\contentIcon.png" />
-    <Resource Include="UI\Images\deleteFileIcon.png" />
-    <Resource Include="UI\Images\expandArrow.png" />
-    <Resource Include="UI\Images\frequencyDataIcon.png" />
-    <Resource Include="UI\Images\icon.ico" />
-    <Resource Include="UI\Images\icon.png" />
-    <Resource Include="UI\Images\jobFileIcon.png" />
-    <Resource Include="UI\Images\openFileIcon.png" />
-    <Resource Include="UI\Images\orientationIcon.png" />
-    <Resource Include="UI\Images\plotIcon.png" />
-    <Resource Include="UI\Images\saveFileIcon.png" />
-    <Resource Include="UI\Images\settings.png" />
-    <Resource Include="UI\Images\structure3D.png" />
-    <Resource Include="UI\Images\vibrationModeIcon.png" />
+    <Resource Include="UI\Images\contentIconBlack.png" />
+    <Resource Include="UI\Images\contentIconWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Images\view3DIconBlack.png" />
+    <Resource Include="UI\Images\view3DIconWhite.png" />
+    <Resource Include="UI\Images\appIconBlack.png" />
+    <Resource Include="UI\Images\appIconWhite.png" />
+    <Resource Include="UI\Images\binIconBlack.png" />
+    <Resource Include="UI\Images\binIconWhite.png" />
+    <Resource Include="UI\Images\closeIconBlack.png" />
+    <Resource Include="UI\Images\closeIconWhite.png" />
+    <Resource Include="UI\Images\collapseArrowBlack.png" />
+    <Resource Include="UI\Images\collapseArrowWhite.png" />
+    <Resource Include="UI\Images\deleteFileIconBlack.png" />
+    <Resource Include="UI\Images\deleteFileIconWhite.png" />
+    <Resource Include="UI\Images\expandArrowBlack.png" />
+    <Resource Include="UI\Images\expandArrowWhite.png" />
+    <Resource Include="UI\Images\frequencyDataIconBlack.png" />
+    <Resource Include="UI\Images\frequencyDataIconWhite.png" />
+    <Resource Include="UI\Images\jobFileIconBlack.png" />
+    <Resource Include="UI\Images\jobFileIconWhite.png" />
+    <Resource Include="UI\Images\openFileIconBlack.png" />
+    <Resource Include="UI\Images\openFileIconWhite.png" />
+    <Resource Include="UI\Images\orientationIconBlack.png" />
+    <Resource Include="UI\Images\orientationIconWhite.png" />
+    <Resource Include="UI\Images\plotIconBlack.png" />
+    <Resource Include="UI\Images\plotIconWhite.png" />
+    <Resource Include="UI\Images\saveFileIconBlack.png" />
+    <Resource Include="UI\Images\saveFileIconWhite.png" />
+    <Resource Include="UI\Images\settingsIconBlack.png" />
+    <Resource Include="UI\Images\settingsIconWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Images\vibration3DBlack.png" />
+    <Resource Include="UI\Images\vibration3DWhite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using GaussLink.Data.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,13 +11,9 @@ namespace GaussLink.ViewModels.Themes
 {
     public static class ThemesController
     {
-        public enum ThemeTypes
-        {
-            Light, ColourfulLight,
-            Dark, ColourfulDark
-        }
 
-        public static ThemeTypes CurrentTheme { get; set; }
+
+        public static ThemeType CurrentTheme { get; set; }
 
         private static ResourceDictionary ThemeDictionary
         {
@@ -27,16 +25,24 @@ namespace GaussLink.ViewModels.Themes
         {
             ThemeDictionary = new ResourceDictionary() { Source = uri };
         }
-        public static void SetTheme(ThemeTypes theme)
+        public static void SetTheme(ThemeType theme)
         {
             string themeName = null;
             CurrentTheme = theme;
             switch (theme)
             {
-                case ThemeTypes.Dark: themeName = "DarkTheme"; break;
-                case ThemeTypes.Light: themeName = "LightTheme"; break;
-                case ThemeTypes.ColourfulDark: themeName = "ColourfulDarkTheme"; break;
-                case ThemeTypes.ColourfulLight: themeName = "ColourfulLightTheme"; break;
+                case ThemeType.Dark: themeName = "DarkTheme";
+                    Messenger.Default.Send(new ThemeChangedMessage(ThemeType.Dark));
+                    break;
+                case ThemeType.Light: themeName = "LightTheme"; 
+                    Messenger.Default.Send(new ThemeChangedMessage(ThemeType.Light));
+                    break;
+                case ThemeType.ColourfulDark: themeName = "ColourfulDarkTheme"; 
+                    Messenger.Default.Send(new ThemeChangedMessage(ThemeType.ColourfulDark));
+                    break;
+                case ThemeType.ColourfulLight: themeName = "ColourfulLightTheme"; 
+                    Messenger.Default.Send(new ThemeChangedMessage(ThemeType.ColourfulLight));
+                    break;
             }
 
             try

@@ -24,13 +24,13 @@
                                     <ColumnDefinition Width="16"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Source="/UI/Images/jobFileIcon.png" Width="16"/>
+                                <Image Grid.Column="0" Source="{Binding JobFileIcon}" Width="16"/>
                                 <TextBlock Grid.Column="1" Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontSize="14" />
                             </Grid>
                         </Grid >
                         <Grid  Grid.Column="1">
                             <Button Style="{DynamicResource DangerButton}"  Command="{Binding DeleteCommand}" >
-                                <Image Source="/UI/Images/binIcon.png" Width="16"/>
+                                <Image Source="{Binding BinIcon}" Width="16"/>
                             </Button>
                         </Grid>
                     </Grid>

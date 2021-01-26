@@ -23,9 +23,9 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="20"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock  Grid.Column="0" Text="{Binding Name}" ToolTip="{Binding Name}" TextTrimming="CharacterEllipsis"/>
-                                <Button Grid.Column="1"  Command="{Binding CloseCommand}">
-                                    <Image Source="/UI/Images/closeIcon.png" Height="12"/>
+                                <TextBlock  Grid.Column="0" Text="{Binding Name}" ToolTip="{Binding Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <Button Style="{DynamicResource DangerButton}" Grid.Column="1"  Command="{Binding CloseCommand}">
+                                    <Image Source="{Binding CloseIcon}" Height="12" />
                                 </Button>
                             </Grid>
                         </DataTemplate>

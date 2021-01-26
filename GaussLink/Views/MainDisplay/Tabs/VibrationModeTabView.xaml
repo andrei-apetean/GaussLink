@@ -7,6 +7,84 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Margin="10,10,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Mode -- " />
+                    <Label Content="{Binding VibrationMode.Mode}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Quantum State -- " />
+                    <Label Content="{Binding VibrationMode.QuantumState}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Frequency -- " />
+                    <Label Content="{Binding VibrationMode.Frequencies,StringFormat={}{0:F6}}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Red. Masses -- " />
+                    <Label Content="{Binding VibrationMode.RedMasses ,StringFormat={}{0:F6}}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Frc Consts -- "/>
+                    <Label Content="{Binding VibrationMode.FrcConsts, StringFormat={}{0:F6} }" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="IR Inten -- " />
+                    <Label Content="{Binding VibrationMode.IRInten,StringFormat={}{0:F6} }" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Raman Activ -- " />
+                    <Label Content="{Binding VibrationMode.RamanActive,StringFormat={}{0:F6} }"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Depolar (P) -- " />
+                    <Label Content="{Binding VibrationMode.DepolarP,StringFormat={}{0:F6} }"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Depolar (U) -- " />
+                    <Label Content="{Binding VibrationMode.DepolarU,StringFormat={}{0:F6}}" />
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Atom"  TextTrimming="CharacterEllipsis"  HorizontalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="Atomic Number" TextTrimming="CharacterEllipsis"  HorizontalAlignment="Center"/>
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="X"  HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Y" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="Z" HorizontalAlignment="Center" />
+                    </Grid>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding VibrationMode.AtomVibrations}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Atom}"  HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding AtomicNumber}"  HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Delta.X,StringFormat={}{0:F6} }" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="{Binding Delta.Y,StringFormat={}{0:F6} }" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Text="{Binding Delta.Z,StringFormat={}{0:F6} }" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

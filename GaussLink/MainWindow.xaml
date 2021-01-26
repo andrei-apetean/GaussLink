@@ -58,7 +58,7 @@
                 </MenuItem>
             </Menu>
         </Grid>
-        <Border Grid.Row="1" BorderThickness="0,0,0,5" Style="{DynamicResource NoCornersToolBarStyle}"/>
+        <Border Grid.Row="1" BorderThickness="0,0,0,5" Style="{DynamicResource Simple}"/>
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="15*"/>
@@ -90,8 +90,13 @@
                         </Grid>
                         <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
                         <Grid Grid.Column="4">
-                            <insp:InspectorView/>
-                        </Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Content="Inspector" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <insp:InspectorView Grid.Row="1"/>
+                    </Grid>
                     </Grid>
                 </Grid>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
