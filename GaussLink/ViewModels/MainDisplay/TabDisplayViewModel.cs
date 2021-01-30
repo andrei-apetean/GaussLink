@@ -25,14 +25,14 @@ namespace GaussLink.ViewModels.MainDisplay
         }
 
         #region TabHeader Width Handling
-        private double totalWidth;
-        private double headerWidth=150;
+        private int totalWidth;
+        private int headerWidth=150;
 
 
         public void SizeHasChanged(SizeChangedMessage obj)
         {
-            totalWidth = obj.Width;
-            headerWidth = totalWidth / Tabs.Count;
+            totalWidth = (int)obj.Width;
+            if(Tabs.Count>0) headerWidth = totalWidth / Tabs.Count;
             if (headerWidth > 150) headerWidth = 150;
             OnSizeChanged();
         }
@@ -42,12 +42,12 @@ namespace GaussLink.ViewModels.MainDisplay
 
         protected virtual void OnSizeChanged()
         {
-            SizeChanged?.Invoke(this, new SizeChangedArgs(0,headerWidth));
+            SizeChanged?.Invoke(this, new SizeChangedArgs(0,headerWidth-2));
         }
 
         private void TabCountChanged()
         {
-            headerWidth = totalWidth / Tabs.Count;
+            headerWidth = (totalWidth) / Tabs.Count;
             if (headerWidth > 150) headerWidth = 150;
             OnSizeChanged();
 
@@ -162,6 +162,9 @@ namespace GaussLink.ViewModels.MainDisplay
         private void NewExcitationEnergyTab(string name, JobFile file)
         {
             ExcitationEnergy e = Extractor.ExtractExcitationEnergies(file);
+            var tabHeader = new TabHeader(name, headerWidth, new ExcitationEnergyTab(e));
+            SizeChanged += tabHeader.OnSizeChanged;
+            Tabs.Add(tabHeader);
         }
 
         private void New3DTab(JobFile file, bool isStatic, bool isStandard)

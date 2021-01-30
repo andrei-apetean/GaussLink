@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\App.xaml
-18153624586
+191350692584
 
-79-1898771301
+81-1792958332
 1251989019859
-MainWindow.xaml;UI\Themes\ColourfulDarkTheme.xaml;UI\Themes\ColourfulLightTheme.xaml;UI\Themes\DarkTheme.xaml;UI\Themes\LightTheme.xaml;Views\Inspector\FreqInspectorComponent.xaml;Views\Inspector\InspectorView.xaml;Views\Inspector\NMRInspectorComponent.xaml;Views\Inspector\OptInspectorComponent.xaml;Views\Inspector\TDInspectorComponent.xaml;Views\ItemExplorer\ItemExplorerView.xaml;Views\MainDisplay\DisplayView.xaml;Views\MainDisplay\OpenFileDisplayView.xaml;Views\MainDisplay\TabDisplayView.xaml;Views\MainDisplay\Tabs\FileContentTabView.xaml;Views\MainDisplay\Tabs\OrientationTabView.xaml;Views\MainDisplay\Tabs\VibrationModeTabView.xaml;Views\MainDisplay\Tabs\Viewer3DTabView.xaml;
+MainWindow.xaml;UI\Themes\ColourfulDarkTheme.xaml;UI\Themes\ColourfulLightTheme.xaml;UI\Themes\DarkTheme.xaml;UI\Themes\LightTheme.xaml;Views\Inspector\FreqInspectorComponent.xaml;Views\Inspector\InspectorView.xaml;Views\Inspector\NMRInspectorComponent.xaml;Views\Inspector\OptInspectorComponent.xaml;Views\Inspector\TDInspectorComponent.xaml;Views\ItemExplorer\ItemExplorerView.xaml;Views\MainDisplay\DisplayView.xaml;Views\MainDisplay\OpenFileDisplayView.xaml;Views\MainDisplay\TabDisplayView.xaml;Views\MainDisplay\Tabs\ExcitationEnergyTabView.xaml;Views\MainDisplay\Tabs\FileContentTabView.xaml;Views\MainDisplay\Tabs\OrientationTabView.xaml;Views\MainDisplay\Tabs\VibrationModeTabView.xaml;Views\MainDisplay\Tabs\Viewer3DTabView.xaml;
 
-True
+False
 

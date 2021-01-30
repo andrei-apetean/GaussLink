@@ -15,10 +15,10 @@
     <DockPanel>
         <Grid DockPanel.Dock="Top">
             <Grid>
-                <ListBox x:Name="HeaderPanel" BorderThickness="0" Height="20" ItemsSource="{Binding Tabs}"   SelectedItem="{Binding SelectedHeader, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
+                <ListBox x:Name="HeaderPanel" BorderThickness="0"  Height="20" ItemsSource="{Binding Tabs}"   SelectedItem="{Binding SelectedHeader, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
                     <ListBox.ItemTemplate >
                         <DataTemplate>
-                            <Grid >
+                                <Grid Width="{Binding Width}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="20"/>
@@ -52,7 +52,10 @@
                 <DataTemplate DataType="{x:Type tabs:VibrationModeTab}">
                     <views:VibrationModeTabView/>
                 </DataTemplate>
-            </Grid.Resources>
+                    <DataTemplate DataType="{x:Type tabs:ExcitationEnergyTab}">
+                        <views:ExcitationEnergyTabView/>
+                    </DataTemplate>
+                </Grid.Resources>
             <ContentControl Content="{Binding ViewModel}"/>
         </Grid>
     </DockPanel>

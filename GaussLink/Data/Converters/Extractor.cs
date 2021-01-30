@@ -215,6 +215,23 @@ namespace GaussLink.Data
             return stringBuilder.ToString(); ;
         }
 
+        public static string ExtractEnergyData(JobFile file)
+        {
+            ExcitationEnergy e = ExtractExcitationEnergies(file);
+            StringBuilder sb = new StringBuilder();
+            foreach(ExcitedState state in e.ExcitedStates)
+            {
+                sb.Append("Excited State: ").Append(state.ID).Append(" ").Append(state.QuantumState).Append(" ").Append(state.ExcitationEnergy).
+                    Append(" ").Append("eV").Append(" ").Append(state.WaveLength).Append(" ").Append("nm").Append(" ").Append("f=").Append(state.OscillatorStrength).AppendLine();
+                foreach(HLGap g in state.HLGaps)
+                {
+                    sb.Append("\t").Append(g.HOMO).Append(" ").Append("->").Append(" ").Append(g.LUMO).Append("\t").Append(g.EnergyDelta).AppendLine();
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
         public static string ExtractFreqData(JobFile file)
         {
             List<string> lines = ExtractFreqDataList(file);

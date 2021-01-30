@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using GaussLink.Data.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,18 @@ namespace GaussLink.Views.MainDisplay
         public TabDisplayView()
         {
             InitializeComponent();
+            this.Loaded += TabDisplay_Loaded;
+            this.SizeChanged += ResizeNotification;
+        }
+
+        private void ResizeNotification(object sender, SizeChangedEventArgs e)
+        {
+            Messenger.Default.Send(new SizeChangedMessage(HeaderPanel.ActualWidth, 0));
+        }
+
+        private void TabDisplay_Loaded(object sender, RoutedEventArgs e)
+        {
+            Messenger.Default.Send(new SizeChangedMessage(HeaderPanel.ActualWidth, 0));
         }
     }
 }
