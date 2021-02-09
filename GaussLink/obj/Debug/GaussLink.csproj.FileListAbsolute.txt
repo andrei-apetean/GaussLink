@@ -65,3 +65,4 @@ C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.exe
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.pdb
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\MainDisplay\Tabs\ExcitationEnergyTabView.g.cs
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\MainDisplay\Tabs\ExcitationEnergyTabView.baml
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink_Content.g.cs

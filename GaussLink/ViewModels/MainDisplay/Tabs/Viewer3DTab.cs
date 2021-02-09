@@ -1,6 +1,10 @@
 ﻿
 
+using GalaSoft.MvvmLight.Messaging;
+using GaussLink.Data.Messages;
 using GaussLink.Models;
+using GaussLink.ViewModels.Base;
+using System.Windows.Input;
 
 namespace GaussLink.ViewModels.MainDisplay.Tabs
 {
@@ -17,6 +21,10 @@ namespace GaussLink.ViewModels.MainDisplay.Tabs
 
         }
 
-      
+        public ICommand InitializeViewModelCommand => new RelayCommand(InitializeViewModel);
+        public void InitializeViewModel()
+        {
+            Messenger.Default.Send(new Viewer3DMessage(Molecule3D));
+        }
     }
 }

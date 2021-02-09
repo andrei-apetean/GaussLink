@@ -88,6 +88,15 @@
     <Compile Include="Data\Messages\SelectionChangedMessage.cs" />
     <Compile Include="Data\Messages\SizeChangedMessage.cs" />
     <Compile Include="Data\Messages\ThemeChangedMessage.cs" />
+    <Compile Include="Data\Messages\Viewer3DMessage.cs" />
+    <Compile Include="Data\Object3D\Cube.cs" />
+    <Compile Include="Data\Object3D\Cylinder.cs" />
+    <Compile Include="Data\Object3D\Entity3D.cs" />
+    <Compile Include="Data\Object3D\Entity3DType.cs" />
+    <Compile Include="Data\Object3D\Shape.cs" />
+    <Compile Include="Data\Object3D\Sphere.cs" />
+    <Compile Include="Data\PeriodicTable\Element.cs" />
+    <Compile Include="Data\PeriodicTable\PeriodicTable.cs" />
     <Compile Include="Data\Store\DataManager.cs" />
     <Compile Include="Models\AtomDelta.cs" />
     <Compile Include="Models\Bond.cs" />
@@ -330,6 +339,9 @@
   <ItemGroup>
     <Resource Include="UI\Images\vibration3DBlack.png" />
     <Resource Include="UI\Images\vibration3DWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\PeriodicTable\periodicTable.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

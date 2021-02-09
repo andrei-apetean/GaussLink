@@ -128,57 +128,7 @@ namespace GaussLink.Data.DataAccess
             return children;
         }
 
-      
-        public static MeshGeometry3D Open3DFile()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "Wavefront|*.obj"
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string fullPath = openFileDialog.FileName;
-                openFileDialog.Dispose();
-                List<string> lines = File.ReadAllLines(fullPath).ToList();
-                Point3DCollection vertices = new Point3DCollection();
-                Int32Collection triangleIndices = new Int32Collection();
-                StringBuilder sb = new StringBuilder();
-                foreach (string l in lines)
-                {
-                    if (l.StartsWith("v"))
-                    {
-                        string[] splits = l.Split(' ');
-                        sb.Append($"SphereGeometry.Positions.Add(new Point3D({splits[1]}, {splits[2]}, {splits[3]}));").AppendLine();
-                        vertices.Add(new Point3D(double.Parse(splits[1], CultureInfo.InvariantCulture),
-                            double.Parse(splits[2], CultureInfo.InvariantCulture),
-                            double.Parse(splits[3], CultureInfo.InvariantCulture)));
-                    }
-                    if (l.StartsWith("f"))
-                    {
-                        string[] splits = l.Split(' ');
-                        int index = int.Parse(splits[1]) - 1;
-                        sb.Append($"SphereGeometry.TriangleIndices.Add({index});").AppendLine();
 
-                        triangleIndices.Add(index);
-                        index = int.Parse(splits[2]) - 1;
-                        sb.Append($"SphereGeometry.TriangleIndices.Add({index});").AppendLine();
-
-                        triangleIndices.Add(index);
-                        index = int.Parse(splits[3]) - 1;
-                        sb.Append($"SphereGeometry.TriangleIndices.Add({index});").AppendLine(); ;
-
-                        triangleIndices.Add(index);
-
-                    }
-                }
-                string s = sb.ToString();
-                MeshGeometry3D mesh = new MeshGeometry3D();
-                mesh.Positions = vertices;
-                mesh.TriangleIndices = triangleIndices;
-                return mesh;
-            }
-            else return null;
-        }
     }
 }
 

@@ -14,7 +14,7 @@
         </Grid.DataContext>
         <Button Command="{Binding OpenFileCommand}"  Width="100" Height="25">
             <StackPanel Orientation="Horizontal"  Margin="10,0,0,0">
-                <Image Source="/UI/Images/openFileIcon.png" Height="13"/>
+                <!--<Image Source="UI/Images/openFileIcon.png" Height="13"/>-->
                 <TextBlock Text=" Open File" VerticalAlignment="Center"/>
             </StackPanel>
         </Button>

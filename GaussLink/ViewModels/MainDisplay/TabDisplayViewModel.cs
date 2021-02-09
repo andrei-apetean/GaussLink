@@ -47,7 +47,10 @@ namespace GaussLink.ViewModels.MainDisplay
 
         private void TabCountChanged()
         {
-            headerWidth = (totalWidth) / Tabs.Count;
+            if (Tabs.Count > 0)
+            {
+                headerWidth = (totalWidth) / Tabs.Count;
+            }
             if (headerWidth > 150) headerWidth = 150;
             OnSizeChanged();
 
@@ -121,6 +124,10 @@ namespace GaussLink.ViewModels.MainDisplay
                 ViewModel = null;
                 return;
             }
+            if(th.TabContent is Viewer3DTab)
+            {
+                ViewModel = null;
+            }
             ViewModel = th.TabContent;
         }
 
@@ -143,13 +150,13 @@ namespace GaussLink.ViewModels.MainDisplay
         {
             switch (obj.Message)
             {
-                case "Content":NewFileContentTab(obj.JobFile.JobName, obj.JobFile);
+                case "Content":NewFileContentTab(obj.JobFile);
                     break;
                 case "Orientation":NewOrientationTab(obj.IsInput, obj.JobFile);
                     break;
                 case "3D Structure":New3DTab(obj.JobFile, obj.IsStatic, obj.IsStandard);
                     break;
-                case "FreqData":NewFreqDataTab(obj.JobFile.JobName, obj.JobFile);
+                case "FreqData":NewFreqDataTab(obj.JobFile);
                     break;
                 case "Vibration Mode": NewVibrationModeTab(obj.Name, obj.VibrationMode);
                     break;
@@ -182,7 +189,7 @@ namespace GaussLink.ViewModels.MainDisplay
             Tabs.Add(tabHeader);
         }
 
-        private void NewFileContentTab(string Item, JobFile jobFile)
+        private void NewFileContentTab(JobFile jobFile)
         {
             string ItemContent = Extractor.ExtractJobFileContent(jobFile);
             var tabHeader = new TabHeader(jobFile.JobName, headerWidth, new FileContentTab(ItemContent));
@@ -203,7 +210,7 @@ namespace GaussLink.ViewModels.MainDisplay
         }
 
 
-        private void NewFreqDataTab(string Item, JobFile file)
+        private void NewFreqDataTab(JobFile file)
         {
             string ItemContent = Extractor.ExtractFreqData(file);
             var tabHeader = new TabHeader(file.JobName, headerWidth, new FileContentTab(ItemContent));

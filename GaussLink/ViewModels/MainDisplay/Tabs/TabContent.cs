@@ -1,4 +1,4 @@
 ﻿namespace GaussLink.ViewModels.MainDisplay.Tabs
 {
-    public class TabContent { }
+    public class TabContent:BaseViewModel { }
 }

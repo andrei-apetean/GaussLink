@@ -224,8 +224,7 @@ namespace GaussLink.ViewModels
 
         private void Increment()
         {
-            int s;
-            int.TryParse(SelectedMode,out s);
+            int.TryParse(SelectedMode, out int s);
             s++;
             SelectedMode = s.ToString();
         }
@@ -233,8 +232,7 @@ namespace GaussLink.ViewModels
 
         private void Decrement()
         {
-            int s;
-            int.TryParse(SelectedMode, out s);
+            int.TryParse(SelectedMode, out int s);
             s--;
             SelectedMode = s.ToString();
         }
