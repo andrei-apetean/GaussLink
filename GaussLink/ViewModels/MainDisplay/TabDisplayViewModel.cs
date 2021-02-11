@@ -4,6 +4,7 @@ using GaussLink.Data.Events;
 using GaussLink.Data.Messages;
 using GaussLink.Models;
 using GaussLink.ViewModels.MainDisplay.Tabs;
+using GaussLink.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -162,9 +163,18 @@ namespace GaussLink.ViewModels.MainDisplay
                     break;
                 case "Excitation Energy": NewExcitationEnergyTab(obj.JobFile.JobName, obj.JobFile);
                     break;
+                case "UvVis":NewGraphTab(obj.JobFile);
+                    break;
             }
         }
 
+        private void NewGraphTab(JobFile jobFile)
+        {
+            ExcitationEnergy e = Extractor.ExtractExcitationEnergies(jobFile);
+            var tabHeader = new TabHeader(jobFile.JobName, headerWidth, new GraphTab( jobFile.JobName+"_UV-Vis",e));
+            SizeChanged += tabHeader.OnSizeChanged;
+            Tabs.Add(tabHeader);
+        }
 
         private void NewExcitationEnergyTab(string name, JobFile file)
         {
@@ -177,9 +187,10 @@ namespace GaussLink.ViewModels.MainDisplay
         private void New3DTab(JobFile file, bool isStatic, bool isStandard)
         {
             Molecule3D m = Extractor.ExtractMolecule3D(file, isStatic, isStandard);
-            var tabHeader = new TabHeader(file.JobName, headerWidth, new Viewer3DTab(m));
-            SizeChanged += tabHeader.OnSizeChanged;
-            Tabs.Add(tabHeader);
+            //var tabHeader = new TabHeader(file.JobName, headerWidth, new Viewer3DTab(m));
+            //SizeChanged += tabHeader.OnSizeChanged;
+            //Tabs.Add(tabHeader);
+        
         }
 
         private void NewVibrationModeTab(string name, VibrationMode vibrationMode)

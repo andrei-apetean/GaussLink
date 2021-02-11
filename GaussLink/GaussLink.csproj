@@ -83,12 +83,14 @@
     <Compile Include="Data\Messages\DataMessage.cs" />
     <Compile Include="Data\Messages\DisplayHeaderMessage.cs" />
     <Compile Include="Data\Messages\FileMessage.cs" />
+    <Compile Include="Data\Messages\GraphSizeChangedMessage.cs" />
     <Compile Include="Data\Messages\OpenFileMessage.cs" />
     <Compile Include="Data\Messages\RemoveJobMessage.cs" />
     <Compile Include="Data\Messages\SelectionChangedMessage.cs" />
     <Compile Include="Data\Messages\SizeChangedMessage.cs" />
     <Compile Include="Data\Messages\ThemeChangedMessage.cs" />
     <Compile Include="Data\Messages\Viewer3DMessage.cs" />
+    <Compile Include="Data\Object3D\Cone.cs" />
     <Compile Include="Data\Object3D\Cube.cs" />
     <Compile Include="Data\Object3D\Cylinder.cs" />
     <Compile Include="Data\Object3D\Entity3D.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="ViewModels\MainDisplay\TabDisplayViewModel.cs" />
     <Compile Include="ViewModels\MainDisplay\Tabs\ExcitationEnergyTab.cs" />
     <Compile Include="ViewModels\MainDisplay\Tabs\FileContentTab.cs" />
+    <Compile Include="ViewModels\MainDisplay\Tabs\GraphTab.cs" />
     <Compile Include="ViewModels\MainDisplay\Tabs\OrientationTab.cs" />
     <Compile Include="ViewModels\MainDisplay\Tabs\TabContent.cs" />
     <Compile Include="ViewModels\MainDisplay\Tabs\TabHeader.cs" />
@@ -173,14 +176,26 @@
     <Compile Include="Views\MainDisplay\Tabs\FileContentTabView.xaml.cs">
       <DependentUpon>FileContentTabView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainDisplay\Tabs\GraphTabView.xaml.cs">
+      <DependentUpon>GraphTabView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainDisplay\Tabs\OrientationTabView.xaml.cs">
       <DependentUpon>OrientationTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainDisplay\Tabs\Overlay3D.xaml.cs">
+      <DependentUpon>Overlay3D.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainDisplay\Tabs\VibrationModeTabView.xaml.cs">
       <DependentUpon>VibrationModeTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainDisplay\Tabs\Viewer3DTabView.xaml.cs">
       <DependentUpon>Viewer3DTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Overlay3D.xaml.cs">
+      <DependentUpon>Overlay3D.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Viewer3D.xaml.cs">
+      <DependentUpon>Viewer3D.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -255,7 +270,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainDisplay\Tabs\GraphTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainDisplay\Tabs\OrientationTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainDisplay\Tabs\Overlay3D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -264,6 +287,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainDisplay\Tabs\Viewer3DTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\Overlay3D.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\Viewer3D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

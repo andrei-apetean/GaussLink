@@ -115,10 +115,10 @@
                     <Expander Grid.Row="3" Header="Structure"  FontWeight="Bold" Margin="0 0 0 4"  IsExpanded="True">
                         <Grid >
                             <StackPanel Orientation="Vertical"  Margin="0,0,0,10">
-                                <Button   Margin="10,5,10,5" Command="{Binding Vibration3DCommand}">
+                                <Button   Margin="10,5,10,5" Command="{Binding Viewer3DCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3">
-                                        <Image Source="{Binding DeleteIcon}" Height="14"/>
-                                        <TextBlock Text="  New 3D Vibration Tab" FontWeight="Normal" />
+                                        <Image Source="{Binding View3DIcon}" Height="14"/>
+                                        <TextBlock Text="  3D Viewer" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

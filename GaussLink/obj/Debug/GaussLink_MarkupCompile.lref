@@ -12,7 +12,11 @@ FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\OpenFileDisp
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\TabDisplayView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\ExcitationEnergyTabView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\FileContentTabView.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\GraphTabView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\OrientationTabView.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\Overlay3D.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\VibrationModeTabView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\Viewer3DTabView.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Overlay3D.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Viewer3D.xaml;;
 

@@ -69,10 +69,10 @@
                     <Expander Grid.Row="2" Header="3D Structure" FontWeight="Bold" Margin="0 0 0 4" IsExpanded="True">
                         <Grid  >
                             <StackPanel Orientation="Vertical" Margin="0,0,0,5">
-                                <Button Margin="10,5,10,5" Command="{Binding Get3DStructureCommand}">
+                                <Button Margin="10,5,10,5" Command="{Binding Viewer3DCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3">
                                         <Image Source="{Binding View3DIcon}" Height="14"  />
-                                        <TextBlock Text=" New 3D Structure Tab" FontWeight="Normal" />
+                                        <TextBlock Text=" 3D Viewer" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

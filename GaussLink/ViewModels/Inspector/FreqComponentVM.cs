@@ -6,6 +6,7 @@ using GaussLink.Data.Store;
 using GaussLink.Models;
 using GaussLink.ViewModels.Base;
 using GaussLink.ViewModels.Themes;
+using GaussLink.Views.Windows;
 using System;
 using System.Windows.Input;
 
@@ -212,12 +213,15 @@ namespace GaussLink.ViewModels
             string name = DataManager.SelectedJobFile.JobName;
             Messenger.Default.Send(new DataMessage("Vibration Mode", name+"_mode_"+index, vibrationMode));
         }
-        public ICommand Vibration3DCommand => new RelayCommand(Vibration3D);
+        public ICommand Viewer3DCommand => new RelayCommand(NewViewer3D);
 
-        public virtual void Vibration3D()
+        public virtual void NewViewer3D()
         {
             jobFile = DataManager.SelectedJobFile;
-            Messenger.Default.Send(new DataMessage("3D Structure",jobFile,false,false));
+            Molecule3D m = Extractor.ExtractMolecule3D(jobFile, false, false);
+            //Messenger.Default.Send(new DataMessage("3D Structure",jobFile,false,false));
+            Viewer3D viewer3D = new Viewer3D(m);
+            viewer3D.Show();
         }
 
         public ICommand IncrementCommand => new RelayCommand(Increment);

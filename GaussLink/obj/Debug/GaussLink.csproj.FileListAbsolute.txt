@@ -66,3 +66,11 @@ C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.pdb
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\MainDisplay\Tabs\ExcitationEnergyTabView.g.cs
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\MainDisplay\Tabs\ExcitationEnergyTabView.baml
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink_Content.g.cs
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\MainDisplay\Tabs\Overlay3D.g.cs
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\MainDisplay\Tabs\Overlay3D.baml
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Overlay3D.g.cs
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Viewer3D.g.cs
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Overlay3D.baml
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Viewer3D.baml
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\MainDisplay\Tabs\GraphTabView.g.cs
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\MainDisplay\Tabs\GraphTabView.baml

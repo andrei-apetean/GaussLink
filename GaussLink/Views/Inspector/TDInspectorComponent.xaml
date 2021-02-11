@@ -51,6 +51,12 @@
                                         <TextBlock Text=" New Excitation Energy Tab" FontWeight="Normal" />
                                     </StackPanel>
                                 </Button>
+                                <Button Margin="10,5,10,5" Command="{Binding UvVisSpecCommand}">
+                                    <StackPanel Orientation="Horizontal" Margin="3">
+                                        <Image  Height="14"/>
+                                        <TextBlock Text=" UV-Vis Spectrum" FontWeight="Normal" />
+                                    </StackPanel>
+                                </Button>
                                 <Button   Margin="10,5,10,5" Command="{Binding SaveEnergyDataCommand}">
                                     <StackPanel Orientation="Horizontal" Margin="3" >
                                         <Image  Height="14"/>

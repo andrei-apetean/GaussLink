@@ -6,6 +6,7 @@ using GaussLink.Data.Store;
 using GaussLink.Models;
 using GaussLink.ViewModels.Base;
 using GaussLink.ViewModels.Themes;
+using GaussLink.Views.Windows;
 using System.Windows.Input;
 
 namespace GaussLink.ViewModels
@@ -121,12 +122,15 @@ namespace GaussLink.ViewModels
             }
         }
        
-        public ICommand Get3DStructureCommand => new RelayCommand(Get3DStructure);
+        public ICommand Viewer3DCommand => new RelayCommand(NewViewer3D);
 
-        public virtual void Get3DStructure()
+        public virtual void NewViewer3D()
         {
             jobFile = DataManager.SelectedJobFile;
-            Messenger.Default.Send(new DataMessage("3D Structure", jobFile, true, !inputOrientation));
+            Molecule3D m = Extractor.ExtractMolecule3D(jobFile, true, !inputOrientation);
+            //Messenger.Default.Send(new DataMessage("3D Structure", jobFile, true, !inputOrientation));
+            Viewer3D viewer3D = new Viewer3D(m);
+            viewer3D.Show();
         }
 
         public ICommand GetOrientationCommand => new RelayCommand(GetOrientation);

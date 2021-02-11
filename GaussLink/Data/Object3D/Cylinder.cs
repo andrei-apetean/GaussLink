@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace GaussLink.Object3D
+namespace GaussLink.Data.Object3D
 {
     public class Cylinder:Shape
     {

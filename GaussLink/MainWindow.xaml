@@ -20,9 +20,9 @@
         <DropShadowBitmapEffect x:Key="NormalShadow" ShadowDepth="2" Softness="0.2" Opacity="0.64"/>
     </Window.Resources>
     <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="5"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="19*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -30,7 +30,7 @@
                 <MenuItem Header="File">
                     <MenuItem Header="Open" Command="{Binding OpenFileCommand}" InputGestureText="Ctrl+O" Template="{DynamicResource SingleDropDownMenuItem}"/>
                     <Separator/>
-                <MenuItem Header="Save Selected" InputGestureText="Ctrl+S" Template="{DynamicResource SingleDropDownMenuItem}" />
+                    <MenuItem Header="Save Selected" InputGestureText="Ctrl+S" Template="{DynamicResource SingleDropDownMenuItem}" />
                     <MenuItem Header="Save All" InputGestureText="Ctrl+Shift+S" Template="{DynamicResource SingleDropDownMenuItem}" />
                 </MenuItem>
                 <MenuItem Header="Settings">
@@ -60,48 +60,39 @@
         </Grid>
         <Border Grid.Row="1" BorderThickness="0,0,0,5" Style="{DynamicResource Simple}"/>
         <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="15*"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*" MinWidth="50"/>
-                            <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="8*" MinWidth="100"/>
-                            <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="3*" MinWidth="50"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <Grid  Name="ExplorerParentPanel" >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="Item Explorer" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <exp:ItemExplorerView Grid.Row="1"/>
-                            </Grid>
-                        </Grid>
-                        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
-                        <Grid Grid.Column="2">
-                            <display:DisplayView/>
-                        </Grid>
-                        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
-                        <Grid Grid.Column="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" MinWidth="50"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="8*" MinWidth="100"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="3*" MinWidth="50"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid  Name="ExplorerParentPanel" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Content="Inspector" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <insp:InspectorView Grid.Row="1"/>
-                    </Grid>
+                        <Label Grid.Row="0" Content="Item Explorer" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <exp:ItemExplorerView Grid.Row="1"/>
                     </Grid>
                 </Grid>
-                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-                <Grid Grid.Row="2">
-                </Grid> 
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+                <Grid Grid.Column="2">
+                    <display:DisplayView/>
+                </Grid>
+                <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
+                <Grid Grid.Column="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Inspector" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <insp:InspectorView Grid.Row="1"/>
+                </Grid>
+            </Grid>
         </Grid>
+
     </Grid>
 </Window>

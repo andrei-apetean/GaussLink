@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using System.Windows.Shapes;
 
 namespace GaussLink.Views.MainDisplay.Tabs
 {
@@ -24,25 +25,27 @@ namespace GaussLink.Views.MainDisplay.Tabs
         #region UI vars
         ModelVisual3D modelVisual3D;
         ModelVisual3D lightVisual3D;
+        ModelVisual3D axisVisual3D;
         Model3DGroup atomGroup;
+        Model3DGroup axisGroup;
         Model3DGroup lightGroup;
         Viewport3D viewport3D;
         PerspectiveCamera camera;
+        string check = "✓";
         bool panelTglOn = true;
+        bool showTgizmo = true;
+        bool showAxis = false;
         byte c;
         #endregion
 
         #region 3D vars
+        int selectedIndex = 0;
+        int atomCount = 0;
         List<Entity3D> obj3D = new List<Entity3D>();
         Molecule3D m = new Molecule3D();
-        Atom atom1 = new Atom();
-        Atom atom2 = new Atom();
-        private AtomDelta d1;
-        private AtomDelta d2;
         GeometryModel3D selectedModel;
         DiffuseMaterial selectionMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Blue));
         PeriodicTable periodicTable;
-        GeometryModel3D prevSelection;
         Point3D center = new Point3D();
         Sphere sphere;
         Cylinder cylinder;
@@ -60,13 +63,12 @@ namespace GaussLink.Views.MainDisplay.Tabs
 
         #region trackball vars
         bool dragAction = false;
-            readonly int rotationSpeed = 1;
-            Point initMousePos = new Point(0, 0);
-            Point curMousePos = new Point(0, 0);
+        readonly int rotationSpeed = 1;
+        Point initMousePos = new Point(0, 0);
+        Point curMousePos = new Point(0, 0);
         #endregion
 
         #region Anim vars
-        List<AtomDelta> atoms;
 
         bool isPlaying = false;
         bool canPlay = true;
@@ -74,17 +76,17 @@ namespace GaussLink.Views.MainDisplay.Tabs
         int selectedMode = 1;
         int modeCount = 0;
 
-        float animationSpeed=1f;
-        
-        double passedTime=0;
-        double deltaTime=0;
+        float animationSpeed = 1f;
+
+        double passedTime = 0;
+        double deltaTime = 0;
 
         Stopwatch stopwatch;
-        
+
         TimeSpan prevTime;
         TimeSpan curTime;
         TimeSpan delta;
-        
+
         TranslateTransform3D translate;
         Transform3DGroup tg;
         private DiffuseMaterial bondMat;
@@ -115,7 +117,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
 
             m = obj.Molecule3D;
 
-        
+
             if (m.VibrationModes == null)
             {
                 Model3DGroup g = CreateAtom(m);
@@ -143,7 +145,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
                 animButton.Click += OnPlayButtonClick;
 
             }
-            
+
         }
         private void DecrementBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -204,7 +206,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
         private void OnPlayButtonClick(object sender, RoutedEventArgs e)
         {
             isPlaying = !isPlaying;
-            if(isPlaying)
+            if (isPlaying)
             {
                 animButton.Content = "Playing...";
             }
@@ -224,7 +226,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
         private void PanelToggleBtn_Click(object sender, RoutedEventArgs e)
         {
             panelTglOn = !panelTglOn;
-            if(panelTglOn)
+            if (panelTglOn)
             {
                 parentGrid.ColumnDefinitions[0].Width = new GridLength(4, GridUnitType.Star);
                 parentGrid.ColumnDefinitions[1].Width = new GridLength(5);
@@ -233,7 +235,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
             }
             else
             {
-                parentGrid.ColumnDefinitions[2].Width = new GridLength(0,GridUnitType.Star);
+                parentGrid.ColumnDefinitions[2].Width = new GridLength(0, GridUnitType.Star);
                 parentGrid.ColumnDefinitions[1].Width = new GridLength(0);
                 tglText.Text = "❮";
             }
@@ -245,6 +247,39 @@ namespace GaussLink.Views.MainDisplay.Tabs
             Color color = Color.FromRgb((byte)e.NewValue, (byte)e.NewValue, (byte)e.NewValue);
             viewPanel.Background = new SolidColorBrush(color);
         }
+
+        private void GizmoCheck_Click(object sender, RoutedEventArgs e)
+        {
+            showTgizmo = !showTgizmo;
+            if (showTgizmo)
+            {
+                overlay3D.Visibility = Visibility.Visible;
+                gizmoChkText.Text = check;
+            }
+            else
+            {
+                overlay3D.Visibility = Visibility.Hidden;
+                gizmoChkText.Text = string.Empty;
+            }
+        }
+
+        private void AxisCheck_Click(object sender, RoutedEventArgs e)
+        {
+            showAxis = !showAxis;
+            if (showAxis)
+            {
+                axisChkText.Text = check;
+                var g = overlay3D.Init(0.025f, 0.05f);
+                axisGroup.Children = g.Children;
+            }
+            else
+            {
+                axisChkText.Text = string.Empty;
+                axisGroup.Children = null;
+            }
+        }
+
+    
         #endregion
 
         #region Trackball Events
@@ -260,18 +295,16 @@ namespace GaussLink.Views.MainDisplay.Tabs
         {
             dragAction = true;
             initMousePos = e.GetPosition(this);
-            // Get the mouse's position relative to the viewport.
-            Point mouse_pos = e.GetPosition(this);
 
             // Perform the hit test.
-            HitTestResult result =VisualTreeHelper.HitTest(this, mouse_pos);
+            HitTestResult result = VisualTreeHelper.HitTest(this, initMousePos);
 
             // Display information about the hit.
             if (!(result is RayMeshGeometry3DHitTestResult mesh_result))
             {
                 selectedModel = null;
                 dbg.Text = " result is null";
-                //SelectModel(0, null);
+                SelectModel(0, null);
             }
             else
             {
@@ -284,10 +317,10 @@ namespace GaussLink.Views.MainDisplay.Tabs
                 {
                     if (g == m)
                     {
-                        dbg.Text =i + " ";
-                        dbg.Text += obj3D[i].Position.ToString();
-                        //SelectModel(i, g);
-                        
+                        dbg.Text = i + " ";
+                        SelectModel(i, g);
+                        return;
+
                     }
                     i++;
                 }
@@ -326,6 +359,8 @@ namespace GaussLink.Views.MainDisplay.Tabs
 
 
                 atomGroup.Transform = transform3;
+                axisGroup.Transform = transform3;
+                overlay3D.axisGroup.Transform = transform3;
                 initMousePos = curMousePos;
             }
         }
@@ -356,7 +391,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
                 {
                     modeCount = m.VibrationModes.Count;
                     vmLbl.Content = "Vibration Modes: " + modeCount.ToString();
-                    Model3DGroup g = CreateAtom(vm.Molecule3D);                    
+                    Model3DGroup g = CreateAtom(vm.Molecule3D);
                     atomGroup.Children = g.Children;
 
                     animSpeedSlider.IsEnabled = true;
@@ -374,11 +409,11 @@ namespace GaussLink.Views.MainDisplay.Tabs
 
         }
 
-  
+
 
         private void Animate(object sender, EventArgs e)
         {
-            
+
             stopwatch.Start();
             prevTime = stopwatch.Elapsed;
 
@@ -395,22 +430,22 @@ namespace GaussLink.Views.MainDisplay.Tabs
                     forward = !forward;
                     passedTime = 0;
                 }
-                if(!forward)
+                if (!forward)
                 {
                     deltaTime *= -1;
                 }
-             
+
                 CalculateVibrationDelta(m, deltaTime);
 
             }
 
 
             curTime = prevTime;
-            
+
         }
 
 
-       
+
 
         private Model3DGroup CreateAtom(Molecule3D molecule3D)
         {
@@ -420,21 +455,19 @@ namespace GaussLink.Views.MainDisplay.Tabs
             {
                 center = new Point3D(atom.AtomCoordinates.X, atom.AtomCoordinates.Y, atom.AtomCoordinates.Z);
                 sphere = new Sphere(center, 0.4, 6, 10);
-                (byte, byte, byte) RGB = periodicTable.GetAtomColor(atom.AtomicNumber);
                 GeometryModel3D m = new GeometryModel3D
                 {
                     Geometry = sphere.Geometry,
-                    Material = new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(RGB.Item1, RGB.Item2, RGB.Item3)))
+                    Material = GetMaterial(atom.AtomicNumber)
                 };
                 Group.Children.Add(m);
-                obj3D.Add(new Entity3D(atom.CenterNumber, new Vector3D(center.X,center.Y,center.Z), Entity3DType.Atom));
+                obj3D.Add(new Entity3D(atom.CenterNumber, new Vector3D(center.X, center.Y, center.Z), Entity3DType.Atom));
+                atomCount++;
             }
-            (byte, byte, byte) bRGB = periodicTable.GetAtomColor(0);
-            Material bondMat = new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(bRGB.Item1, bRGB.Item2, bRGB.Item3)));
             foreach (Bond bond in molecule3D.MoleculeBond.Bonds)
             {
-                atom1 = molecule3D.MoleculeOrientation.Atoms[bond.X - 1];
-                atom2 = molecule3D.MoleculeOrientation.Atoms[bond.Y - 1];
+                Atom atom1 = molecule3D.MoleculeOrientation.Atoms[bond.X - 1];
+                Atom atom2 = molecule3D.MoleculeOrientation.Atoms[bond.Y - 1];
                 Vector3D direction = new Vector3D(
                     atom2.AtomCoordinates.X - atom1.AtomCoordinates.X,
                     atom2.AtomCoordinates.Y - atom1.AtomCoordinates.Y,
@@ -447,9 +480,9 @@ namespace GaussLink.Views.MainDisplay.Tabs
                     Geometry = cylinder.Geometry
                 };
                 Group.Children.Add(model3D);
-                obj3D.Add(new Entity3D((atom1.CenterNumber,atom2.CenterNumber), new Vector3D(endpoint.X,endpoint.Y,endpoint.Z),direction ,Entity3DType.Bond));
+                obj3D.Add(new Entity3D((atom1.CenterNumber, atom2.CenterNumber), new Vector3D(endpoint.X, endpoint.Y, endpoint.Z), direction, Entity3DType.Bond));
             }
-            
+
             return Group;
         }
 
@@ -460,18 +493,18 @@ namespace GaussLink.Views.MainDisplay.Tabs
             double x;
             double y;
             double z;
-            
+
             foreach (var e in obj3D)
             {
-                if(e.Type == Entity3DType.Atom)
+                if (e.Type == Entity3DType.Atom)
                 {
-                    var d = m.VibrationModes[selectedMode-1].AtomVibrations[e.AtomID - 1];
+                    var d = m.VibrationModes[selectedMode - 1].AtomVibrations[e.AtomID - 1];
                     x = (d.Delta.X * deltaTime) * animationSpeed;
                     y = (d.Delta.Y * deltaTime) * animationSpeed;
                     z = (d.Delta.Z * deltaTime) * animationSpeed;
                     translate = new TranslateTransform3D(x, y, z);
-                    e.Offset += new Vector3D(x, y,z);
-                  
+                    e.Offset += new Vector3D(x, y, z);
+
                     Model3D m3 = atomGroup.Children[d.Atom - 1];
                     tg.Children.Add(atomGroup.Children[d.Atom - 1].Transform);
                     tg.Children.Add(translate);
@@ -482,18 +515,18 @@ namespace GaussLink.Views.MainDisplay.Tabs
                 else
                 {
                     int i = obj3D.IndexOf(e);
-                 
+
                     Vector3D a1 = obj3D[e.BondID.Item1 - 1].Position;
                     Vector3D a2 = obj3D[e.BondID.Item2 - 1].Position;
 
                     Vector3D o1 = obj3D[e.BondID.Item1 - 1].Offset;
                     Vector3D o2 = obj3D[e.BondID.Item2 - 1].Offset;
 
-                    Vector3D direction = (a2 + o2) - (a1+o1);
-                    
-                    Point3D endpoint = new Point3D(a1.X+o1.X, a1.Y+o1.Y, a1.Z+o1.Z);
+                    Vector3D direction = (a2 + o2) - (a1 + o1);
+
+                    Point3D endpoint = new Point3D(a1.X + o1.X, a1.Y + o1.Y, a1.Z + o1.Z);
                     cylinder = new Cylinder(endpoint, direction, 0.05, 6);
-                    
+
                     GeometryModel3D model3D = new GeometryModel3D
                     {
                         Material = bondMat,
@@ -511,8 +544,8 @@ namespace GaussLink.Views.MainDisplay.Tabs
             int i = 0;
             Vector3D zero = new Vector3D(0, 0, 0);
             foreach (Entity3D e in obj3D)
-            { 
-                if(e.Type == Entity3DType.Atom)
+            {
+                if (e.Type == Entity3DType.Atom)
                 {
                     atomGroup.Children[i].Transform = t;
                     e.Offset = zero;
@@ -522,9 +555,9 @@ namespace GaussLink.Views.MainDisplay.Tabs
                     Vector3D a1 = obj3D[e.BondID.Item1 - 1].Position;
                     Vector3D a2 = obj3D[e.BondID.Item2 - 1].Position;
 
-                    Vector3D direction = a2  - a1;
+                    Vector3D direction = a2 - a1;
 
-                    Point3D endpoint = new Point3D(a1.X , a1.Y, a1.Z);
+                    Point3D endpoint = new Point3D(a1.X, a1.Y, a1.Z);
                     cylinder = new Cylinder(endpoint, direction, 0.05, 6);
 
                     GeometryModel3D model3D = new GeometryModel3D
@@ -537,30 +570,108 @@ namespace GaussLink.Views.MainDisplay.Tabs
                 i++;
             }
         }
-   
+
         void SelectModel(int index, GeometryModel3D geometryModel3D)
         {
-            if(geometryModel3D==null)
+            if (geometryModel3D != null)
             {
-                selectedModel = null;
-                
-                int i = atoms[index].AtomicNumber;
-                (byte, byte, byte) RGB = periodicTable.GetAtomColor(i);
-                prevSelection.Material = new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(RGB.Item1, RGB.Item2, RGB.Item3)));
-            }
-            if(selectedModel == null)
-            {
-                selectedModel = geometryModel3D;
-                selectedModel.Material = selectionMaterial;
-                prevSelection = selectedModel;
+                if (selectedModel == null)
+                {
+                    if (index < atomCount)
+                    {
+                        selectedModel = geometryModel3D;
+                        selectedModel.Material = selectionMaterial;
+                        selectedIndex = index;
+                        atomLbl.Content = "Atom: " + periodicTable.GetAtomName(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
+                        aNoLbl.Content = "Atomic Number: " + m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber;
+                        cNoLbl.Content = "Center Number: " + m.MoleculeOrientation.Atoms[selectedIndex].CenterNumber;
+                        xLbl.Content = "X: " + obj3D[selectedIndex].Position.X;
+                        yLbl.Content = "Y: " + obj3D[selectedIndex].Position.Y;
+                        zLbl.Content = "Z: " + obj3D[selectedIndex].Position.Z;
+                        if (m.VibrationModes != null)
+                        {
+                            vxLbl.Content = "X: " + m.VibrationModes[selectedMode].AtomVibrations[selectedIndex].Delta.X;
+                            vyLbl.Content = "Y: " + m.VibrationModes[selectedMode].AtomVibrations[selectedIndex].Delta.Y;
+                            vzLbl.Content = "Z: " + m.VibrationModes[selectedMode].AtomVibrations[selectedIndex].Delta.Z;
+                        }
+                        else
+                        {
+                            vxLbl.Content = "X: N/A";
+                            vyLbl.Content = "Y: N/A";
+                            vzLbl.Content = "Z: N/A";
+                        }
+                    }
+                }
+                else
+                {
+                    if (index < atomCount)
+                    {
+                        selectedModel.Material = selectedIndex > atomCount ? bondMat : GetMaterial(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
+                        selectedModel = geometryModel3D;
+                        selectedModel.Material = selectionMaterial;
+                        selectedIndex = index;
+                        atomLbl.Content = "Atom: " + periodicTable.GetAtomName(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
+                        aNoLbl.Content = "Atomic Number: " + m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber;
+                        cNoLbl.Content = "Center Number: " + m.MoleculeOrientation.Atoms[selectedIndex].CenterNumber;
+                        xLbl.Content ="X: "+ obj3D[selectedIndex].Position.X;
+                        yLbl.Content ="Y: "+ obj3D[selectedIndex].Position.Y;
+                        zLbl.Content ="Z: "+ obj3D[selectedIndex].Position.Z;
+                        if (m.VibrationModes != null)
+                        {
+                            vxLbl.Content ="X: "+obj3D[selectedIndex].Offset.X;
+                            vyLbl.Content ="Y: "+obj3D[selectedIndex].Offset.Y;
+                            vzLbl.Content ="Z: "+obj3D[selectedIndex].Offset.Z;
+                        }
+                        else
+                        {
+                            vxLbl.Content = "X: N/A";
+                            vyLbl.Content = "Y: N/A";
+                            vzLbl.Content = "Z: N/A";
+                        }
+
+
+                    }
+                }
             }
             else
             {
-                int i = atoms[index].AtomicNumber;
-                (byte, byte, byte) RGB = periodicTable.GetAtomColor(i);
-                prevSelection.Material = new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(RGB.Item1, RGB.Item2, RGB.Item3)));
-                prevSelection = selectedModel;
+                if (selectedModel == null)
+                {
+                    selectedModel = atomGroup.Children[selectedIndex] as GeometryModel3D;
+                    selectedModel.Material = GetMaterial(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
+                    atomLbl.Content = "Atom: ";
+                    aNoLbl.Content = "Atomic Number: ";
+                    cNoLbl.Content = "Center Number: ";
+                    xLbl.Content = "X: ";
+                    yLbl.Content = "Y: " ;
+                    zLbl.Content = "Z: " ;
+                    if (m.VibrationModes != null)
+                    {
+                        vxLbl.Content = "X: "; 
+                        vyLbl.Content = "Y: ";
+                        vzLbl.Content = "Z: "; 
+                    }
+                    else
+                    {
+                        vxLbl.Content = "X: N/A";
+                        vyLbl.Content = "Y: N/A";
+                        vzLbl.Content = "Z: N/A";
+                    }
+                }
+                else
+                {
+                    selectedModel.Material = GetMaterial(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
+
+                }
+
             }
+
+        }
+
+        DiffuseMaterial GetMaterial(int index)
+        {
+            (byte, byte, byte) RGB = periodicTable.GetAtomColor(index);
+            return new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(RGB.Item1, RGB.Item2, RGB.Item3)));
         }
 
         void InitializeViewport()
@@ -569,6 +680,8 @@ namespace GaussLink.Views.MainDisplay.Tabs
             periodicTable = new PeriodicTable();
             modelVisual3D = new ModelVisual3D();
             lightVisual3D = new ModelVisual3D();
+            axisVisual3D = new ModelVisual3D();
+            axisGroup = new Model3DGroup();
             atomGroup = new Model3DGroup();
             lightGroup = new Model3DGroup();
             viewport3D = new Viewport3D();
@@ -577,8 +690,8 @@ namespace GaussLink.Views.MainDisplay.Tabs
             SolidColorBrush solidColorBrush = Application.Current.FindResource("BackgroundColour") as SolidColorBrush;
             if (solidColorBrush == null) solidColorBrush.Color = Colors.Black;
             c = solidColorBrush.Color.R;
-            (byte, byte, byte) bRGB = periodicTable.GetAtomColor(0);
-            bondMat = new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(bRGB.Item1, bRGB.Item2, bRGB.Item3)));
+
+            bondMat = GetMaterial(0);
 
             viewPanel.Background = solidColorBrush;
             camera.Position = new Point3D(15, 0, 0);
@@ -590,19 +703,18 @@ namespace GaussLink.Views.MainDisplay.Tabs
 
 
             lightVisual3D.Content = lightGroup;
-
+            axisVisual3D.Content = axisGroup;
             modelVisual3D.Content = atomGroup;
             viewport3D.Children.Add(modelVisual3D);
+            viewport3D.Children.Add(axisVisual3D);
             viewport3D.Children.Add(lightVisual3D);
 
 
             viewPanel.Children.Add(viewport3D);
             bgSlider.ValueChanged += BgSlider_ValueChanged;
             bgSlider.Value = c;
-
-
         }
 
-
+       
     }
 }

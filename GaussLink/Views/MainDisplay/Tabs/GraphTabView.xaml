@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="GaussLink.Views.MainDisplay.Tabs.GraphTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GaussLink.Views.MainDisplay.Tabs"
+             xmlns:vms="clr-namespace:GaussLink.ViewModels.MainDisplay.Tabs"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="450">
+    <Grid x:Name="parent">
+        <TextBlock Text="{Binding Title}"/>
+        <Canvas x:Name="plotView">
+            <Canvas.LayoutTransform>
+                <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
+            </Canvas.LayoutTransform>
+            
+        </Canvas>
+        <Canvas x:Name="labelView">
+            
+        </Canvas>
+    </Grid>
+</UserControl>

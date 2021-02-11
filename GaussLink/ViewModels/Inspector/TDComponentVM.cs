@@ -89,6 +89,12 @@ namespace GaussLink.ViewModels
         {
             Messenger.Default.Send(new DataMessage("Excitation Energy",DataManager.SelectedJobFile));
         }
+        public ICommand UvVisSpecCommand => new RelayCommand(UvVisSpectrum);
+
+        public virtual void UvVisSpectrum()
+        {
+            Messenger.Default.Send(new DataMessage("UvVis", DataManager.SelectedJobFile));
+        }
         public ICommand SaveEnergyDataCommand => new RelayCommand(SaveEnergyData);
 
         public virtual void SaveEnergyData()
