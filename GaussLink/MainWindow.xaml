@@ -6,7 +6,7 @@
         xmlns:exp="clr-namespace:GaussLink.Views.ItemExplorer"
         xmlns:display="clr-namespace:GaussLink.Views.MainDisplay"
         xmlns:insp="clr-namespace:GaussLink.Views.Inspector"
-        xmlns:local="clr-namespace:GaussLink.ViewModels.Window"
+        xmlns:local="clr-namespace:GaussLink.ViewModels.WindowViewModel"
         mc:Ignorable="d"
         Title="GaussLink" Height="450" Width="800"
         Style="{DynamicResource CustomWindowStyle}" >

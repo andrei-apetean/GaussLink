@@ -2,7 +2,7 @@
 
 namespace GaussLink.Data.Events
 {
-    public class ChildrenEventArgs:EventArgs
+    public class ChildrenEventArgs : EventArgs
     {
         public int Count { get; set; }
         public ChildrenEventArgs()

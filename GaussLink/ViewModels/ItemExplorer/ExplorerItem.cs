@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace GaussLink.ViewModels
 {
-    public class ExplorerItem:BaseViewModel
+    public class ExplorerItem : BaseViewModel
     {
         public ExplorerItem(string Name)
         {

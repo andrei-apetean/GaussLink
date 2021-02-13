@@ -12,7 +12,7 @@ using System.Collections.Specialized;
 
 namespace GaussLink.ViewModels
 {
-    public class ItemExplorerViewModel:BaseViewModel
+    public class ItemExplorerViewModel : BaseViewModel
     {
         #region Constructor
         public ItemExplorerViewModel()
@@ -20,7 +20,28 @@ namespace GaussLink.ViewModels
             items = new ObservableCollection<ExplorerItem>();
             items.CollectionChanged += Items_CollectionChanged;
             Messenger.Default.Register<OpenFileMessage>(this, OnOpeningFile);
+            Messenger.Default.Register<FileExOpenFileMessage>(this, OpenFiles);
             Messenger.Default.Register<RemoveJobMessage>(this, OnItemRemove);
+        }
+
+        private void OpenFiles(FileExOpenFileMessage obj)
+        {
+            List<JobFile> newItems = FileManager.OpenFile(obj.FilePaths);
+            if (newItems == null)
+                return;
+            foreach (JobFile f in newItems)
+            {
+                foreach (JobFile j in jobFiles)
+                {
+                    if (j.JobName == f.JobName)
+                    {
+                        f.JobName += "_copy";
+                    }
+                }
+                Items.Add(new ExplorerItem(f.JobName));
+                jobFiles.Add(f);
+                Messenger.Default.Send(new FileMessage("TabDisplay"));
+            }
         }
 
         private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -79,7 +100,7 @@ namespace GaussLink.ViewModels
 
         private void OnOpeningFile(OpenFileMessage obj)
         {
-            OpenDataFile();
+
         }
 
         private void OnItemRemove(RemoveJobMessage obj)
@@ -110,25 +131,6 @@ namespace GaussLink.ViewModels
             }
         }
 
-        public void OpenDataFile()
-        {
-            List<JobFile> newItems = FileManager.OpenFile();
-            if (newItems == null)
-                return;
-            foreach (JobFile f in newItems)
-            {
-                foreach (JobFile j in jobFiles)
-                {
-                    if (j.JobName == f.JobName)
-                    {
-                        f.JobName += "_copy";
-                    }
-                }
-                Items.Add(new ExplorerItem(f.JobName));
-                jobFiles.Add(f);
-                Messenger.Default.Send(new FileMessage("TabDisplay"));
-            }
-        }
         public virtual void OnSelectionChanged(ExplorerItem SelectedItem)
         {
             if (SelectedItem == null)

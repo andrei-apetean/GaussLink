@@ -9,10 +9,10 @@ namespace GaussLink.Data
 {
     public static class Extractor
     {
-    
+
         public static Molecule3D ExtractMolecule3D(JobFile job, bool isStatic, bool isStandard)
         {
-            if(isStatic)
+            if (isStatic)
             {
                 MoleculeOrientation molOr = ExtractOrientation(job, isStandard);
                 MoleculeBond bonds = ExtractMoleculeBond(job);
@@ -21,9 +21,9 @@ namespace GaussLink.Data
             List<VibrationMode> vms = ExtractVibrationModes(job);
             MoleculeOrientation mo = ExtractOrientation(job, isStandard);
             MoleculeBond b = ExtractMoleculeBond(job);
-            return new Molecule3D(b,mo,vms);
+            return new Molecule3D(b, mo, vms);
         }
-        public static MoleculeOrientation ExtractOrientation(JobFile job, bool isInput) 
+        public static MoleculeOrientation ExtractOrientation(JobFile job, bool isInput)
         {
             List<Atom> orientation = new List<Atom>();
             string parameter = isInput ? "Input orientation" : "Standard orientation";
@@ -48,14 +48,14 @@ namespace GaussLink.Data
                 }
                 if (line.Contains(parameter))
                 {
-                    if(parameter == "Standard orientation")
+                    if (parameter == "Standard orientation")
                     {
                         z++;
                         if (z == index)
                         { flag = true; }
                     }
                     else { flag = true; }
-                    
+
                 }
                 if (flag)
                 {
@@ -76,9 +76,9 @@ namespace GaussLink.Data
 
             for (int i = 0; i < job.Content.Count; i++)
             {
-                if(begin)
+                if (begin)
                 {
-                    if(job.Content[i].Contains("A"))
+                    if (job.Content[i].Contains("A"))
                     {
                         break;
                     }
@@ -87,7 +87,7 @@ namespace GaussLink.Data
                     mb.Bonds.Add(bond);
                     continue;
                 }
-                if(job.Content[i].Contains("Initial Parameters"))
+                if (job.Content[i].Contains("Initial Parameters"))
                 {
                     i += 4;
                     begin = true;
@@ -100,9 +100,9 @@ namespace GaussLink.Data
         private static Bond ExtractBond(string[] data)
         {
             char[] c = data[2].ToCharArray();
-            string x=""; string y="";
+            string x = ""; string y = "";
             bool isFirst = true;
-            for (int i = 2; i < c.Length-1; i++)
+            for (int i = 2; i < c.Length - 1; i++)
             {
                 if (c[i] == ',')
                 {
@@ -119,23 +119,23 @@ namespace GaussLink.Data
                     string s = c[i].ToString();
                     y += s;
                 }
-                
+
             }
-            return new Bond(int.Parse(x),int.Parse(y));
+            return new Bond(int.Parse(x), int.Parse(y));
         }
         private static int GetLastOrientationIndex(JobFile job, string param)
         {
             int index = 0;
-            foreach(string l in job.Content)
+            foreach (string l in job.Content)
             {
-                if(l.Contains(param))
+                if (l.Contains(param))
                 {
                     index++;
                 }
             }
             return index;
         }
-     
+
         public static ExcitationEnergy ExtractExcitationEnergies(JobFile job)
         {
             List<ExcitedState> excitedStates = new List<ExcitedState>();
@@ -143,16 +143,16 @@ namespace GaussLink.Data
             HLGap hlgap;
             int count = 0;
             bool start = false;
-            foreach(string line in job.Content)
+            foreach (string line in job.Content)
             {
-                if(line.Contains(" SavETr"))
+                if (line.Contains(" SavETr"))
                 {
                     excitedStates.Add(e);
                     break;
                 }
                 if (start)
                 {
-                    if(!line.Contains("This") && !line.Contains("Total") && !line.Contains("Copy") && !string.IsNullOrWhiteSpace(line) && !line.Contains("Excited State"))
+                    if (!line.Contains("This") && !line.Contains("Total") && !line.Contains("Copy") && !string.IsNullOrWhiteSpace(line) && !line.Contains("Excited State"))
                     {
                         bool b = string.IsNullOrWhiteSpace(line);
                         //0,2,3
@@ -163,10 +163,10 @@ namespace GaussLink.Data
                     if (line.Contains("Excited State"))
                     {
                         count++;
-                        if(count>1) { excitedStates.Add(e); }
+                        if (count > 1) { excitedStates.Add(e); }
                         e = new ExcitedState();
                         string[] data = RetrieveLineData(line.Split(' '));
-                        string eId = data[2].Remove(data[2].Length-1);
+                        string eId = data[2].Remove(data[2].Length - 1);
                         e.ID = int.Parse(eId);
                         e.QuantumState = data[3];
                         e.ExcitationEnergy = float.Parse(data[4], CultureInfo.InvariantCulture);
@@ -175,7 +175,7 @@ namespace GaussLink.Data
                         e.OscillatorStrength = float.Parse(f, CultureInfo.InvariantCulture);
                     }
                 }
-                if(line.Contains("Excitation energies and oscillator strengths:"))
+                if (line.Contains("Excitation energies and oscillator strengths:"))
                 {
                     start = true;
                 }
@@ -219,11 +219,11 @@ namespace GaussLink.Data
         {
             ExcitationEnergy e = ExtractExcitationEnergies(file);
             StringBuilder sb = new StringBuilder();
-            foreach(ExcitedState state in e.ExcitedStates)
+            foreach (ExcitedState state in e.ExcitedStates)
             {
                 sb.Append("Excited State: ").Append(state.ID).Append(" ").Append(state.QuantumState).Append(" ").Append(state.ExcitationEnergy).
                     Append(" ").Append("eV").Append(" ").Append(state.WaveLength).Append(" ").Append("nm").Append(" ").Append("f=").Append(state.OscillatorStrength).AppendLine();
-                foreach(HLGap g in state.HLGaps)
+                foreach (HLGap g in state.HLGaps)
                 {
                     sb.Append("\t").Append(g.HOMO).Append(" ").Append("->").Append(" ").Append(g.LUMO).Append("\t").Append(g.EnergyDelta).AppendLine();
                 }
@@ -236,7 +236,7 @@ namespace GaussLink.Data
         {
             List<string> lines = ExtractFreqDataList(file);
             StringBuilder stringBuilder = new StringBuilder();
-            foreach(string s in lines)
+            foreach (string s in lines)
             {
                 stringBuilder.Append(s).AppendLine();
             }
@@ -252,7 +252,7 @@ namespace GaussLink.Data
             foreach (string line in file.Content)
             {
                 i++;
-                if(safetyCheck)
+                if (safetyCheck)
                 {
                     if (line == "- Thermochemistry -")
                     {
@@ -263,7 +263,7 @@ namespace GaussLink.Data
                         safetyCheck = false;
                     }
                 }
-                if (line ==" -------------------" )
+                if (line == " -------------------")
                 {
                     safetyCheck = true;
                     flag = false;
@@ -277,7 +277,7 @@ namespace GaussLink.Data
                 {
                     flag = true;
                 }
-                
+
             }
             return lines;
         }
@@ -292,7 +292,7 @@ namespace GaussLink.Data
 
 
             List<string> lines = ExtractFreqDataList(file);
-            foreach(string l in lines)
+            foreach (string l in lines)
             {
                 string[] data = RetrieveLineData(l.Split(' '));
 
@@ -302,16 +302,16 @@ namespace GaussLink.Data
                     {
                         if (!data[0].Contains("A") && !data[0].Contains("B"))
                         {
-                           if(!isFirst)
-                           {
+                            if (!isFirst)
+                            {
                                 vms.Add(vm1);
                                 vms.Add(vm2);
                                 vms.Add(vm3);
 
-                           }
-                           vm1 = new VibrationMode();
-                           vm2 = new VibrationMode();
-                           vm3 = new VibrationMode();
+                            }
+                            vm1 = new VibrationMode();
+                            vm2 = new VibrationMode();
+                            vm3 = new VibrationMode();
 
                             vm1.Mode = int.Parse(data[0]);
                             vm2.Mode = int.Parse(data[1]);
@@ -326,12 +326,12 @@ namespace GaussLink.Data
                             vm3.QuantumState = data[2];
                         }
                     }
-                    if(data.Length == 5 || data.Length == 4)
+                    if (data.Length == 5 || data.Length == 4)
                     {
                         switch (data[0])
                         {
-                            case "Frequencies": 
-                                vm1.Frequencies = double.Parse(data[1],CultureInfo.InvariantCulture);
+                            case "Frequencies":
+                                vm1.Frequencies = double.Parse(data[1], CultureInfo.InvariantCulture);
                                 vm2.Frequencies = double.Parse(data[2], CultureInfo.InvariantCulture);
                                 vm3.Frequencies = double.Parse(data[3], CultureInfo.InvariantCulture);
                                 break;
@@ -346,7 +346,7 @@ namespace GaussLink.Data
                                 vm3.FrcConsts = double.Parse(data[4], CultureInfo.InvariantCulture);
                                 break;
                             case "IR":
-                                vm1.IRInten= double.Parse(data[2], CultureInfo.InvariantCulture);
+                                vm1.IRInten = double.Parse(data[2], CultureInfo.InvariantCulture);
                                 vm2.IRInten = double.Parse(data[3], CultureInfo.InvariantCulture);
                                 vm3.IRInten = double.Parse(data[4], CultureInfo.InvariantCulture);
                                 break;
@@ -369,11 +369,11 @@ namespace GaussLink.Data
                                         vm3.DepolarU = double.Parse(data[4], CultureInfo.InvariantCulture);
                                         break;
                                 }
-                                    break;
+                                break;
                         }
 
                     }
-                    if(data.Length==11)
+                    if (data.Length == 11)
                     {
                         vm1.AtomVibrations.Add(new AtomDelta(
                             int.Parse(data[0]),
@@ -389,14 +389,14 @@ namespace GaussLink.Data
                            new Vector3D(float.Parse(data[8], CultureInfo.InvariantCulture), float.Parse(data[9], CultureInfo.InvariantCulture), float.Parse(data[10], CultureInfo.InvariantCulture))));
 
                     }
-                }  
-               if(l.Equals(""))
+                }
+                if (l.Equals(""))
                 {
                     vms.Add(vm1);
                     vms.Add(vm2);
                     vms.Add(vm3);
                 }
-                
+
             }
             return vms;
         }
@@ -404,10 +404,10 @@ namespace GaussLink.Data
         private static string[] RetrieveLineData(string[] splits)
         {
             List<string> items = new List<string>();
-            foreach(string s in splits)
+            foreach (string s in splits)
             {
 
-                if(!string.IsNullOrWhiteSpace(s) && !s.Equals("--"))
+                if (!string.IsNullOrWhiteSpace(s) && !s.Equals("--"))
                 {
                     items.Add(s);
                 }

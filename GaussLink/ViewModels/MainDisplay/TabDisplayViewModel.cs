@@ -4,7 +4,6 @@ using GaussLink.Data.Events;
 using GaussLink.Data.Messages;
 using GaussLink.Models;
 using GaussLink.ViewModels.MainDisplay.Tabs;
-using GaussLink.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -12,7 +11,7 @@ using System.Linq;
 
 namespace GaussLink.ViewModels.MainDisplay
 {
-    public class TabDisplayViewModel:DisplayVM
+    public class TabDisplayViewModel : DisplayVM
     {
 
         public TabDisplayViewModel()
@@ -22,18 +21,18 @@ namespace GaussLink.ViewModels.MainDisplay
             Tabs = tabs;
             Messenger.Default.Register<DataMessage>(this, GetJobData);
             Messenger.Default.Register<SizeChangedMessage>(this, SizeHasChanged);
-       
+
         }
 
         #region TabHeader Width Handling
         private int totalWidth;
-        private int headerWidth=150;
+        private int headerWidth = 150;
 
 
         public void SizeHasChanged(SizeChangedMessage obj)
         {
             totalWidth = (int)obj.Width;
-            if(Tabs.Count>0) headerWidth = totalWidth / Tabs.Count;
+            if (Tabs.Count > 0) headerWidth = totalWidth / Tabs.Count;
             if (headerWidth > 150) headerWidth = 150;
             OnSizeChanged();
         }
@@ -43,7 +42,7 @@ namespace GaussLink.ViewModels.MainDisplay
 
         protected virtual void OnSizeChanged()
         {
-            SizeChanged?.Invoke(this, new SizeChangedArgs(0,headerWidth-2));
+            SizeChanged?.Invoke(this, new SizeChangedArgs(0, headerWidth - 2));
         }
 
         private void TabCountChanged()
@@ -84,7 +83,7 @@ namespace GaussLink.ViewModels.MainDisplay
             Tabs.Remove((TabHeader)sender);
         }
 
-       
+
         #endregion
 
 
@@ -120,12 +119,12 @@ namespace GaussLink.ViewModels.MainDisplay
 
         private void SwitchContent(TabHeader th)
         {
-            if (th==null)
+            if (th == null)
             {
                 ViewModel = null;
                 return;
             }
-            if(th.TabContent is Viewer3DTab)
+            if (th.TabContent is Viewer3DTab)
             {
                 ViewModel = null;
             }
@@ -139,7 +138,7 @@ namespace GaussLink.ViewModels.MainDisplay
             set
             {
                 tabs = value;
-              OnPropertyChanged(nameof(Tabs));
+                OnPropertyChanged(nameof(Tabs));
             }
         }
 
@@ -151,19 +150,26 @@ namespace GaussLink.ViewModels.MainDisplay
         {
             switch (obj.Message)
             {
-                case "Content":NewFileContentTab(obj.JobFile);
+                case "Content":
+                    NewFileContentTab(obj.JobFile);
                     break;
-                case "Orientation":NewOrientationTab(obj.IsInput, obj.JobFile);
+                case "Orientation":
+                    NewOrientationTab(obj.IsInput, obj.JobFile);
                     break;
-                case "3D Structure":New3DTab(obj.JobFile, obj.IsStatic, obj.IsStandard);
+                case "3D Structure":
+                    New3DTab(obj.JobFile, obj.IsStatic, obj.IsStandard);
                     break;
-                case "FreqData":NewFreqDataTab(obj.JobFile);
+                case "FreqData":
+                    NewFreqDataTab(obj.JobFile);
                     break;
-                case "Vibration Mode": NewVibrationModeTab(obj.Name, obj.VibrationMode);
+                case "Vibration Mode":
+                    NewVibrationModeTab(obj.Name, obj.VibrationMode);
                     break;
-                case "Excitation Energy": NewExcitationEnergyTab(obj.JobFile.JobName, obj.JobFile);
+                case "Excitation Energy":
+                    NewExcitationEnergyTab(obj.JobFile.JobName, obj.JobFile);
                     break;
-                case "UvVis":NewGraphTab(obj.JobFile);
+                case "UvVis":
+                    NewGraphTab(obj.JobFile);
                     break;
             }
         }
@@ -171,7 +177,7 @@ namespace GaussLink.ViewModels.MainDisplay
         private void NewGraphTab(JobFile jobFile)
         {
             ExcitationEnergy e = Extractor.ExtractExcitationEnergies(jobFile);
-            var tabHeader = new TabHeader(jobFile.JobName, headerWidth, new GraphTab( jobFile.JobName+"_UV-Vis",e));
+            var tabHeader = new TabHeader(jobFile.JobName, headerWidth, new GraphTab(jobFile.JobName + "_UV-Vis", e));
             SizeChanged += tabHeader.OnSizeChanged;
             Tabs.Add(tabHeader);
         }
@@ -190,12 +196,12 @@ namespace GaussLink.ViewModels.MainDisplay
             //var tabHeader = new TabHeader(file.JobName, headerWidth, new Viewer3DTab(m));
             //SizeChanged += tabHeader.OnSizeChanged;
             //Tabs.Add(tabHeader);
-        
+
         }
 
         private void NewVibrationModeTab(string name, VibrationMode vibrationMode)
         {
-            var tabHeader = new TabHeader( name, headerWidth, (new VibrationModeTab(vibrationMode)));
+            var tabHeader = new TabHeader(name, headerWidth, (new VibrationModeTab(vibrationMode)));
             SizeChanged += tabHeader.OnSizeChanged;
             Tabs.Add(tabHeader);
         }

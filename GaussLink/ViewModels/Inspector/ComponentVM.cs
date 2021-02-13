@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace GaussLink.ViewModels
 {
-    public class ComponentVM:BaseViewModel
+    public class ComponentVM : BaseViewModel
     {
         public JobFile jobFile = new JobFile();
 

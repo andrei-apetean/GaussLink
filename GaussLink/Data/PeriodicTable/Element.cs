@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GaussLink.Data.PeriodicTable
+﻿namespace GaussLink.Data.PeriodicTable
 {
     public struct Element
     {
@@ -13,7 +7,7 @@ namespace GaussLink.Data.PeriodicTable
         public byte R;
         public byte G;
         public byte B;
-        public Element(int AtomicNumber, string Symbol, byte R, byte G,byte B)
+        public Element(int AtomicNumber, string Symbol, byte R, byte G, byte B)
         {
             this.AtomicNumber = AtomicNumber;
             this.Symbol = Symbol;

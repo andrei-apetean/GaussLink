@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
 namespace GaussLink.Data.Object3D
 {
-    public class Cone:Shape
+    public class Cone : Shape
     {
-        public Cone(Point3D endPoint, Vector3D axis, double Radius,  int Segments)
+        public Cone(Point3D endPoint, Vector3D axis, double Radius, int Segments)
         {
-            CreateCone(Geometry, endPoint,axis, Radius, 0, Segments);
+            CreateCone(Geometry, endPoint, axis, Radius, 0, Segments);
         }
 
         private void CreateCone(MeshGeometry3D mesh, Point3D end_point,

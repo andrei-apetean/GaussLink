@@ -1,15 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using GaussLink.Data.Messages;
-using GaussLink.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Ink;
-using System.Windows.Media;
+﻿using GaussLink.Models;
 
 namespace GaussLink.ViewModels.MainDisplay.Tabs
 {

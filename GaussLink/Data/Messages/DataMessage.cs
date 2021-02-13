@@ -11,7 +11,7 @@ namespace GaussLink.Data.Messages
         public bool IsStandard { get; set; }
         public JobFile JobFile { get; set; }
 
-        public VibrationMode VibrationMode {get;set;}
+        public VibrationMode VibrationMode { get; set; }
         public DataMessage(string Message, JobFile JobFile, bool IsInput)
         {
             this.Message = Message;
@@ -36,7 +36,7 @@ namespace GaussLink.Data.Messages
             this.Name = Name;
             this.VibrationMode = VibrationMode;
         }
-      
+
         public DataMessage(string Message)
         {
             this.Message = Message;

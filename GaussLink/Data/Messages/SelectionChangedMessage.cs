@@ -1,5 +1,4 @@
-﻿using GaussLink.Data;
-using GaussLink.Models;
+﻿using GaussLink.Models;
 
 namespace GaussLink.ViewModels
 {
@@ -8,7 +7,7 @@ namespace GaussLink.ViewModels
         public string Selection { get; set; }
         public JobFile JobFile { get; set; }
 
-        public SelectionChangedMessage(){}
+        public SelectionChangedMessage() { }
 
         public SelectionChangedMessage(string Selection)
         {

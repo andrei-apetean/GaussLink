@@ -7,12 +7,11 @@ using GaussLink.Models;
 using GaussLink.ViewModels.Base;
 using GaussLink.ViewModels.Themes;
 using GaussLink.Views.Windows;
-using System;
 using System.Windows.Input;
 
 namespace GaussLink.ViewModels
 {
-    public class FreqComponentVM:ComponentVM
+    public class FreqComponentVM : ComponentVM
     {
         public FreqComponentVM()
         {
@@ -23,7 +22,7 @@ namespace GaussLink.ViewModels
         #region Icons
         private void OnThemeChanged(ThemeChangedMessage obj)
         {
-            switch(obj.ThemeType)
+            switch (obj.ThemeType)
             {
                 case ThemeType.Dark:
                     ContentIcon = "/UI/Images/contentIconWhite.png";
@@ -64,12 +63,12 @@ namespace GaussLink.ViewModels
             }
         }
 
-        private  string contentIcon;
-        public  string ContentIcon
+        private string contentIcon;
+        public string ContentIcon
         {
             get { return contentIcon; }
             set
-            { 
+            {
                 contentIcon = value;
                 OnPropertyChanged(nameof(ContentIcon));
             }
@@ -117,7 +116,7 @@ namespace GaussLink.ViewModels
                 OnPropertyChanged(nameof(SaveFileIcon));
             }
         }
-      
+
         private string deleteIcon;
         public string DeleteIcon
         {
@@ -139,21 +138,21 @@ namespace GaussLink.ViewModels
                 OnPropertyChanged(nameof(View3DIcon));
             }
         }
-#endregion
+        #endregion
 
         private VibrationMode vibrationMode;
-        private int index=1;
-        private  int modeCount;
-        public  int  ModeCount
+        private int index = 1;
+        private int modeCount;
+        public int ModeCount
         {
             get { return modeCount; }
-            set 
+            set
             {
-                modeCount = value; 
+                modeCount = value;
                 OnPropertyChanged(nameof(ModeCount));
             }
         }
-        private string selectedMode="1";
+        private string selectedMode = "1";
 
         public string SelectedMode
         {
@@ -175,26 +174,26 @@ namespace GaussLink.ViewModels
             else
             {
                 int i = int.Parse(selectedMode);
-                if (1 <= i )
+                if (1 <= i)
                 {
                     index = i;
 
                 }
-                if(i>ModeCount)
+                if (i > ModeCount)
                 {
                     index = ModeCount;
                 }
             }
         }
 
-    
+
         public ICommand SaveFreqCommand => new RelayCommand(SaveFreq);
 
         public virtual void SaveFreq()
         {
             jobFile = DataManager.SelectedJobFile;
             string content = Extractor.ExtractFreqData(jobFile);
-            FileManager.SaveText(jobFile.JobName + "_freqData",content);
+            FileManager.SaveText(jobFile.JobName + "_freqData", content);
         }
 
         public ICommand GetFreqDataCommand => new RelayCommand(GetFreqData);
@@ -209,9 +208,9 @@ namespace GaussLink.ViewModels
 
         public virtual void GetVibrationModeData()
         {
-            vibrationMode = DataManager.VibrationModes[index-1];
+            vibrationMode = DataManager.VibrationModes[index - 1];
             string name = DataManager.SelectedJobFile.JobName;
-            Messenger.Default.Send(new DataMessage("Vibration Mode", name+"_mode_"+index, vibrationMode));
+            Messenger.Default.Send(new DataMessage("Vibration Mode", name + "_mode_" + index, vibrationMode));
         }
         public ICommand Viewer3DCommand => new RelayCommand(NewViewer3D);
 

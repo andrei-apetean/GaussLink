@@ -1,9 +1,7 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using GaussLink.Data.Messages;
+﻿using GaussLink.Data.Messages;
 using GaussLink.Data.Object3D;
 using GaussLink.Data.PeriodicTable;
 using GaussLink.Models;
-using GaussLink.Object3D;
 using GaussLink.ViewModels.MainDisplay.Tabs;
 using System;
 using System.Collections.Generic;
@@ -13,7 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using System.Windows.Shapes;
 
 namespace GaussLink.Views.MainDisplay.Tabs
 {
@@ -279,7 +276,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
             }
         }
 
-    
+
         #endregion
 
         #region Trackball Events
@@ -613,14 +610,14 @@ namespace GaussLink.Views.MainDisplay.Tabs
                         atomLbl.Content = "Atom: " + periodicTable.GetAtomName(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
                         aNoLbl.Content = "Atomic Number: " + m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber;
                         cNoLbl.Content = "Center Number: " + m.MoleculeOrientation.Atoms[selectedIndex].CenterNumber;
-                        xLbl.Content ="X: "+ obj3D[selectedIndex].Position.X;
-                        yLbl.Content ="Y: "+ obj3D[selectedIndex].Position.Y;
-                        zLbl.Content ="Z: "+ obj3D[selectedIndex].Position.Z;
+                        xLbl.Content = "X: " + obj3D[selectedIndex].Position.X;
+                        yLbl.Content = "Y: " + obj3D[selectedIndex].Position.Y;
+                        zLbl.Content = "Z: " + obj3D[selectedIndex].Position.Z;
                         if (m.VibrationModes != null)
                         {
-                            vxLbl.Content ="X: "+obj3D[selectedIndex].Offset.X;
-                            vyLbl.Content ="Y: "+obj3D[selectedIndex].Offset.Y;
-                            vzLbl.Content ="Z: "+obj3D[selectedIndex].Offset.Z;
+                            vxLbl.Content = "X: " + obj3D[selectedIndex].Offset.X;
+                            vyLbl.Content = "Y: " + obj3D[selectedIndex].Offset.Y;
+                            vzLbl.Content = "Z: " + obj3D[selectedIndex].Offset.Z;
                         }
                         else
                         {
@@ -643,13 +640,13 @@ namespace GaussLink.Views.MainDisplay.Tabs
                     aNoLbl.Content = "Atomic Number: ";
                     cNoLbl.Content = "Center Number: ";
                     xLbl.Content = "X: ";
-                    yLbl.Content = "Y: " ;
-                    zLbl.Content = "Z: " ;
+                    yLbl.Content = "Y: ";
+                    zLbl.Content = "Z: ";
                     if (m.VibrationModes != null)
                     {
-                        vxLbl.Content = "X: "; 
+                        vxLbl.Content = "X: ";
                         vyLbl.Content = "Y: ";
-                        vzLbl.Content = "Z: "; 
+                        vzLbl.Content = "Z: ";
                     }
                     else
                     {
@@ -715,6 +712,6 @@ namespace GaussLink.Views.MainDisplay.Tabs
             bgSlider.Value = c;
         }
 
-       
+
     }
 }

@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace GaussLink.ViewModels.MainDisplay.Tabs
 {
-    public class TabHeader:BaseViewModel
+    public class TabHeader : BaseViewModel
     {
         public TabHeader()
         {

@@ -77,18 +77,25 @@
     </ApplicationDefinition>
     <Compile Include="Data\Converters\BoolRadioConverter.cs" />
     <Compile Include="Data\Converters\Extractor.cs" />
+    <Compile Include="Data\Converters\HeaderToImageConverter.cs" />
+    <Compile Include="Data\DirStruct\DirectoryItem.cs" />
+    <Compile Include="Data\DirStruct\DirectoryItemType.cs" />
+    <Compile Include="Data\DirStruct\DirectoryStructure.cs" />
     <Compile Include="Data\Events\ChildrenEventArgs.cs" />
     <Compile Include="Data\Events\EventAggregator.cs" />
     <Compile Include="Data\Events\SizeChangedArgs.cs" />
     <Compile Include="Data\Messages\DataMessage.cs" />
+    <Compile Include="Data\Messages\DirectorySelectMessage.cs" />
     <Compile Include="Data\Messages\DisplayHeaderMessage.cs" />
+    <Compile Include="Data\Messages\FileBrowserLvSelectMessage.cs" />
+    <Compile Include="Data\Messages\FileExOpenFileMessage.cs" />
     <Compile Include="Data\Messages\FileMessage.cs" />
-    <Compile Include="Data\Messages\GraphSizeChangedMessage.cs" />
     <Compile Include="Data\Messages\OpenFileMessage.cs" />
     <Compile Include="Data\Messages\RemoveJobMessage.cs" />
     <Compile Include="Data\Messages\SelectionChangedMessage.cs" />
     <Compile Include="Data\Messages\SizeChangedMessage.cs" />
     <Compile Include="Data\Messages\ThemeChangedMessage.cs" />
+    <Compile Include="Data\Messages\FileBrowserTvSelectMessage.cs" />
     <Compile Include="Data\Messages\Viewer3DMessage.cs" />
     <Compile Include="Data\Object3D\Cone.cs" />
     <Compile Include="Data\Object3D\Cube.cs" />
@@ -142,7 +149,9 @@
     <Compile Include="ViewModels\mvvmLight\MainViewModel.cs" />
     <Compile Include="ViewModels\mvvmLight\ViewModelLocator.cs" />
     <Compile Include="ViewModels\Themes\ThemeType.cs" />
-    <Compile Include="ViewModels\Window\WindowViewModel.cs" />
+    <Compile Include="ViewModels\Windows\FileBrowser\DirectoryItemViewModel.cs" />
+    <Compile Include="ViewModels\Windows\FileBrowser\FileBrowserViewModel.cs" />
+    <Compile Include="ViewModels\Windows\WindowViewModel.cs" />
     <Compile Include="Views\Inspector\FreqInspectorComponent.xaml.cs">
       <DependentUpon>FreqInspectorComponent.xaml</DependentUpon>
     </Compile>
@@ -191,10 +200,13 @@
     <Compile Include="Views\MainDisplay\Tabs\Viewer3DTabView.xaml.cs">
       <DependentUpon>Viewer3DTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Windows\Overlay3D.xaml.cs">
+    <Compile Include="Views\Windows\FileBrowser\FileBrowser.xaml.cs">
+      <DependentUpon>FileBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Viewer3D\Overlay3D.xaml.cs">
       <DependentUpon>Overlay3D.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Windows\Viewer3D.xaml.cs">
+    <Compile Include="Views\Windows\Viewer3D\Viewer3D.xaml.cs">
       <DependentUpon>Viewer3D.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -290,11 +302,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Windows\Overlay3D.xaml">
+    <Page Include="Views\Windows\FileBrowser\FileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Windows\Viewer3D.xaml">
+    <Page Include="Views\Windows\Viewer3D\Overlay3D.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\Viewer3D\Viewer3D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -373,6 +389,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\PeriodicTable\periodicTable.txt" />
+    <Resource Include="UI\Images\drive.png" />
+    <Resource Include="UI\Images\file.png" />
+    <Resource Include="UI\Images\folder-closed.png" />
+    <Resource Include="UI\Images\folder-open.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

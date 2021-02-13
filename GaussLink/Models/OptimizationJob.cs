@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GaussLink.Models
 {
-    public class OptimizationJob:Job
+    public class OptimizationJob : Job
     {
         public List<Atom> InputOrientation { get; set; }
         public List<Atom> StandardOrientation { get; set; }
@@ -16,7 +13,7 @@ namespace GaussLink.Models
 
         }
 
-        public OptimizationJob(List<Atom> InputOrientation, List<Atom> StandardOrientation )
+        public OptimizationJob(List<Atom> InputOrientation, List<Atom> StandardOrientation)
         {
             this.InputOrientation = InputOrientation;
             this.StandardOrientation = StandardOrientation;

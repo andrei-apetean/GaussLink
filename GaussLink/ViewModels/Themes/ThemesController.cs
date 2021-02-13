@@ -1,10 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GaussLink.Data.Messages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace GaussLink.ViewModels.Themes
@@ -31,16 +27,20 @@ namespace GaussLink.ViewModels.Themes
             CurrentTheme = theme;
             switch (theme)
             {
-                case ThemeType.Dark: themeName = "DarkTheme";
+                case ThemeType.Dark:
+                    themeName = "DarkTheme";
                     Messenger.Default.Send(new ThemeChangedMessage(ThemeType.Dark));
                     break;
-                case ThemeType.Light: themeName = "LightTheme"; 
+                case ThemeType.Light:
+                    themeName = "LightTheme";
                     Messenger.Default.Send(new ThemeChangedMessage(ThemeType.Light));
                     break;
-                case ThemeType.ColourfulDark: themeName = "ColourfulDarkTheme"; 
+                case ThemeType.ColourfulDark:
+                    themeName = "ColourfulDarkTheme";
                     Messenger.Default.Send(new ThemeChangedMessage(ThemeType.ColourfulDark));
                     break;
-                case ThemeType.ColourfulLight: themeName = "ColourfulLightTheme"; 
+                case ThemeType.ColourfulLight:
+                    themeName = "ColourfulLightTheme";
                     Messenger.Default.Send(new ThemeChangedMessage(ThemeType.ColourfulLight));
                     break;
             }

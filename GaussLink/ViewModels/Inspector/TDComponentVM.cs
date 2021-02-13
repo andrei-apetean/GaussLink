@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace GaussLink.ViewModels
 {
-    public class TDComponentVM:ComponentVM
+    public class TDComponentVM : ComponentVM
     {
         public TDComponentVM()
         {
@@ -57,7 +57,7 @@ namespace GaussLink.ViewModels
             }
         }
 
-       
+
 
         private string saveFileIcon;
         public string SaveFileIcon
@@ -87,7 +87,7 @@ namespace GaussLink.ViewModels
 
         public virtual void GetExcitationEnergies()
         {
-            Messenger.Default.Send(new DataMessage("Excitation Energy",DataManager.SelectedJobFile));
+            Messenger.Default.Send(new DataMessage("Excitation Energy", DataManager.SelectedJobFile));
         }
         public ICommand UvVisSpecCommand => new RelayCommand(UvVisSpectrum);
 

@@ -15,7 +15,7 @@ namespace GaussLink.ViewModels.MainDisplay.Tabs
             this.Orientation = Orientation;
         }
 
-  
+
         public OrientationTab()
         {
 

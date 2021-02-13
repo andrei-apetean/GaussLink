@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace GaussLink.ViewModels
 {
-    public class OptComponentVM:ComponentVM
+    public class OptComponentVM : ComponentVM
     {
         public OptComponentVM()
         {
@@ -121,7 +121,7 @@ namespace GaussLink.ViewModels
                 OnPropertyChanged(nameof(InputOrientation));
             }
         }
-       
+
         public ICommand Viewer3DCommand => new RelayCommand(NewViewer3D);
 
         public virtual void NewViewer3D()
@@ -176,5 +176,5 @@ namespace GaussLink.ViewModels
         //}
     }
 
-    
+
 }

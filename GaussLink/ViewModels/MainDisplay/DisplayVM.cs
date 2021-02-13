@@ -1,7 +1,7 @@
 ﻿
 namespace GaussLink.ViewModels.MainDisplay
 {
-    public class DisplayVM:BaseViewModel
+    public class DisplayVM : BaseViewModel
     {
     }
 }

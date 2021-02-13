@@ -2,7 +2,7 @@
 
 namespace GaussLink.Data.Events
 {
-    public class SizeChangedArgs:EventArgs
+    public class SizeChangedArgs : EventArgs
     {
         public double Height { get; set; }
         public double Width { get; set; }
@@ -12,6 +12,6 @@ namespace GaussLink.Data.Events
             this.Height = Height;
             this.Width = Width;
         }
-        public SizeChangedArgs(){}
+        public SizeChangedArgs() { }
     }
 }

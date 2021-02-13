@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using GaussLink.Models;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
-using GaussLink.Models;
 
 namespace GaussLink.Data.DataAccess
 {
@@ -16,21 +12,17 @@ namespace GaussLink.Data.DataAccess
         /// Creates a File Dialog to open a Gaussian *.out file and extracts the jobs inside
         /// </summary>
         /// <returns>List of DataFile</returns>
-        public static List<JobFile> OpenFile()
+        public static List<JobFile> OpenFile(List<string> filePaths)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "Gaussian Output File|*.out"
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string fullPath = openFileDialog.FileName;
-                string fileName = Path.GetFileNameWithoutExtension(fullPath);
-                openFileDialog.Dispose();
-                List<JobFile> dataItemJobs = DataFileJobSplit(fileName, File.ReadAllLines(fullPath).ToList());
+                List<JobFile> dataItemJobs = new List<JobFile>();
+                foreach (string s in filePaths)
+                {
+                    string fullPath = s;
+                    string fileName = Path.GetFileNameWithoutExtension(fullPath);
+                    dataItemJobs.AddRange(DataFileJobSplit(fileName, File.ReadAllLines(fullPath).ToList()));
+                }
+
                 return dataItemJobs;
-            }
-            else return null;
         }
 
         /// <summary>

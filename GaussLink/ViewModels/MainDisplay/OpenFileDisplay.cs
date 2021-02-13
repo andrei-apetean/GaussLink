@@ -1,21 +1,20 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GaussLink.Data.Messages;
 using GaussLink.ViewModels.Base;
+using GaussLink.Views.Windows.FileBrowser;
 using System.Windows.Input;
 
 namespace GaussLink.ViewModels.MainDisplay
 {
-    public class OpenFileDisplay:DisplayVM
+    public class OpenFileDisplay : DisplayVM
     {
-        protected virtual void OnOpeningFile()
-        {
-            Messenger.Default.Send(new OpenFileMessage());
-        }
+
         public ICommand OpenFileCommand => new RelayCommand(OpenFile);
 
         public void OpenFile()
         {
-            OnOpeningFile();
+            FileBrowser fb = new FileBrowser();
+            fb.Show();
         }
     }
 }

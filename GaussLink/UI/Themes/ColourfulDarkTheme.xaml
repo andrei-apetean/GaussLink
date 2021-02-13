@@ -1428,6 +1428,8 @@
         </Setter>
     </Style>
 
+
+  
     <Style TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Padding" Value="0"/>

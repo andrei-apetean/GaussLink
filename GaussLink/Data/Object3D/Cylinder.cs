@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
 namespace GaussLink.Data.Object3D
 {
-    public class Cylinder:Shape
+    public class Cylinder : Shape
     {
         public Cylinder(Point3D EndPoint, Vector3D Axis, double Radius, int Segments)
         {

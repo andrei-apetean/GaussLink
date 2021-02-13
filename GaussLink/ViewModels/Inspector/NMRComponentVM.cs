@@ -1,7 +1,7 @@
 ﻿
 namespace GaussLink.ViewModels
 {
-    public class NMRComponentVM:ComponentVM
+    public class NMRComponentVM : ComponentVM
     {
 
     }

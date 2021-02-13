@@ -30,6 +30,6 @@ namespace GaussLink.UI.Themes
         }
         public void MinimizeWind(Window window) => window.WindowState = WindowState.Minimized;
 
-        
+
     }
 }

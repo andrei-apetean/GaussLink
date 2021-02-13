@@ -3,7 +3,7 @@ using GaussLink.Models;
 
 namespace GaussLink.ViewModels
 {
-    public class InspectorViewModel:BaseViewModel
+    public class InspectorViewModel : BaseViewModel
     {
         #region base
         private ComponentVM viewModel;
@@ -11,8 +11,9 @@ namespace GaussLink.ViewModels
         {
             get { return viewModel; }
             set
-            {  viewModel = value; 
-                OnPropertyChanged(nameof(ViewModel)); 
+            {
+                viewModel = value;
+                OnPropertyChanged(nameof(ViewModel));
             }
         }
 
@@ -21,26 +22,31 @@ namespace GaussLink.ViewModels
             Messenger.Default.Register<SelectionChangedMessage>(this, OnSelectionChanged);
         }
 
-     
+
 
         private void OnSelectionChanged(SelectionChangedMessage obj)
         {
-            if(obj.Selection == null) 
-            { 
+            if (obj.Selection == null)
+            {
                 ViewModel = null;
                 return;
             }
-            switch(obj.JobFile.Type)
+            switch (obj.JobFile.Type)
             {
-                case JobType.OPT : ViewModel = new OptComponentVM();
+                case JobType.OPT:
+                    ViewModel = new OptComponentVM();
                     break;
-                case JobType.FREQ: ViewModel = new FreqComponentVM();
+                case JobType.FREQ:
+                    ViewModel = new FreqComponentVM();
                     break;
-                case JobType.TD: ViewModel = new TDComponentVM();
+                case JobType.TD:
+                    ViewModel = new TDComponentVM();
                     break;
-                case JobType.NMR: ViewModel = new NMRComponentVM();
+                case JobType.NMR:
+                    ViewModel = new NMRComponentVM();
                     break;
-                default: ViewModel = null;
+                default:
+                    ViewModel = null;
                     break;
             }
         }

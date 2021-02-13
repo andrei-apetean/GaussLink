@@ -3,7 +3,7 @@ using GaussLink.Data.Messages;
 
 namespace GaussLink.ViewModels.MainDisplay
 {
-    public class DisplayViewModel:BaseViewModel
+    public class DisplayViewModel : BaseViewModel
     {
         DisplayVM displayVM = new OpenFileDisplay();
 
@@ -17,9 +17,11 @@ namespace GaussLink.ViewModels.MainDisplay
         {
             switch (obj.Message)
             {
-                case "OpenFile": DisplayVM = new OpenFileDisplay();
+                case "OpenFile":
+                    DisplayVM = new OpenFileDisplay();
                     break;
-                case "TabDisplay": DisplayVM = new TabDisplayViewModel();
+                case "TabDisplay":
+                    DisplayVM = new TabDisplayViewModel();
                     break;
             }
 
