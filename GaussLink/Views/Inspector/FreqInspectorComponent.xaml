@@ -6,14 +6,49 @@
              xmlns:local="clr-namespace:GaussLink.Views.Inspector"
              xmlns:vms="clr-namespace:GaussLink.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="200">
+             d:DesignHeight="600" d:DesignWidth="300">
     <Grid Name="parent">
         <Grid.DataContext>
             <vms:FreqComponentVM/>
         </Grid.DataContext>
         <Grid>
-            <ScrollViewer>
-                <Grid>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10">
+                    <Button Margin="10,5,10,5" Content="Content" Command="{Binding GetJobContentCommand}"/>
+                    <Button Margin="10,5,10,5" Content="Freqency Data" Command="{Binding GetFreqDataCommand}"/>
+                    <Grid  Margin="10,5,10,5"  HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="55"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"  Margin="0,0,5,0"  Content="Vibration Mode"    Command="{Binding GetVibrationModeDataCommand}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Height="20" Grid.Column="0" VerticalAlignment="Bottom" Text="{Binding SelectedMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Button Grid.Row="0" Command="{Binding IncrementCommand}">
+                                    <TextBlock Text="˄" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Button>
+                                <Button Grid.Row="1" Command="{Binding DecrementCommand}">
+                                    <TextBlock Text="˅" FontSize="10"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Button   Margin="10,5,10,5" Content="Viewer 3D" Command="{Binding Viewer3DCommand}"/>
+                    <Button Content="Save" Margin="10,5,10,5" Command="{Binding SaveCommand}"/>
+                    <Button Content="Remove Item" Margin="10,15,10,5" Style="{DynamicResource DangerButton}"   Command="{Binding RemoveJobCommand}"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!--<Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -132,8 +167,7 @@
                             <TextBlock Text=" Remove Job"  FontWeight="Normal"  />
                         </StackPanel>
                     </Button>
-                </Grid>
-            </ScrollViewer>
+                </Grid>-->
         </Grid>
     </Grid>
 </UserControl>

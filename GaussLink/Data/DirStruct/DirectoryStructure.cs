@@ -11,7 +11,7 @@ namespace GaussLink.Data.DirStruct
             return Directory.GetLogicalDrives().Select(drive => new DirectoryItem { FullPath = drive, Type = DirectoryItemType.Drive }).ToList();
         }
 
-        public static List<DirectoryItem> GetDirectoryContents(string fullPath)
+        public static List<DirectoryItem> GetDirectoryContents(string fullPath, bool folderOnly)
         {
             var items = new List<DirectoryItem>();
 
@@ -38,23 +38,25 @@ namespace GaussLink.Data.DirStruct
             #endregion
 
             #region Get Files
-            try
+            if (!folderOnly)
             {
-                var fs = Directory.GetFiles(fullPath);
-
-                if (fs.Length > 0)
+                try
                 {
-                    foreach (string s in fs)
+                    var fs = Directory.GetFiles(fullPath);
+
+                    if (fs.Length > 0)
                     {
-                        if (!s.EndsWith(".sys") && s.EndsWith(".out"))
+                        foreach (string s in fs)
                         {
-                            items.Add(new DirectoryItem { FullPath = s, Type = DirectoryItemType.File });
+                            if (!s.EndsWith(".sys") && s.EndsWith(".out"))
+                            {
+                                items.Add(new DirectoryItem { FullPath = s, Type = DirectoryItemType.File });
+                            }
                         }
                     }
                 }
+                catch { }
             }
-            catch { }
-
             #endregion
 
             return items;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GaussLink.Views.Windows"
         mc:Ignorable="d"
-        Title="Viewer3D" Height="450" Width="800"
+        Title="GaussLink - 3D Viewer" Height="450" Width="800"
         Style="{DynamicResource CustomWindowStyle}" >
     <Grid>
         <Grid Name="parentGrid">
@@ -27,28 +27,16 @@
             <Grid Grid.Column="2" Name="propertiesPanel" >
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-
                         <Expander Header="Properties" IsExpanded="True">
-                            <StackPanel Margin="5">
-                                <Label Name="atomLbl" Content="Atom: "/>
-                                <Label Name="aNoLbl" Content="Atomic Number: "/>
-                                <Label Name="cNoLbl" Content="Center Number: "/>
-                                <Label  Content="Position:"/>
-                                <UniformGrid Columns="3">
-                                    <Label Name="xLbl" Content="X: "/>
-                                    <Label Name="yLbl" Content="Y: "/>
-                                    <Label Name="zLbl" Content="Z: "/>
-                                </UniformGrid>
-                                <Label Content="Vibration Delta:"/>
-                                <UniformGrid Columns="3">
-                                    <Label Name="vxLbl" Content="X: "/>
-                                    <Label Name="vyLbl" Content="Y: "/>
-                                    <Label Name="vzLbl" Content="Z: "/>
-                                </UniformGrid>
+                            <StackPanel Margin="10,0,0,0">
+                                <Label Name="atm1" Content="No selection"/>
+                                <Label Name="atm2" Content="No selection"/>
+                                <Label Name="dst" Content="N/A"/>
                             </StackPanel>
                         </Expander>
+
                         <Expander Name="animationExpander" Header="Animation" IsExpanded="True">
-                            <StackPanel>
+                            <StackPanel Margin="10,0,0,0">
                                 <Label Name="vmLbl" Content="Vibration Mode:" Margin="5,5,5,2" />
                                 <Grid Margin="5,0,5,5">
                                     <Grid Height="20" >
@@ -81,7 +69,7 @@
                             </StackPanel>
                         </Expander>
                         <Expander Header="Viewport" IsExpanded="True">
-                            <StackPanel>
+                            <StackPanel Margin="10,0,0,0">
                                 <Label Content="Background Color:"/>
                                 <Slider  Margin="5" x:Name="bgSlider"  Minimum="0"  Maximum="255"/>
 

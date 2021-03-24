@@ -331,42 +331,42 @@ namespace GaussLink.Data
                         switch (data[0])
                         {
                             case "Frequencies":
-                                vm1.Frequencies = double.Parse(data[1], CultureInfo.InvariantCulture);
-                                vm2.Frequencies = double.Parse(data[2], CultureInfo.InvariantCulture);
-                                vm3.Frequencies = double.Parse(data[3], CultureInfo.InvariantCulture);
+                                vm1.Frequencies = float.Parse(data[1], CultureInfo.InvariantCulture);
+                                vm2.Frequencies = float.Parse(data[2], CultureInfo.InvariantCulture);
+                                vm3.Frequencies = float.Parse(data[3], CultureInfo.InvariantCulture);
                                 break;
                             case "Red.":
-                                vm1.RedMasses = double.Parse(data[2], CultureInfo.InvariantCulture);
-                                vm2.RedMasses = double.Parse(data[3], CultureInfo.InvariantCulture);
-                                vm3.RedMasses = double.Parse(data[4], CultureInfo.InvariantCulture);
+                                vm1.RedMasses = float.Parse(data[2], CultureInfo.InvariantCulture);
+                                vm2.RedMasses = float.Parse(data[3], CultureInfo.InvariantCulture);
+                                vm3.RedMasses = float.Parse(data[4], CultureInfo.InvariantCulture);
                                 break;
                             case "Frc":
-                                vm1.FrcConsts = double.Parse(data[2], CultureInfo.InvariantCulture);
-                                vm2.FrcConsts = double.Parse(data[3], CultureInfo.InvariantCulture);
-                                vm3.FrcConsts = double.Parse(data[4], CultureInfo.InvariantCulture);
+                                vm1.FrcConsts = float.Parse(data[2], CultureInfo.InvariantCulture);
+                                vm2.FrcConsts = float.Parse(data[3], CultureInfo.InvariantCulture);
+                                vm3.FrcConsts = float.Parse(data[4], CultureInfo.InvariantCulture);
                                 break;
                             case "IR":
-                                vm1.IRInten = double.Parse(data[2], CultureInfo.InvariantCulture);
-                                vm2.IRInten = double.Parse(data[3], CultureInfo.InvariantCulture);
-                                vm3.IRInten = double.Parse(data[4], CultureInfo.InvariantCulture);
+                                vm1.IRInten = float.Parse(data[2], CultureInfo.InvariantCulture);
+                                vm2.IRInten = float.Parse(data[3], CultureInfo.InvariantCulture);
+                                vm3.IRInten = float.Parse(data[4], CultureInfo.InvariantCulture);
                                 break;
                             case "Raman":
-                                vm1.RamanActive = double.Parse(data[2], CultureInfo.InvariantCulture);
-                                vm2.RamanActive = double.Parse(data[3], CultureInfo.InvariantCulture);
-                                vm3.RamanActive = double.Parse(data[4], CultureInfo.InvariantCulture);
+                                vm1.RamanActive = float.Parse(data[2], CultureInfo.InvariantCulture);
+                                vm2.RamanActive = float.Parse(data[3], CultureInfo.InvariantCulture);
+                                vm3.RamanActive = float.Parse(data[4], CultureInfo.InvariantCulture);
                                 break;
                             case "Depolar":
                                 switch (data[1])
                                 {
                                     case "(P)":
-                                        vm1.DepolarP = double.Parse(data[2], CultureInfo.InvariantCulture);
-                                        vm2.DepolarP = double.Parse(data[3], CultureInfo.InvariantCulture);
-                                        vm3.DepolarP = double.Parse(data[4], CultureInfo.InvariantCulture);
+                                        vm1.DepolarP = float.Parse(data[2], CultureInfo.InvariantCulture);
+                                        vm2.DepolarP = float.Parse(data[3], CultureInfo.InvariantCulture);
+                                        vm3.DepolarP = float.Parse(data[4], CultureInfo.InvariantCulture);
                                         break;
                                     case "(U)":
-                                        vm1.DepolarU = double.Parse(data[2], CultureInfo.InvariantCulture);
-                                        vm2.DepolarU = double.Parse(data[3], CultureInfo.InvariantCulture);
-                                        vm3.DepolarU = double.Parse(data[4], CultureInfo.InvariantCulture);
+                                        vm1.DepolarU = float.Parse(data[2], CultureInfo.InvariantCulture);
+                                        vm2.DepolarU = float.Parse(data[3], CultureInfo.InvariantCulture);
+                                        vm3.DepolarU = float.Parse(data[4], CultureInfo.InvariantCulture);
                                         break;
                                 }
                                 break;

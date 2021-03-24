@@ -15,6 +15,8 @@
     </Window.DataContext>
     <Window.InputBindings>
         <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding OpenFileCommand}"/>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveSelectedCommand}"/>
+        <KeyBinding Key="S" Modifiers="Ctrl+Shift"  Command="{Binding SaveAllCommand}"/>
     </Window.InputBindings>
     <Window.Resources>
         <DropShadowBitmapEffect x:Key="NormalShadow" ShadowDepth="2" Softness="0.2" Opacity="0.64"/>

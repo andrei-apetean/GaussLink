@@ -8,15 +8,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="450">
     <Grid x:Name="parent">
-        <TextBlock Text="{Binding Title}"/>
-        <Canvas x:Name="plotView">
-            <Canvas.LayoutTransform>
-                <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
-            </Canvas.LayoutTransform>
-            
-        </Canvas>
-        <Canvas x:Name="labelView">
-            
-        </Canvas>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Canvas  x:Name="plotView" ClipToBounds="True">
+            </Canvas>
+        </Grid>
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+        <Grid Grid.Row="2" >
+            <StackPanel>
+                <Label Content="Smoothing Factor"/>
+                <TextBox Text="1" Name="SmoothFactorTxt" TextChanged="SmoothFactorTxt_TextChanged"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

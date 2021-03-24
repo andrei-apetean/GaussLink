@@ -21,9 +21,10 @@ namespace GaussLink
             ThemesController.CurrentTheme = ThemeType.ColourfulDark;
             Uri iconUri = new Uri("pack://application:,,,/UI/Images/appIconWhite.png", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
-            FileBrowser fb = new FileBrowser();
-            fb.Show();
+           
+ 
         }
+
 
         private void ChangeTheme(object sender, RoutedEventArgs e)
         {

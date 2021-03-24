@@ -6,7 +6,9 @@ using GaussLink.Data.Store;
 using GaussLink.Models;
 using GaussLink.ViewModels.Base;
 using GaussLink.ViewModels.Themes;
+using GaussLink.ViewModels.Windows.FileSaver;
 using GaussLink.Views.Windows;
+using GaussLink.Views.Windows.FileSaver;
 using System.Windows.Input;
 
 namespace GaussLink.ViewModels
@@ -16,130 +18,9 @@ namespace GaussLink.ViewModels
         public FreqComponentVM()
         {
             ModeCount = DataManager.VibrationModes.Count;
-            Messenger.Default.Register<ThemeChangedMessage>(this, OnThemeChanged);
-            OnThemeChanged(new ThemeChangedMessage(ThemesController.CurrentTheme));
+           
         }
-        #region Icons
-        private void OnThemeChanged(ThemeChangedMessage obj)
-        {
-            switch (obj.ThemeType)
-            {
-                case ThemeType.Dark:
-                    ContentIcon = "/UI/Images/contentIconWhite.png";
-                    IncrementIcon = "/UI/Images/collapseArrowWhite.png";
-                    DecrementIcon = "/UI/Images/expandArrowWhite.png";
-                    View3DIcon = "/UI/Images/view3DIconWhite.png";
-                    FreqDataIcon = "/UI/Images/frequencyDataIconWhite.png";
-                    SaveFileIcon = "/UI/Images/saveFileIconWhite.png";
-                    DeleteIcon = "/UI/Images/deleteFileIconWhite.png";
-                    break;
-                case ThemeType.ColourfulDark:
-                    FreqDataIcon = "/UI/Images/frequencyDataIconWhite.png";
-                    DeleteIcon = "/UI/Images/deleteFileIconWhite.png";
-                    IncrementIcon = "/UI/Images/collapseArrowWhite.png";
-                    DecrementIcon = "/UI/Images/expandArrowWhite.png";
-                    View3DIcon = "/UI/Images/view3DIconWhite.png";
-                    ContentIcon = "/UI/Images/contentIconWhite.png";
-                    SaveFileIcon = "/UI/Images/saveFileIconWhite.png";
-                    break;
-                case ThemeType.Light:
-                    FreqDataIcon = "/UI/Images/frequencyDataIconBlack.png";
-                    DeleteIcon = "/UI/Images/deleteFileIconBlack.png";
-                    IncrementIcon = "/UI/Images/collapseArrowBlack.png";
-                    DecrementIcon = "/UI/Images/expandArrowBlack.png";
-                    View3DIcon = "/UI/Images/view3DIconBlack.png";
-                    SaveFileIcon = "/UI/Images/saveFileIconBlack.png";
-                    ContentIcon = "/UI/Images/contentIconBlack.png";
-                    break;
-                case ThemeType.ColourfulLight:
-                    FreqDataIcon = "/UI/Images/frequencyDataIconBlack.png";
-                    View3DIcon = "/UI/Images/view3DIconBlack.png";
-                    IncrementIcon = "/UI/Images/collapseArrowBlack.png";
-                    DecrementIcon = "/UI/Images/expandArrowBlack.png";
-                    DeleteIcon = "/UI/Images/deleteFileIconBlack.png";
-                    SaveFileIcon = "/UI/Images/saveFileIconBlack.png";
-                    ContentIcon = "/UI/Images/contentIconBlack.png";
-                    break;
-            }
-        }
-
-        private string contentIcon;
-        public string ContentIcon
-        {
-            get { return contentIcon; }
-            set
-            {
-                contentIcon = value;
-                OnPropertyChanged(nameof(ContentIcon));
-            }
-        }
-        private string incrementIcon;
-        public string IncrementIcon
-        {
-            get { return incrementIcon; }
-            set
-            {
-                incrementIcon = value;
-                OnPropertyChanged(nameof(IncrementIcon));
-            }
-        }
-
-        private string decrementIcon;
-        public string DecrementIcon
-        {
-            get { return decrementIcon; }
-            set
-            {
-                decrementIcon = value;
-                OnPropertyChanged(nameof(DecrementIcon));
-            }
-        }
-
-        private string freqDataIcon;
-        public string FreqDataIcon
-        {
-            get { return freqDataIcon; }
-            set
-            {
-                freqDataIcon = value;
-                OnPropertyChanged(nameof(FreqDataIcon));
-            }
-        }
-
-        private string saveFileIcon;
-        public string SaveFileIcon
-        {
-            get { return saveFileIcon; }
-            set
-            {
-                saveFileIcon = value;
-                OnPropertyChanged(nameof(SaveFileIcon));
-            }
-        }
-
-        private string deleteIcon;
-        public string DeleteIcon
-        {
-            get { return deleteIcon; }
-            set
-            {
-                deleteIcon = value;
-                OnPropertyChanged(nameof(DeleteIcon));
-            }
-        }
-
-        private string view3DIcon;
-        public string View3DIcon
-        {
-            get { return view3DIcon; }
-            set
-            {
-                view3DIcon = value;
-                OnPropertyChanged(nameof(View3DIcon));
-            }
-        }
-        #endregion
-
+    
         private VibrationMode vibrationMode;
         private int index = 1;
         private int modeCount;
@@ -187,13 +68,14 @@ namespace GaussLink.ViewModels
         }
 
 
-        public ICommand SaveFreqCommand => new RelayCommand(SaveFreq);
+        public ICommand SaveCommand => new RelayCommand(Save);
 
-        public virtual void SaveFreq()
+        public virtual void Save()
         {
-            jobFile = DataManager.SelectedJobFile;
-            string content = Extractor.ExtractFreqData(jobFile);
-            FileManager.SaveText(jobFile.JobName + "_freqData", content);
+            //jobFile = DataManager.SelectedJobFile;
+            DataManager.JobsToBeSaved.Add(DataManager.SelectedJobFile);
+            FileSaverWindow fs = new FileSaverWindow();
+            fs.Show();
         }
 
         public ICommand GetFreqDataCommand => new RelayCommand(GetFreqData);

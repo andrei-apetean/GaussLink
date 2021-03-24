@@ -13,7 +13,7 @@ namespace GaussLink.ViewModels.MainDisplay
 
         public void OpenFile()
         {
-            FileBrowser fb = new FileBrowser();
+            FileBrowserWindow fb = new FileBrowserWindow();
             fb.Show();
         }
     }

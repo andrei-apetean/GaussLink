@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="GaussLink.Views.Windows.FileSaver.TDSaveDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GaussLink.Views.Windows.FileSaver"
+             xmlns:vms="clr-namespace:GaussLink.ViewModels.Windows.FileSaver"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="200">
+    <Expander Header="{Binding Name}" IsExpanded="True">
+        <StackPanel Margin="15,5,5,5">
+            <CheckBox Content="Job (.out)" IsChecked="{Binding AsJob}"/>
+            <CheckBox Content="Content (.txt)" IsChecked="{Binding Content}"/>
+            <CheckBox Content="Excitation Energies (.txt)" IsChecked="{Binding ExcitationEnergies}"/>
+        </StackPanel>
+    </Expander>
+</UserControl>

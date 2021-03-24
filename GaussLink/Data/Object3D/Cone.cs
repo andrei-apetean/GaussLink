@@ -5,13 +5,13 @@ namespace GaussLink.Data.Object3D
 {
     public class Cone : Shape
     {
-        public Cone(Point3D endPoint, Vector3D axis, double Radius, int Segments)
+        public Cone(Point3D endPoint, Vector3D axis, float Radius, int Segments)
         {
             CreateCone(Geometry, endPoint, axis, Radius, 0, Segments);
         }
 
         private void CreateCone(MeshGeometry3D mesh, Point3D end_point,
-           Vector3D axis, double radius1, double radius2, int num_sides)
+           Vector3D axis, float radius1, float radius2, int num_sides)
         {
             // Get two vectors perpendicular to the axis.
             Vector3D top_v1;

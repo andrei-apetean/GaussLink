@@ -73,7 +73,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
         int selectedMode = 1;
         int modeCount = 0;
 
-        float animationSpeed = 1f;
+        double animationSpeed = 1f;
 
         double passedTime = 0;
         double deltaTime = 0;
@@ -420,7 +420,7 @@ namespace GaussLink.Views.MainDisplay.Tabs
                 delta = prevTime - curTime;
                 deltaTime = delta.TotalSeconds;
                 passedTime += deltaTime;
-                float interval = animationSpeed > 0 ? 1 / animationSpeed : 0;
+                double interval = animationSpeed > 0 ? 1 / animationSpeed : 0;
 
                 if (passedTime >= interval)
                 {

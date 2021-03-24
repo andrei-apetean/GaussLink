@@ -4,10 +4,10 @@ namespace GaussLink.Data.Events
 {
     public class SizeChangedArgs : EventArgs
     {
-        public double Height { get; set; }
-        public double Width { get; set; }
+        public float Height { get; set; }
+        public float Width { get; set; }
 
-        public SizeChangedArgs(double Height, double Width)
+        public SizeChangedArgs(float Height, float Width)
         {
             this.Height = Height;
             this.Width = Width;

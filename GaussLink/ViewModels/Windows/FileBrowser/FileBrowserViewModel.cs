@@ -3,6 +3,8 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GaussLink.Data.DirStruct;
 using GaussLink.Data.Messages;
+using GaussLink.Properties;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -25,9 +27,15 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
             this.Items = new ObservableCollection<DirectoryItemViewModel>(children.Select(drive => new DirectoryItemViewModel(drive.FullPath, DirectoryItemType.Drive)));
             Messenger.Default.Register<FileBrowserTvSelectMessage>(this, OnTvSelectionChanged);
             Messenger.Default.Register<FileBrowserLvSelectMessage>(this, OnLvSelectionChanged);
-
+            if(!string.IsNullOrEmpty(Settings.Default.LastOpenedPath))
+            {
+                SelectedDirectory = new DirectoryItemViewModel(Settings.Default.LastOpenedPath, DirectoryItemType.Folder);
+                GetDirectoryContents(SelectedDirectory, false);
+            }
         }
         public RelayCommand<Window> CloseWindowCommand { get; private set; }
+
+        
 
         private void CloseWindow(Window window)
         {
@@ -41,8 +49,29 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
 
         private void OpenFile(Window window)
         {
+            if(SelectedDirectories.Count >1)
+            {
+                foreach (var item in SelectedDirectories)
+                {
+                    if (item.Type != DirectoryItemType.File)
+                    {
+                        SelectedDirectories = new ObservableCollection<DirectoryItemViewModel>();
+                        return;
+                    }
+                }
+            }else if(SelectedDirectories[0].Type != DirectoryItemType.File)
+            {
+                GetDirectoryContents(SelectedDirectories[0],false);
+                return;
+            }
+            FilePaths = new List<string>();
+            foreach (var item in SelectedDirectories)
+            {
+                FilePaths.Add(item.FullPath);
+            }
             Messenger.Default.Send(new FileExOpenFileMessage(FilePaths));
-
+            Settings.Default.LastOpenedPath = SelectedDirectory.FullPath;
+            Settings.Default.Save();
             if (window != null)
             {
                 window.Close();
@@ -55,22 +84,26 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
 
         }
 
+
         List<string> FilePaths = new List<string>();
 
         private void OnTvSelectionChanged(FileBrowserTvSelectMessage obj)
         {
-            SelectedItem = obj.DirectoryItemViewModel;
-            GetDirectoryContents(obj.DirectoryItemViewModel);
+            if(obj.DirectoryItemViewModel.Type != DirectoryItemType.File)
+            { 
+                SelectedItem = obj.DirectoryItemViewModel;
+                GetDirectoryContents(obj.DirectoryItemViewModel, false);
+            }
 
         }
 
-        private string test;
+        private string file;
         public string File
         {
-            get { return test; }
+            get { return file; }
             set
             {
-                test = value;
+                file = value;
                 OnPropertyChanged(nameof(File));
             }
         }
@@ -140,7 +173,7 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
                 {
                    if(e.Type == DirectoryItemType.File)
                     {
-                        FilePaths.Add(e.FullPath);
+                        //FilePaths.Add(e.FullPath);
                         File += "\""+e.Name + "\" ";
                     }
                 }
@@ -162,20 +195,20 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
                 var drives = DirectoryStructure.GetLogicalDrives();
                 string dirPath = drives.FirstOrDefault(p => p.FullPath.Contains(fp)).FullPath;
                 SelectedDirectory = new DirectoryItemViewModel(dirPath, DirectoryItemType.Drive);
-                GetDirectoryContents(SelectedDirectory);
+                GetDirectoryContents(SelectedDirectory,false);
                 return;
             }
             SelectedDirectory = new DirectoryItemViewModel(fp, DirectoryItemType.Folder);
-            GetDirectoryContents(SelectedDirectory);
+            GetDirectoryContents(SelectedDirectory,false);
         }
 
-        private void GetDirectoryContents(DirectoryItemViewModel d)
+        private void GetDirectoryContents(DirectoryItemViewModel d, bool foldersOnly)
         {
             if (d.Type == DirectoryItemType.File)
                 return;
 
             // Find all children
-            var children = DirectoryStructure.GetDirectoryContents(d.FullPath);
+            var children = DirectoryStructure.GetDirectoryContents(d.FullPath, foldersOnly);
             CurrentItems = new ObservableCollection<DirectoryItemViewModel>(children.Select(content => new DirectoryItemViewModel(content.FullPath, content.Type)));
 
         }

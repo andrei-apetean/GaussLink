@@ -4,6 +4,7 @@ using GaussLink.Data.DataAccess;
 using GaussLink.Data.Messages;
 using GaussLink.Data.Store;
 using GaussLink.Models;
+using GaussLink.Views.Windows.FileSaver;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,9 +20,35 @@ namespace GaussLink.ViewModels
         {
             items = new ObservableCollection<ExplorerItem>();
             items.CollectionChanged += Items_CollectionChanged;
-            Messenger.Default.Register<OpenFileMessage>(this, OnOpeningFile);
             Messenger.Default.Register<FileExOpenFileMessage>(this, OpenFiles);
+            Messenger.Default.Register<SaveMessage>(this, SaveFiles);
             Messenger.Default.Register<RemoveJobMessage>(this, OnItemRemove);
+        }
+
+        private void SaveFiles(SaveMessage obj)
+        {
+            switch (obj.Message)
+            {
+                case "Selected":
+                    DataManager.JobsToBeSaved.Clear();
+                    if (DataManager.SelectedJobFile != null)
+                    {
+                        DataManager.JobsToBeSaved.Add(DataManager.SelectedJobFile);
+                        FileSaverWindow fs = new FileSaverWindow();
+                        fs.Show();
+                    }
+                    break;
+                case "All":
+                    DataManager.JobsToBeSaved.Clear();
+                    if (jobFiles.Count > 0)
+                    {
+                        DataManager.JobsToBeSaved.AddRange(jobFiles);
+                        FileSaverWindow fsw = new FileSaverWindow();
+                        fsw.Show();
+                    }
+                    break;
+            }
+
         }
 
         private void OpenFiles(FileExOpenFileMessage obj)
@@ -67,7 +94,18 @@ namespace GaussLink.ViewModels
 
         private void OnDeleteRequested(object sender, EventArgs e)
         {
-            Items.Remove((ExplorerItem)sender);
+            ExplorerItem ei = (ExplorerItem)sender;
+
+            Items.Remove(ei);
+
+            foreach (var item in jobFiles)
+            {
+                if (item.JobName == ei.Name)
+                {
+                    jobFiles.Remove(item); 
+                    break;
+                }
+            }
         }
         #endregion
 
@@ -97,11 +135,6 @@ namespace GaussLink.ViewModels
         #endregion
 
         List<JobFile> jobFiles = new List<JobFile>();
-
-        private void OnOpeningFile(OpenFileMessage obj)
-        {
-
-        }
 
         private void OnItemRemove(RemoveJobMessage obj)
         {

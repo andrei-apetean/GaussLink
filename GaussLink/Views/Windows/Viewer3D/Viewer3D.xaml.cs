@@ -46,11 +46,10 @@ namespace GaussLink.Views.Windows
         #endregion
 
         #region 3D vars
-        int selectedIndex = 0;
-        int atomCount = 0;
+        int measureCount = 0;
         List<Entity3D> obj3D = new List<Entity3D>();
         public Molecule3D m = new Molecule3D();
-        GeometryModel3D selectedModel;
+        List<GeometryModel3D> selection = new List<GeometryModel3D>();
         DiffuseMaterial selectionMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Blue));
         PeriodicTable periodicTable;
         Point3D center = new Point3D();
@@ -83,7 +82,7 @@ namespace GaussLink.Views.Windows
         int selectedMode = 1;
         int modeCount = 0;
 
-        float animationSpeed = 1f;
+        double animationSpeed = 1f;
 
         double passedTime = 0;
         double deltaTime = 0;
@@ -97,6 +96,7 @@ namespace GaussLink.Views.Windows
         TranslateTransform3D translate;
         Transform3DGroup tg;
         private DiffuseMaterial bondMat;
+        private int atomCount;
 
         #endregion
 
@@ -260,31 +260,111 @@ namespace GaussLink.Views.Windows
             // Perform the hit test.
             HitTestResult result = VisualTreeHelper.HitTest(this, initMousePos);
 
-            // Display information about the hit.
             if (!(result is RayMeshGeometry3DHitTestResult mesh_result))
             {
-                selectedModel = null;
-                dbg.Text = " result is null";
-                SelectModel(0, null);
+                int i = 0;
+                foreach (GeometryModel3D item in selection)
+                {
+                    foreach (GeometryModel3D g in atomGroup.Children)
+                    {
+                        if (g == item)
+                        {
+                            g.Material = GetMaterial(m.MoleculeOrientation.Atoms[i].AtomicNumber);
+                        }
+                        i++;
+                    }
+                    i = 0;
+                }
+                selection.Clear();
+                measureCount = 0;
+                dbg.Text = selection.Count.ToString();
             }
             else
             {
-
                 // Display more detail about the hit.
-                GeometryModel3D m = mesh_result.ModelHit as GeometryModel3D;
-                int i = 0;
-                dbg.Text = "Index is : ";
+                GeometryModel3D mesh = mesh_result.ModelHit as GeometryModel3D;
+                if (atomGroup.Children.IndexOf(mesh) > m.MoleculeOrientation.Atoms.Count-1) return;
                 foreach (GeometryModel3D g in atomGroup.Children)
                 {
-                    if (g == m)
+                    if (g == mesh)
                     {
-                        dbg.Text = i + " ";
-                        SelectModel(i, g);
-                        return;
+                        if (selection.Contains(g))
+                        {
+                            selection.Remove(g);
+                            selection.TrimExcess();
+                            measureCount--;
+                            dbg.Text = selection.Count.ToString();
+                            g.Material = GetMaterial(m.MoleculeOrientation.Atoms[atomGroup.Children.IndexOf(g)].AtomicNumber);
+                            break;
+                        }
+
+                        if (measureCount < 2)
+                        {
+
+                            measureCount++;
+                            g.Material = selectionMaterial;
+                            selection.Add(g);
+                        }
+                        else
+                        {
+                            int i = 0;
+                            foreach (GeometryModel3D model in atomGroup.Children)
+                            {
+                                if (selection.Count > 0)
+                                {
+                                    if (model == selection[0])
+                                    {
+                                        model.Material = GetMaterial(m.MoleculeOrientation.Atoms[i].AtomicNumber);
+                                        selection.Remove(model);
+                                        selection.TrimExcess();
+                                        measureCount--;
+                                    }
+                                    i++;
+                                }
+                            }
+                            selection.Add(g);
+                            measureCount++;
+                            g.Material = selectionMaterial;
+                        }
+                        dbg.Text = selection.Count.ToString();
 
                     }
-                    i++;
                 }
+            }
+            switch (selection.Count)
+            {
+                case 0:
+                    atm1.Content = "No Selection";
+                    atm2.Content = "No Selection";
+                    dst.Content = "N/A";
+                    break;
+                case 1:
+                    int i = atomGroup.Children.IndexOf(selection[0]);
+                    int x = obj3D[i].AtomID;
+                    int n = m.MoleculeOrientation.Atoms[x-1].AtomicNumber;
+                    string name = periodicTable.GetAtomName(n);
+                    atm1.Content = "Atom " + x.ToString() + ": " + name + "-" + n;
+                    atm2.Content = "No selection";
+                    dst.Content = "N/A";
+                    break;
+                case 2:
+                    int i1 = atomGroup.Children.IndexOf(selection[0]);
+                    int x1 = obj3D[i1].AtomID;
+                    int n1 = m.MoleculeOrientation.Atoms[x1-1].AtomicNumber;
+                    string name1 = periodicTable.GetAtomName(n1);
+                    atm1.Content = "Atom " + x1.ToString() + ": " + name1 + "-" + n1;
+
+                    int i2 = atomGroup.Children.IndexOf(selection[1]);
+                    int x2 = obj3D[i2].AtomID;
+                    int n2 = m.MoleculeOrientation.Atoms[x2-1].AtomicNumber;
+                    string name2 = periodicTable.GetAtomName(n2);
+                    atm2.Content = "Atom " + x2.ToString() + ": " + name2 + "-" + n2;
+                    float distance = (float)Math.Sqrt((obj3D[i2].Position.X - obj3D[i1].Position.X) * (obj3D[i2].Position.X - obj3D[i1].Position.X)
+                        + (obj3D[i2].Position.Y - obj3D[i1].Position.Y) * (obj3D[i2].Position.Y - obj3D[i1].Position.Y)
+                        + (obj3D[i2].Position.Z - obj3D[i1].Position.Z) * (obj3D[i2].Position.Z - obj3D[i1].Position.Z));
+
+                    dst.Content = "Distance: " + distance.ToString();
+                    break;
             }
 
         }
@@ -331,6 +411,7 @@ namespace GaussLink.Views.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            periodicTable = new PeriodicTable();
             InitializeViewport();
 
             if (m.VibrationModes == null)
@@ -378,7 +459,7 @@ namespace GaussLink.Views.Windows
                 delta = prevTime - curTime;
                 deltaTime = delta.TotalSeconds;
                 passedTime += deltaTime;
-                float interval = animationSpeed > 0 ? 1 / animationSpeed : 0;
+                double interval = animationSpeed > 0 ? 1 / animationSpeed : 0;
 
                 if (passedTime >= interval)
                 {
@@ -526,102 +607,9 @@ namespace GaussLink.Views.Windows
             }
         }
 
-        void SelectModel(int index, GeometryModel3D geometryModel3D)
-        {
-            if (geometryModel3D != null)
-            {
-                if (selectedModel == null)
-                {
-                    if (index < atomCount)
-                    {
-                        selectedModel = geometryModel3D;
-                        selectedModel.Material = selectionMaterial;
-                        selectedIndex = index;
-                        atomLbl.Content = "Atom: " + periodicTable.GetAtomName(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
-                        aNoLbl.Content = "Atomic Number: " + m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber;
-                        cNoLbl.Content = "Center Number: " + m.MoleculeOrientation.Atoms[selectedIndex].CenterNumber;
-                        xLbl.Content = "X: " + obj3D[selectedIndex].Position.X;
-                        yLbl.Content = "Y: " + obj3D[selectedIndex].Position.Y;
-                        zLbl.Content = "Z: " + obj3D[selectedIndex].Position.Z;
-                        if (m.VibrationModes != null)
-                        {
-                            vxLbl.Content = "X: " + m.VibrationModes[selectedMode].AtomVibrations[selectedIndex].Delta.X;
-                            vyLbl.Content = "Y: " + m.VibrationModes[selectedMode].AtomVibrations[selectedIndex].Delta.Y;
-                            vzLbl.Content = "Z: " + m.VibrationModes[selectedMode].AtomVibrations[selectedIndex].Delta.Z;
-                        }
-                        else
-                        {
-                            vxLbl.Content = "X: N/A";
-                            vyLbl.Content = "Y: N/A";
-                            vzLbl.Content = "Z: N/A";
-                        }
-                    }
-                }
-                else
-                {
-                    if (index < atomCount)
-                    {
-                        selectedModel.Material = selectedIndex > atomCount ? bondMat : GetMaterial(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
-                        selectedModel = geometryModel3D;
-                        selectedModel.Material = selectionMaterial;
-                        selectedIndex = index;
-                        atomLbl.Content = "Atom: " + periodicTable.GetAtomName(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
-                        aNoLbl.Content = "Atomic Number: " + m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber;
-                        cNoLbl.Content = "Center Number: " + m.MoleculeOrientation.Atoms[selectedIndex].CenterNumber;
-                        xLbl.Content = "X: " + obj3D[selectedIndex].Position.X;
-                        yLbl.Content = "Y: " + obj3D[selectedIndex].Position.Y;
-                        zLbl.Content = "Z: " + obj3D[selectedIndex].Position.Z;
-                        if (m.VibrationModes != null)
-                        {
-                            vxLbl.Content = "X: " + obj3D[selectedIndex].Offset.X;
-                            vyLbl.Content = "Y: " + obj3D[selectedIndex].Offset.Y;
-                            vzLbl.Content = "Z: " + obj3D[selectedIndex].Offset.Z;
-                        }
-                        else
-                        {
-                            vxLbl.Content = "X: N/A";
-                            vyLbl.Content = "Y: N/A";
-                            vzLbl.Content = "Z: N/A";
-                        }
 
 
-                    }
-                }
-            }
-            else
-            {
-                if (selectedModel == null)
-                {
-                    selectedModel = atomGroup.Children[selectedIndex] as GeometryModel3D;
-                    selectedModel.Material = GetMaterial(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
-                    atomLbl.Content = "Atom: ";
-                    aNoLbl.Content = "Atomic Number: ";
-                    cNoLbl.Content = "Center Number: ";
-                    xLbl.Content = "X: ";
-                    yLbl.Content = "Y: ";
-                    zLbl.Content = "Z: ";
-                    if (m.VibrationModes != null)
-                    {
-                        vxLbl.Content = "X: ";
-                        vyLbl.Content = "Y: ";
-                        vzLbl.Content = "Z: ";
-                    }
-                    else
-                    {
-                        vxLbl.Content = "X: N/A";
-                        vyLbl.Content = "Y: N/A";
-                        vzLbl.Content = "Z: N/A";
-                    }
-                }
-                else
-                {
-                    selectedModel.Material = GetMaterial(m.MoleculeOrientation.Atoms[selectedIndex].AtomicNumber);
-
-                }
-
-            }
-
-        }
+  
 
         DiffuseMaterial GetMaterial(int index)
         {
@@ -670,6 +658,6 @@ namespace GaussLink.Views.Windows
             bgSlider.Value = c;
         }
 
-
+        
     }
 }

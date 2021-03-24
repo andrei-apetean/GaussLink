@@ -81,7 +81,7 @@ namespace GaussLink.Data.DataAccess
         /// <param name="fileName">Name of the DataFile</param>
         /// <param name="fileLines">Text lines contained in the DataFile</param>
         /// <returns></returns>
-        private static List<Models.JobFile> DataFileJobSplit(string fileName, List<string> fileLines)
+        private static List<JobFile> DataFileJobSplit(string fileName, List<string> fileLines)
         {
             //List of JobFiles in DataFile
             List<JobFile> children = new List<JobFile>();

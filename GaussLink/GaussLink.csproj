@@ -34,6 +34,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
@@ -53,6 +73,7 @@
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -92,6 +113,7 @@
     <Compile Include="Data\Messages\FileMessage.cs" />
     <Compile Include="Data\Messages\OpenFileMessage.cs" />
     <Compile Include="Data\Messages\RemoveJobMessage.cs" />
+    <Compile Include="Data\Messages\SaveMessage.cs" />
     <Compile Include="Data\Messages\SelectionChangedMessage.cs" />
     <Compile Include="Data\Messages\SizeChangedMessage.cs" />
     <Compile Include="Data\Messages\ThemeChangedMessage.cs" />
@@ -116,6 +138,7 @@
     <Compile Include="Models\Molecule3D.cs" />
     <Compile Include="Models\MoleculeBond.cs" />
     <Compile Include="Models\OptimizationJob.cs" />
+    <Compile Include="Models\Unit.cs" />
     <Compile Include="Models\VibrationMode.cs" />
     <Compile Include="UI\Themes\ColourfulDarkTheme.xaml.cs" />
     <Compile Include="UI\Themes\ColourfulLightTheme.xaml.cs" />
@@ -151,6 +174,11 @@
     <Compile Include="ViewModels\Themes\ThemeType.cs" />
     <Compile Include="ViewModels\Windows\FileBrowser\DirectoryItemViewModel.cs" />
     <Compile Include="ViewModels\Windows\FileBrowser\FileBrowserViewModel.cs" />
+    <Compile Include="ViewModels\Windows\FileSaver\FileSaverViewModel.cs" />
+    <Compile Include="ViewModels\Windows\FileSaver\FreqSaveDialog.cs" />
+    <Compile Include="ViewModels\Windows\FileSaver\OptSaveDialog.cs" />
+    <Compile Include="ViewModels\Windows\FileSaver\SaveDialog.cs" />
+    <Compile Include="ViewModels\Windows\FileSaver\TdSaveDialog.cs" />
     <Compile Include="ViewModels\Windows\WindowViewModel.cs" />
     <Compile Include="Views\Inspector\FreqInspectorComponent.xaml.cs">
       <DependentUpon>FreqInspectorComponent.xaml</DependentUpon>
@@ -200,8 +228,23 @@
     <Compile Include="Views\MainDisplay\Tabs\Viewer3DTabView.xaml.cs">
       <DependentUpon>Viewer3DTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Windows\FileBrowser\FileBrowser.xaml.cs">
-      <DependentUpon>FileBrowser.xaml</DependentUpon>
+    <Compile Include="Views\Windows\FileBrowser\FileBrowserWindow.xaml.cs">
+      <DependentUpon>FileBrowserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\FileSaver\FileSaverWindow.xaml.cs">
+      <DependentUpon>FileSaverWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\FileSaver\FreqSaveDialogView.xaml.cs">
+      <DependentUpon>FreqSaveDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\FileSaver\OptSaveDialogView.xaml.cs">
+      <DependentUpon>OptSaveDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\FileSaver\TDSaveDialogView.xaml.cs">
+      <DependentUpon>TDSaveDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Graph\GraphWindow.xaml.cs">
+      <DependentUpon>GraphWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\Viewer3D\Overlay3D.xaml.cs">
       <DependentUpon>Overlay3D.xaml</DependentUpon>
@@ -302,7 +345,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Windows\FileBrowser\FileBrowser.xaml">
+    <Page Include="Views\Windows\FileBrowser\FileBrowserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\FileSaver\FileSaverWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\FileSaver\FreqSaveDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\FileSaver\OptSaveDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\FileSaver\TDSaveDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\Graph\GraphWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

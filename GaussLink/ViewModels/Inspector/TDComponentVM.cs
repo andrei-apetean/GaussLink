@@ -4,8 +4,10 @@ using GaussLink.Data;
 using GaussLink.Data.DataAccess;
 using GaussLink.Data.Messages;
 using GaussLink.Data.Store;
+using GaussLink.Models;
 using GaussLink.ViewModels.Base;
 using GaussLink.ViewModels.Themes;
+using GaussLink.Views.Windows.Graph;
 using System.Windows.Input;
 
 namespace GaussLink.ViewModels
@@ -93,8 +95,13 @@ namespace GaussLink.ViewModels
 
         public virtual void UvVisSpectrum()
         {
-            Messenger.Default.Send(new DataMessage("UvVis", DataManager.SelectedJobFile));
+            jobFile = DataManager.SelectedJobFile;
+            ExcitationEnergy excitationEnergy = Extractor.ExtractExcitationEnergies(jobFile);
+            GraphWindow gw = new GraphWindow(excitationEnergy);
+            gw.Show();
         }
+
+
         public ICommand SaveEnergyDataCommand => new RelayCommand(SaveEnergyData);
 
         public virtual void SaveEnergyData()

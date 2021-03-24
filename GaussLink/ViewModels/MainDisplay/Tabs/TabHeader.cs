@@ -16,7 +16,7 @@ namespace GaussLink.ViewModels.MainDisplay.Tabs
             Messenger.Default.Register<ThemeChangedMessage>(this, OnThemeChanged);
             OnThemeChanged(new ThemeChangedMessage(ThemesController.CurrentTheme));
         }
-        public TabHeader(string Name, double Width, TabContent TabContent)
+        public TabHeader(string Name, float Width, TabContent TabContent)
         {
             this.Name = Name;
             this.Width = Width;
@@ -25,8 +25,8 @@ namespace GaussLink.ViewModels.MainDisplay.Tabs
             Messenger.Default.Register<ThemeChangedMessage>(this, OnThemeChanged);
             OnThemeChanged(new ThemeChangedMessage(ThemesController.CurrentTheme));
         }
-        private double width;
-        public double Width
+        private float width;
+        public float Width
         {
             get
             {

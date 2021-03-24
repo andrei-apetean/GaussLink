@@ -175,7 +175,7 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
                 return;
 
             // Find all children
-            var children = DirectoryStructure.GetDirectoryContents(this.FullPath);
+            var children = DirectoryStructure.GetDirectoryContents(this.FullPath, true);
             this.Children = new ObservableCollection<DirectoryItemViewModel>(
                                 children.Select(content => new DirectoryItemViewModel(content.FullPath, content.Type)));
             this.ImageName = Type == DirectoryItemType.Drive ? "drive" : (Type == DirectoryItemType.File ? "file" : (IsExpanded ? "folder-open" : "folder-closed"));

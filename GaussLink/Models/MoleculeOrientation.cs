@@ -18,6 +18,7 @@ namespace GaussLink.Models
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("center_number  atomic_number  atomic_type  X  Y  Z").AppendLine();
             foreach (Atom a in Atoms)
             {
                 stringBuilder.Append(a.CenterNumber).Append(" ").Append(a.AtomicNumber).Append(" ").

@@ -2,6 +2,8 @@
 using GaussLink.ViewModels.MainDisplay.Tabs;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,36 +17,65 @@ namespace GaussLink.Views.MainDisplay.Tabs
     public partial class GraphTabView : UserControl
     {
         ExcitationEnergy en;
-        double xValueSpace;
-        double yValueSpace;
-        double xMargin;
-        double yMargin;
-        double plotHeight;
-        double plotWidth;
-        double screenWidth;
-        double screenHeight;
-        double xUpperLimit = 0;
-        double yUpperLimit = 0;
+       
+        float xMargin, yMargin;
+        float plotHeight, plotWidth;
+        float screenWidth, screenHeight;
+        float xOldMax,xNewMax,xOldMin,xNewMin,yOldMax,yNewMax,yOldMin,yNewMin;
+        float g = 1;
+
+        private void SmoothFactorTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox t = sender as TextBox;
+            if (string.IsNullOrEmpty(t.Text) || t.Text.EndsWith("."))
+            {
+                return;
+
+            }
+            else
+            {
+                float? value = null;
+                try
+                {
+                    value = float.Parse(t.Text, CultureInfo.InvariantCulture);
+                }
+                catch (Exception)
+                {                }
+                if(value == null)
+                {
+                    return;
+                }
+                g = (float)value;
+                //t.Text = g.ToString();
+                if(en!=null)
+                {
+                    Draw();
+                }
+            }
+        }
+
         int points;
         public GraphTabView()
         {
             InitializeComponent();
             this.Loaded += GraphTabView_Loaded;
-            this.SizeChanged += GraphTabView_SizeChanged;
+            plotView.SizeChanged += PlotView_SizeChanged;
         }
 
-        private void GraphTabView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void PlotView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            screenWidth = this.ActualWidth;
+            screenWidth = (float)plotView.ActualWidth;
             xMargin = 40;
-            screenHeight = this.ActualHeight;
+            screenHeight = (float)plotView.ActualHeight;
             yMargin = 40;
             plotHeight = screenHeight - 2 * yMargin;
             plotWidth = screenWidth - 2 * xMargin;
             plotView.Children.Clear();
             if (en != null)
             {
-                Init();
+
+
+                Draw();
             }
         }
 
@@ -53,100 +84,157 @@ namespace GaussLink.Views.MainDisplay.Tabs
             GraphTab t = (GraphTab)this.DataContext;
             if (t != null)
             {
-                screenWidth = this.ActualWidth;
+                en = t.ExcitationEnergy;
+                screenWidth = (float)plotView.ActualWidth;
                 xMargin = 50;
-                screenHeight = this.ActualHeight;
-                yMargin = 100;
+                screenHeight = (float)plotView.ActualHeight;
+                yMargin = 50;
                 plotHeight = screenHeight - yMargin;
                 plotWidth = screenWidth - xMargin;
+                yNewMax = 0;
+                yNewMin = 0;
 
-                en = t.ExcitationEnergy;
-                Init();
+         
+
+                foreach (ExcitedState state in en.ExcitedStates)
+                {
+                    if(state.OscillatorStrength > yNewMax)
+                    {
+                        yNewMax = state.OscillatorStrength;
+                    }
+                }
+                yNewMax += yNewMax / 2;
+                Draw();
 
             }
         }
 
-        void Init()
+        void Draw()
         {
-            points = en.ExcitedStates.Count;
-            foreach (ExcitedState e in en.ExcitedStates)
-            {
-                if (e.ExcitationEnergy > xUpperLimit)
-                {
-                    xUpperLimit = e.WaveLength;
-                }
-            }
-            foreach (ExcitedState e in en.ExcitedStates)
-            {
-                if (e.OscillatorStrength > yUpperLimit)
-                {
-                    yUpperLimit = e.OscillatorStrength;
-                }
-            }
-            xValueSpace = Math.Ceiling(xUpperLimit / 100) * 100;
-            yValueSpace = Math.Round(yUpperLimit * 2, MidpointRounding.AwayFromZero) / 2;
+            plotView.Children.Clear();
 
-            int xTickCount = (int)xUpperLimit / 10;
-            var tickWidth = (plotWidth) / xTickCount;
             Polyline xAxis = new Polyline();
             xAxis.Stroke = new SolidColorBrush(Colors.Red);
-            xAxis.StrokeThickness = 2;
-            xAxis.Points.Add(new Point(xMargin, yMargin - 5));
-            xAxis.Points.Add(new Point(plotWidth + xMargin, yMargin - 5));
+            xAxis.Points.Add(new Point(xMargin, plotHeight));
+            xAxis.Points.Add(new Point(plotWidth, plotHeight));
             plotView.Children.Add(xAxis);
-            for (int i = 0; i < xTickCount; i++)
-            {
-                Polyline p = new Polyline();
-                p.Stroke = new SolidColorBrush(Colors.Red);
-                p.StrokeThickness = 2;
-                Point x = new Point(xMargin + i * tickWidth, yMargin - 5);
-                Point y = new Point(xMargin + i * tickWidth, yMargin - 10);
-                if (i % 10 == 0)
-                {
-                    y.Y -= 5;
-                }
-                p.Points.Add(x);
-                p.Points.Add(y);
-
-                plotView.Children.Add(p);
-            }
 
 
             Polyline plotLine = new Polyline();
             plotLine.Stroke = new SolidColorBrush(Colors.White);
-            List<double> averages = new List<double>();
-            var a = ((en.ExcitedStates[0].OscillatorStrength * plotHeight) / yValueSpace) + yMargin;
-            plotLine.Points.Add(new Point(xMargin + plotWidth, a));
-            foreach (ExcitedState e in en.ExcitedStates)
+            Point[] points = CalculateGraphPoints(en);
+            float xValMax = (float)points[points.Length - 2].X;
+            float xValMin = (float)points[0].X;
+            float yValueMax = 0;
+           
+            foreach(ExcitedState s in en.ExcitedStates)
             {
-
-                Polyline p = new Polyline();
-                p.Stroke = new SolidColorBrush(Colors.Blue);
-                p.StrokeThickness = 3;
-                var x = ((e.WaveLength * plotWidth) / xValueSpace) + xMargin;
-                var y = ((e.OscillatorStrength * plotHeight) / yValueSpace) + yMargin;
-                averages.Add(y);
-                Point k = new Point(x, y);
-                Point l = new Point(x, yMargin);
-                y = CalculateAverage(averages);
-                plotLine.Points.Add(new Point(x, y));
-                p.Points.Add(k);
-                p.Points.Add(l);
-                plotView.Children.Add(p);
+                if(s.OscillatorStrength >yValueMax)
+                {
+                    yValueMax = s.OscillatorStrength;
+                }
             }
-            var b = ((en.ExcitedStates[en.ExcitedStates.Count - 1].OscillatorStrength * plotHeight) / yValueSpace) + yMargin;
-            plotLine.Points.Add(new Point(xMargin, b));
+            for (int i = 0; i < points.Length-2; i++)
+            {
+                float x = OldToNewRangeConverter((float)points[i].X, xOldMax, xOldMin, plotWidth, xMargin);
+                float y = OldToNewRangeConverter((float)points[i].Y, yOldMax, yOldMin, plotHeight, 0);
+                plotLine.Points.Add(new Point(x,plotHeight-y));
+            }
+
+            Label min = new Label();
+            Label max = new Label();
+            min.Content = xOldMin.ToString();
+            max.Content = xOldMax.ToString();
+
+            min.RenderTransform = new TranslateTransform(xMargin, screenHeight  - yMargin);
+            max.RenderTransform = new TranslateTransform(xMargin + plotWidth, screenHeight - yMargin);
+            plotView.Children.Add(min);
+            plotView.Children.Add(max);
             plotView.Children.Add(plotLine);
         }
 
-        double CalculateAverage(List<double> averages)
+        float CalculateAverage(List<float> averages)
         {
-            double y = 0;
+            float y = 0;
             for (int i = 0; i < averages.Count; i++)
             {
                 y += averages[i];
             }
             return y / averages.Count;
+        }
+
+        float L(float E, float x, float amp, float g)
+        {
+            //x este eps[i];
+            return amp * g * g / ((E - x) * (E - x) + g * g);
+        }
+
+        Point[] CalculateGraphPoints(ExcitationEnergy e)
+        {
+            int npoints = 500;
+            Point[] points = new Point[npoints];
+            float y = 0;
+            float[] ints = new float[npoints];
+            float Emin = e.ExcitedStates[e.ExcitedStates.Count-1].WaveLength - e.ExcitedStates[e.ExcitedStates.Count-1].WaveLength / 2;
+            if(Emin<100)
+            {
+            Emin = (float)Math.Floor(Emin / 10) * 10;
+            }else
+            {
+                Emin = (float)Math.Floor(Emin / 50) * 50;
+            }
+            xOldMin = Emin;
+            float Emax = e.ExcitedStates[0].WaveLength + e.ExcitedStates[e.ExcitedStates.Count-1].WaveLength / 2;
+            double range =  Math.Ceiling(Emax / 50) * 50;
+            Emax = (float)range;
+            xOldMax = Emax;
+            yOldMax = 0;
+            yOldMin = 0;
+            var dE = (Emax - Emin) / (npoints - 1);
+            for (int i = 0; i < e.ExcitedStates.Count; i++)
+            {
+                var amp = e.ExcitedStates[i].OscillatorStrength;
+                var x = e.ExcitedStates[i].WaveLength;
+                var E = Emin;
+                int j = 0;
+                do
+                {
+                    y = L(E, x,amp,g);
+                    ints[j] += y;
+                    points[j] = new Point(E, ints[j]);
+
+                    if (yOldMax < ints[j])
+                    {
+                        yOldMax = ints[j];
+                    }
+                    else if (yOldMin > ints[j])
+                    {
+                        yOldMin = ints[j];
+                    }
+
+                    j++;
+
+                    E = E + dE;
+                } while (E <= Emax);
+            }
+        
+
+            return points;
+        }
+
+        Point ScreenToGraphCoordinates(Point p, float plotWidth, float plotHeight, float xMargin,float yMargin, float xValMax, float xValMin,float yValueMax)
+        {
+
+            var x = (p.X * plotWidth)/(xValMax - xValMin) ;
+            var y = (p.Y * plotHeight) / yValueMax;
+            return new Point(x+xMargin, plotHeight-y+yMargin);
+        }
+
+        float OldToNewRangeConverter(float Value, float OldMax, float OldMin, float NewMax, float NewMin)
+        {
+            float OldRange = OldMax - OldMin;
+            float NewRange = NewMax - NewMin;
+             return (((Value - OldMin) * NewRange) / OldRange) + NewMin;
         }
 
     }

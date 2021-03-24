@@ -177,7 +177,7 @@ namespace GaussLink.ViewModels.MainDisplay
         private void NewGraphTab(JobFile jobFile)
         {
             ExcitationEnergy e = Extractor.ExtractExcitationEnergies(jobFile);
-            var tabHeader = new TabHeader(jobFile.JobName, headerWidth, new GraphTab(jobFile.JobName + "_UV-Vis", e));
+            var tabHeader = new TabHeader(jobFile.JobName, headerWidth, new GraphTab(e));
             SizeChanged += tabHeader.OnSizeChanged;
             Tabs.Add(tabHeader);
         }
