@@ -74,8 +74,6 @@ C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.csproj.Core
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.csproj.CopyComplete
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.exe
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\GaussLink.pdb
-C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Graph\GraphWindow.g.cs
-C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Graph\GraphWindow.baml
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\FileBrowser\FileBrowserWindow.g.cs
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\FileSaver\FileSaverWindow.g.cs
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\FileBrowser\FileBrowserWindow.baml
@@ -86,3 +84,7 @@ C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\FileSav
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\FileSaver\FreqSaveDialogView.baml
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\FileSaver\OptSaveDialogView.baml
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\FileSaver\TDSaveDialogView.baml
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Graph\UvVisGraphWindow.g.cs
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Graph\NmrGraphWindow.g.cs
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Graph\NmrGraphWindow.baml
+C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\Debug\Views\Windows\Graph\UvVisGraphWindow.baml

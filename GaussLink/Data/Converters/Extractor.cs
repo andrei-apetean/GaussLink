@@ -401,6 +401,32 @@ namespace GaussLink.Data
             return vms;
         }
 
+        public static NMR ExtractNMRdata(JobFile file)
+        {
+            List<MagneticShieldTensor> tensors = new List<MagneticShieldTensor>();
+            bool begin = false;
+            foreach(string line in file.Content)
+            {
+                if(begin)
+                {
+                    if(line.Contains("Isotropic"))
+                    {
+                       string[] items = RetrieveLineData(line.Split(' '));
+                        tensors.Add(new MagneticShieldTensor(int.Parse(items[0]), items[1], float.Parse(items[4])));
+                    }
+                }
+                if(line.Contains("Magnetic shielding tensor") && !line.Contains("Paramagnetic") && !(line.Contains("Diamagnetic")))
+                {
+                    begin = true;
+                }
+                if(line.Contains("End of Minotr") || line.Contains("End of Minotr"))
+                {
+                    return new NMR(tensors);
+                }
+            }
+
+            return null;
+        }
         private static string[] RetrieveLineData(string[] splits)
         {
             List<string> items = new List<string>();

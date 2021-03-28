@@ -7,6 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
     <Grid>
-            
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="10">
+                <Button Content="Content" Margin="10,5,10,5" Command="{Binding GetJobContentCommand}"/>
+                <Button Content="NMR Spectrum" Margin="10,5,10,5" Command="{Binding NmrSpecCommand}"/>
+                <Button Content="Save" Margin="10,5,10,5" Command="{Binding SaveCommand}"/>
+                <Button Content="Remove Item" Margin="10,15,10,5" Style="{DynamicResource DangerButton}"   Command="{Binding RemoveJobCommand}"/>
+            </StackPanel>
+        </ScrollViewer>
+
     </Grid>
 </UserControl>

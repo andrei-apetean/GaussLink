@@ -131,12 +131,14 @@
     <Compile Include="Data\Store\DataManager.cs" />
     <Compile Include="Models\AtomDelta.cs" />
     <Compile Include="Models\Bond.cs" />
+    <Compile Include="Models\MagneticShieldTensor.cs" />
     <Compile Include="Models\ExcitationEnergy.cs" />
     <Compile Include="Models\ExcitedState.cs" />
     <Compile Include="Models\HLGap.cs" />
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\Molecule3D.cs" />
     <Compile Include="Models\MoleculeBond.cs" />
+    <Compile Include="Models\NMR.cs" />
     <Compile Include="Models\OptimizationJob.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Models\VibrationMode.cs" />
@@ -243,8 +245,11 @@
     <Compile Include="Views\Windows\FileSaver\TDSaveDialogView.xaml.cs">
       <DependentUpon>TDSaveDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Windows\Graph\GraphWindow.xaml.cs">
-      <DependentUpon>GraphWindow.xaml</DependentUpon>
+    <Compile Include="Views\Windows\Graph\NmrGraphWindow.xaml.cs">
+      <DependentUpon>NmrGraphWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Graph\UvVisGraphWindow.xaml.cs">
+      <DependentUpon>UvVisGraphWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\Viewer3D\Overlay3D.xaml.cs">
       <DependentUpon>Overlay3D.xaml</DependentUpon>
@@ -365,7 +370,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Windows\Graph\GraphWindow.xaml">
+    <Page Include="Views\Windows\Graph\NmrGraphWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\Graph\UvVisGraphWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

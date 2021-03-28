@@ -7,6 +7,7 @@ using GaussLink.Data.Store;
 using GaussLink.Models;
 using GaussLink.ViewModels.Base;
 using GaussLink.ViewModels.Themes;
+using GaussLink.Views.Windows.FileSaver;
 using GaussLink.Views.Windows.Graph;
 using System.Windows.Input;
 
@@ -16,75 +17,16 @@ namespace GaussLink.ViewModels
     {
         public TDComponentVM()
         {
-
-            Messenger.Default.Register<ThemeChangedMessage>(this, OnThemeChanged);
-            OnThemeChanged(new ThemeChangedMessage(ThemesController.CurrentTheme));
         }
-        #region Icons
-        private void OnThemeChanged(ThemeChangedMessage obj)
+        public ICommand SaveCommand => new RelayCommand(Save);
+
+        public virtual void Save()
         {
-            switch (obj.ThemeType)
-            {
-                case ThemeType.Dark:
-                    ContentIcon = "/UI/Images/contentIconWhite.png";
-                    SaveFileIcon = "/UI/Images/saveFileIconWhite.png";
-                    DeleteIcon = "/UI/Images/deleteFileIconWhite.png";
-                    break;
-                case ThemeType.ColourfulDark:
-                    DeleteIcon = "/UI/Images/deleteFileIconWhite.png";
-                    ContentIcon = "/UI/Images/contentIconWhite.png";
-                    SaveFileIcon = "/UI/Images/saveFileIconWhite.png";
-                    break;
-                case ThemeType.Light:
-                    DeleteIcon = "/UI/Images/deleteFileIconBlack.png";
-                    SaveFileIcon = "/UI/Images/saveFileIconBlack.png";
-                    ContentIcon = "/UI/Images/contentIconBlack.png";
-                    break;
-                case ThemeType.ColourfulLight:
-                    DeleteIcon = "/UI/Images/deleteFileIconBlack.png";
-                    SaveFileIcon = "/UI/Images/saveFileIconBlack.png";
-                    ContentIcon = "/UI/Images/contentIconBlack.png";
-                    break;
-            }
+            //jobFile = DataManager.SelectedJobFile;
+            DataManager.JobsToBeSaved.Add(DataManager.SelectedJobFile);
+            FileSaverWindow fs = new FileSaverWindow();
+            fs.Show();
         }
-
-        private string contentIcon;
-        public string ContentIcon
-        {
-            get { return contentIcon; }
-            set
-            {
-                contentIcon = value;
-                OnPropertyChanged(nameof(ContentIcon));
-            }
-        }
-
-
-
-        private string saveFileIcon;
-        public string SaveFileIcon
-        {
-            get { return saveFileIcon; }
-            set
-            {
-                saveFileIcon = value;
-                OnPropertyChanged(nameof(SaveFileIcon));
-            }
-        }
-
-        private string deleteIcon;
-        public string DeleteIcon
-        {
-            get { return deleteIcon; }
-            set
-            {
-                deleteIcon = value;
-                OnPropertyChanged(nameof(DeleteIcon));
-            }
-        }
-
-        #endregion
-
         public ICommand GetExcitationEnergiesCommand => new RelayCommand(GetExcitationEnergies);
 
         public virtual void GetExcitationEnergies()
@@ -97,18 +39,9 @@ namespace GaussLink.ViewModels
         {
             jobFile = DataManager.SelectedJobFile;
             ExcitationEnergy excitationEnergy = Extractor.ExtractExcitationEnergies(jobFile);
-            GraphWindow gw = new GraphWindow(excitationEnergy);
+            UvVisGraphWindow gw = new UvVisGraphWindow(excitationEnergy);
             gw.Show();
         }
 
-
-        public ICommand SaveEnergyDataCommand => new RelayCommand(SaveEnergyData);
-
-        public virtual void SaveEnergyData()
-        {
-            jobFile = DataManager.SelectedJobFile;
-            string content = Extractor.ExtractEnergyData(jobFile);
-            FileManager.SaveText(jobFile.JobName + "_excitation_energies", content);
-        }
     }
 }

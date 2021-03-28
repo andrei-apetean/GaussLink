@@ -7,6 +7,7 @@ using GaussLink.Models;
 using GaussLink.ViewModels.Base;
 using GaussLink.ViewModels.Themes;
 using GaussLink.Views.Windows;
+using GaussLink.Views.Windows.FileSaver;
 using System.Windows.Input;
 
 namespace GaussLink.ViewModels
@@ -28,6 +29,17 @@ namespace GaussLink.ViewModels
                 OnPropertyChanged(nameof(InputOrientation));
             }
         }
+
+        public ICommand SaveCommand => new RelayCommand(Save);
+
+        public virtual void Save()
+        {
+            //jobFile = DataManager.SelectedJobFile;
+            DataManager.JobsToBeSaved.Add(DataManager.SelectedJobFile);
+            FileSaverWindow fs = new FileSaverWindow();
+            fs.Show();
+        }
+
 
         public ICommand Viewer3DCommand => new RelayCommand(NewViewer3D);
 

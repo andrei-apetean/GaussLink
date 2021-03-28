@@ -22,7 +22,8 @@ FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\FileSa
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\FreqSaveDialogView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\OptSaveDialogView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\TDSaveDialogView.xaml;;
-FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Graph\GraphWindow.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Graph\NmrGraphWindow.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Graph\UvVisGraphWindow.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Viewer3D\Overlay3D.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Viewer3D\Viewer3D.xaml;;
 

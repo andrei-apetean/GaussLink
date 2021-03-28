@@ -1,0 +1,50 @@
+﻿<Window x:Class="GaussLink.Views.Windows.Graph.NmrGraphWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GaussLink.Views.Windows.Graph"
+        mc:Ignorable="d"
+        Style="{DynamicResource CustomWindowStyle}"
+        Title="GaussLink - Graph Viewer(NMR)" Height="450" Width="800">
+    <Grid x:Name="parent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+
+            <Canvas  x:Name="plotView" ClipToBounds="True">
+
+            </Canvas>
+            <Canvas  x:Name="xLabels" ClipToBounds="True">
+
+            </Canvas>
+            <Canvas  x:Name="plot" ClipToBounds="True">
+            </Canvas>
+
+
+        </Grid>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+        <Grid Grid.Column="2" >
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <StackPanel Margin="10">
+                    <Label Content="Smoothing Factor:"/>
+                    <TextBox Text="1" Name="SmoothFactorTxt" HorizontalContentAlignment="Center" TextChanged="SmoothFactorTxt_TextChanged"/>
+                </StackPanel>
+
+                <StackPanel Margin="10">
+                    <Label Content="Unit:"/>
+                    <ComboBox   VerticalAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="ComboBox_SelectionChanged" DropDownClosed="ComboBox_DropDownClosed" >
+                        <ComboBoxItem IsSelected="True">nm</ComboBoxItem>
+                        <ComboBoxItem>cm^-1</ComboBoxItem>
+                        <ComboBoxItem>eV</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <CheckBox  Margin="10" IsChecked="False" Content="Inverse X axis" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                <TextBlock Margin="10"  x:Name="pointVal"  Text="Hover over points to see their coordinates" TextWrapping="Wrap" TextAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
