@@ -156,9 +156,6 @@ namespace GaussLink.ViewModels.MainDisplay
                 case "Orientation":
                     NewOrientationTab(obj.IsInput, obj.JobFile);
                     break;
-                case "3D Structure":
-                    New3DTab(obj.JobFile, obj.IsStatic, obj.IsStandard);
-                    break;
                 case "FreqData":
                     NewFreqDataTab(obj.JobFile);
                     break;
@@ -168,18 +165,7 @@ namespace GaussLink.ViewModels.MainDisplay
                 case "Excitation Energy":
                     NewExcitationEnergyTab(obj.JobFile.JobName, obj.JobFile);
                     break;
-                case "UvVis":
-                    NewGraphTab(obj.JobFile);
-                    break;
-            }
-        }
-
-        private void NewGraphTab(JobFile jobFile)
-        {
-            ExcitationEnergy e = Extractor.ExtractExcitationEnergies(jobFile);
-            var tabHeader = new TabHeader(jobFile.JobName, headerWidth, new GraphTab(e));
-            SizeChanged += tabHeader.OnSizeChanged;
-            Tabs.Add(tabHeader);
+}
         }
 
         private void NewExcitationEnergyTab(string name, JobFile file)
@@ -190,14 +176,8 @@ namespace GaussLink.ViewModels.MainDisplay
             Tabs.Add(tabHeader);
         }
 
-        private void New3DTab(JobFile file, bool isStatic, bool isStandard)
-        {
-            Molecule3D m = Extractor.ExtractMolecule3D(file, isStatic, isStandard);
-            //var tabHeader = new TabHeader(file.JobName, headerWidth, new Viewer3DTab(m));
-            //SizeChanged += tabHeader.OnSizeChanged;
-            //Tabs.Add(tabHeader);
 
-        }
+
 
         private void NewVibrationModeTab(string name, VibrationMode vibrationMode)
         {
@@ -209,6 +189,7 @@ namespace GaussLink.ViewModels.MainDisplay
         private void NewFileContentTab(JobFile jobFile)
         {
             string ItemContent = Extractor.ExtractJobFileContent(jobFile);
+
             var tabHeader = new TabHeader(jobFile.JobName, headerWidth, new FileContentTab(ItemContent));
             SizeChanged += tabHeader.OnSizeChanged;
             Tabs.Add(tabHeader);

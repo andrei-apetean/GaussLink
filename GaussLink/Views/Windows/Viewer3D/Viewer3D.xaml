@@ -5,10 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GaussLink.Views.Windows"
         mc:Ignorable="d"
-        Title="GaussLink - 3D Viewer" Height="450" Width="800"
+        Title="GaussLink - 3D Viewer" Height="500" Width="800"
         Style="{DynamicResource CustomWindowStyle}" >
     <Grid>
-        <Grid Name="parentGrid">
+        <Grid Name ="animGrid">
+            <Ellipse Height="155" Width="155" Margin="-150,0,0,0" Stroke="{DynamicResource ControlDefaultForeground}" StrokeDashArray="0.4" VerticalAlignment="Center" HorizontalAlignment="Center" StrokeThickness="8" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <RotateTransform/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Ellipse.RenderTransform).(RotateTransform.Angle)" From="0" To="-360" Duration="0:0:2" RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+            <Ellipse Height="140" Width="140" Margin="-150,0,0,0" Stroke="{DynamicResource ControlDefaultForeground}"  VerticalAlignment="Center" HorizontalAlignment="Center" StrokeThickness="5" RenderTransformOrigin="0.5,0.5">
+             
+            </Ellipse>
+            <Ellipse Height="120" Width="120" Margin="-150,0,0,0" Stroke="{DynamicResource ControlDefaultForeground}" StrokeDashArray="0.2" VerticalAlignment="Center" HorizontalAlignment="Center" StrokeThickness="8" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <RotateTransform/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Ellipse.RenderTransform).(RotateTransform.Angle)" From="-360" To="0" Duration="0:0:2" RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+            <Polyline Stroke="{DynamicResource ControlDefaultForeground}" StrokeThickness="2" >
+                <Polyline.Points>
+                    <Point X="400" Y="200"/>
+                    <Point X="450" Y="150"/>
+                    <Point X="600" Y="150"/>
+                </Polyline.Points>
+            </Polyline>
+            <TextBlock Text="Creating molecule..." VerticalAlignment="Top" HorizontalAlignment="Right" Margin="180,150" FontSize="16">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0.25" Duration="0:0:0.25"  AutoReverse="True"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+        </Grid>
+        <Grid Name="parentGrid" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="5"/>
@@ -19,7 +70,6 @@
                     <Button x:Name="panelToggleBtn"  Width="20" Height="20" VerticalContentAlignment="Stretch" Canvas.Top="5" Canvas.Right="5" Click="PanelToggleBtn_Click">
                         <TextBlock Name="tglText" Text="❯" Height="20" VerticalAlignment="Center" />
                     </Button>
-                    <TextBlock x:Name="dbg" Text=" I'm here" Canvas.Bottom="5" Canvas.Left="5"/>
                     <local:Overlay3D x:Name="overlay3D" Width="100" Height="100" Canvas.Left="5" Canvas.Top="5"/>
                 </Canvas>
             </Grid>

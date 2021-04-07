@@ -46,7 +46,7 @@ namespace GaussLink.ViewModels
                     ViewModel = new NMRComponentVM();
                     break;
                 default:
-                    ViewModel = null;
+                    ViewModel = new UkComponentVM();
                     break;
             }
         }

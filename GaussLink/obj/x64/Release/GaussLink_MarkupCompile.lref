@@ -1,4 +1,4 @@
-﻿C:\Users\Andrei\source\repos\GaussLink\GaussLink\obj\x64\Release\GeneratedInternalTypeHelper.g.cs
+﻿
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\App.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\MainWindow.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Inspector\FreqInspectorComponent.xaml;;
@@ -6,23 +6,24 @@ FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Inspector\InspectorView.
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Inspector\NMRInspectorComponent.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Inspector\OptInspectorComponent.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Inspector\TDInspectorComponent.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Inspector\UKcomponent.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\ItemExplorer\ItemExplorerView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\DisplayView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\OpenFileDisplayView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\TabDisplayView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\ExcitationEnergyTabView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\FileContentTabView.xaml;;
-FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\GraphTabView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\OrientationTabView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\Overlay3D.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\VibrationModeTabView.xaml;;
-FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\MainDisplay\Tabs\Viewer3DTabView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileBrowser\FileBrowserWindow.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\FileSaverWindow.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\FreqSaveDialogView.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\NmrSaveDialog.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\OptSaveDialogView.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\FileSaver\TDSaveDialogView.xaml;;
-FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Graph\GraphWindow.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Graph\NmrGraphWindow.xaml;;
+FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Graph\UvVisGraphWindow.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Viewer3D\Overlay3D.xaml;;
 FC:\Users\Andrei\source\repos\GaussLink\GaussLink\Views\Windows\Viewer3D\Viewer3D.xaml;;
 

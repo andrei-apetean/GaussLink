@@ -128,7 +128,7 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
             // Set path and type
             this.FullPath = fullPath;
             this.Type = type;
-            this.ImageName = Type == DirectoryItemType.Drive ? "drive" : (Type == DirectoryItemType.File ? "file" : (IsExpanded ? "folder-open" : "folder-closed"));
+            this.ImageName = Type == DirectoryItemType.Drive ? "drive" : (Type == DirectoryItemType.File ? "file" : (IsExpanded ? "folder_open" : "folder_closed"));
 
 
             // Setup the children as needed
@@ -178,7 +178,7 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
             var children = DirectoryStructure.GetDirectoryContents(this.FullPath, true);
             this.Children = new ObservableCollection<DirectoryItemViewModel>(
                                 children.Select(content => new DirectoryItemViewModel(content.FullPath, content.Type)));
-            this.ImageName = Type == DirectoryItemType.Drive ? "drive" : (Type == DirectoryItemType.File ? "file" : (IsExpanded ? "folder-open" : "folder-closed"));
+            this.ImageName = Type == DirectoryItemType.Drive ? "drive" : (Type == DirectoryItemType.File ? "file" : (IsExpanded ? "folder_open" : "folder_closed"));
 
         }
     }

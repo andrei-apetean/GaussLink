@@ -24,6 +24,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
+                <ScrollViewer>
                 <ItemsControl ItemsSource="{Binding Items}">
                     <ItemsControl.Resources>
                         <DataTemplate DataType="{x:Type vms:OptSaveDialog}">
@@ -35,8 +36,12 @@
                         <DataTemplate DataType="{x:Type vms:TdSaveDialog}">
                             <local:TDSaveDialogView/>
                         </DataTemplate>
-                    </ItemsControl.Resources>
+                            <DataTemplate DataType="{x:Type vms:NmrSaveDialog}">
+                                <local:NmrSaveDialog/>
+                            </DataTemplate>
+                        </ItemsControl.Resources>
                 </ItemsControl>
+                </ScrollViewer>
             </Grid>
          
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>

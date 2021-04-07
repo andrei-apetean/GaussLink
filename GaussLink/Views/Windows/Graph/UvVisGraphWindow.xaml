@@ -21,6 +21,12 @@
             <Canvas  x:Name="xLabels" ClipToBounds="True">
 
             </Canvas>
+            <Canvas  x:Name="cpoints" ClipToBounds="True">
+
+            </Canvas>
+            <Canvas  x:Name="lines" ClipToBounds="True">
+
+            </Canvas>
             <Canvas  x:Name="plot" ClipToBounds="True">
             </Canvas>
 
@@ -42,7 +48,9 @@
                         <ComboBoxItem>eV</ComboBoxItem>
                 </ComboBox>
                 </StackPanel>
-                <CheckBox  Margin="10" IsChecked="False" Content="Inverse X axis" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                <CheckBox  Margin="10" IsChecked="False" Content="Inverse X axis" Checked="Inverse_Checked" Unchecked="Inverse_Unchecked"/>
+                <CheckBox Margin="10" IsChecked="True" Content="Points" Checked="Points_Checked" Unchecked="Points_Unchecked" />
+                <CheckBox Margin="10" IsChecked="True" Content="Lines" Checked="Lines_Checked" Unchecked="Lines_Unchecked" />
                 <TextBlock Margin="10"  x:Name="pointVal"  Text="Hover over points to see their coordinates" TextWrapping="Wrap" TextAlignment="Center"/>
             </StackPanel>
         </Grid>

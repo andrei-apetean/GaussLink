@@ -24,6 +24,9 @@
             <DataTemplate DataType="{x:Type vms:NMRComponentVM}">
                 <local:NMRInspectorComponent/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:UkComponentVM}">
+                <local:UKcomponent/>
+            </DataTemplate>
         </Grid.Resources>
         <ContentControl Content="{Binding ViewModel}" />
 

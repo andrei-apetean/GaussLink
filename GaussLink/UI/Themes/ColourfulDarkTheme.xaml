@@ -4143,7 +4143,7 @@
                                                    Foreground="{StaticResource ControlDefaultForeground}"
                                                    Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}"   
                                                    Grid.Column="1" TextAlignment="Left"/>
-                                        
+                                       
                                     </DockPanel>
                                     <StackPanel Orientation="Horizontal"
                                         Grid.Column="0" HorizontalAlignment="Right">

@@ -12,53 +12,67 @@
         <!--<Grid.DataContext>
             <tabs:ExcitationEnergyTab/>
         </Grid.DataContext>-->
-        <ScrollViewer>
-        <ItemsControl ItemsSource="{Binding ExcitationEnergy.ExcitedStates}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"  />
+                <ColumnDefinition Width="1*"  />
+                <ColumnDefinition Width="1*"  />
+                <ColumnDefinition Width="1*"  />
+                <ColumnDefinition Width="1*"  />
+                <ColumnDefinition Width="1*"  />
+                <ColumnDefinition Width="2*"  />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Excited State"       TextAlignment="Center"   TextTrimming="CharacterEllipsis"/>
+            <TextBlock Grid.Column="1" Text="Multiplicity"        TextAlignment="Center"   TextTrimming="CharacterEllipsis"/>
+            <TextBlock Grid.Column="2" Text="Energy (eV)"         TextAlignment="Center"   TextTrimming="CharacterEllipsis"/>
+            <TextBlock Grid.Column="3" Text="Energy (cm-1)"       TextAlignment="Center"   TextTrimming="CharacterEllipsis"/>
+            <TextBlock Grid.Column="4" Text="Energy (nm)"         TextAlignment="Center"   TextTrimming="CharacterEllipsis"/>
+            <TextBlock Grid.Column="5" Text="Oscillator Strength" TextAlignment="Center" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Grid.Column="6" Text="Transition"          TextAlignment="Center"   TextTrimming="CharacterEllipsis"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding ExcitationEnergy.ExcitedStates}">
             <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="0,0,0,5" Style="{DynamicResource Simple}" Background="Transparent">
-                            <Grid Margin="0,0,0,30">
+                            <Grid Margin="5,5,5,30">
                                 <!--<Grid.DataContext>
                                 <data:ExcitedState/>
                             </Grid.DataContext>-->
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text=" Excited State:"/>
-                                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ID}" TextAlignment="Left"/>
-                                <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding QuantumState}" Margin="0,0,20,0"/>
-                                <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding ExcitationEnergy}" TextAlignment="Right"/>
-                                <TextBlock Grid.Column="4" Grid.Row="0" Text="  eV" TextAlignment="Left"/>
-                                <TextBlock Grid.Column="5" Grid.Row="0" Text="{Binding WaveLength}" TextAlignment="Right"/>
-                                <TextBlock Grid.Column="6" Grid.Row="0" Text="  nm" TextAlignment="Left"/>
-                                <TextBlock Grid.Column="7" Grid.Row="0" Text="f= " TextAlignment="Right"/>
-                                <TextBlock Grid.Column="8" Grid.Row="0" Text="{Binding OscillatorStrength}" TextAlignment="Left"/>
-                                <ItemsControl ItemsSource="{Binding HLGaps}" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,10,0,0">
+                                
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding ID}" TextAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Multiplicity}" TextAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding EvEnergy}" TextAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding CmEnergy}" TextAlignment="Center"/>
+                                <TextBlock Grid.Column="4" Grid.Row="0" Text="{Binding NmEnergy}" TextAlignment="Center"/>
+                                <TextBlock Grid.Column="5" Grid.Row="0" Text="{Binding OscillatorStrength}" TextAlignment="Center"/>
+                                <ItemsControl ItemsSource="{Binding HLGaps}" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="{Binding HOMO}" TextAlignment="Right"/>
-                                                <TextBlock Grid.Column="1" Text=" -> " TextAlignment="Center"/>
-                                                <TextBlock Grid.Column="2" Text="{Binding LUMO}" TextAlignment="Left"/>
-                                                <TextBlock Grid.Column="3" Text="{Binding EnergyDelta}" TextAlignment="Left"/>
+                                                <TextBlock Grid.Column="0" Margin="5" Text="{Binding HOMO}" TextAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Margin="5" Text=" -> " TextAlignment="Center"/>
+                                                <TextBlock Grid.Column="2" Margin="5" Text="{Binding LUMO}" TextAlignment="Center"/>
+                                                <TextBlock Grid.Column="3" Margin="10,5,5,5" Text="{Binding EnergyDelta}" TextAlignment="Center"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

@@ -46,7 +46,7 @@ namespace GaussLink.ViewModels
         public virtual void NewViewer3D()
         {
             jobFile = DataManager.SelectedJobFile;
-            Molecule3D m = Extractor.ExtractMolecule3D(jobFile, true, !inputOrientation);
+            Molecule3D m = Extractor.ExtractMolecule3D(jobFile, true, true);
             //Messenger.Default.Send(new DataMessage("3D Structure", jobFile, true, !inputOrientation));
             Viewer3D viewer3D = new Viewer3D(m);
             viewer3D.Show();
@@ -68,31 +68,7 @@ namespace GaussLink.ViewModels
             string s = InputOrientation ? "_Input_Orientation" : "_Standard_Orientation";
             FileManager.SaveOrientation(jobFile.JobName + s, o);
         }
-        //public ICommand GetJobContentCommand => new RelayCommand(GetJobContent);
-
-        //public virtual void GetJobContent()
-        //{
-        //    jobFile = DataManager.SelectedJobFile;
-        //    Messenger.Default.Send(new DataMessage("Content", jobFile));
-        //}
-
-        //public ICommand SaveContentCommand => new RelayCommand(SaveContent);
-
-        //public virtual void SaveContent()
-        //{
-        //    jobFile = DataManager.SelectedJobFile;
-        //    FileManager.SaveJobFileContent(jobFile);
-        //}
-
-
-
-        //public ICommand RemoveJobCommand => new RelayCommand(RemoveJob);
-
-        //public virtual void RemoveJob()
-        //{
-        //    jobFile = DataManager.SelectedJobFile;
-        //    Messenger.Default.Send(new RemoveJobMessage(jobFile.JobName));
-        //}
+       
     }
 
 

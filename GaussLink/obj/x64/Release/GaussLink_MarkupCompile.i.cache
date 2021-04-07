@@ -10,11 +10,11 @@ none
 false
 TRACE
 C:\Users\Andrei\source\repos\GaussLink\GaussLink\App.xaml
-29-2005863421
+301925371087
 1984292823
-1181552860093
+1251109627432
 126382652233
-MainWindow.xaml;UI\Themes\ColourfulDarkTheme.xaml;UI\Themes\ColourfulLightTheme.xaml;UI\Themes\DarkTheme.xaml;UI\Themes\LightTheme.xaml;Views\Inspector\FreqInspectorComponent.xaml;Views\Inspector\InspectorView.xaml;Views\Inspector\NMRInspectorComponent.xaml;Views\Inspector\OptInspectorComponent.xaml;Views\Inspector\TDInspectorComponent.xaml;Views\ItemExplorer\ItemExplorerView.xaml;Views\MainDisplay\DisplayView.xaml;Views\MainDisplay\OpenFileDisplayView.xaml;Views\MainDisplay\TabDisplayView.xaml;Views\MainDisplay\Tabs\ExcitationEnergyTabView.xaml;Views\MainDisplay\Tabs\FileContentTabView.xaml;Views\MainDisplay\Tabs\GraphTabView.xaml;Views\MainDisplay\Tabs\OrientationTabView.xaml;Views\MainDisplay\Tabs\Overlay3D.xaml;Views\MainDisplay\Tabs\VibrationModeTabView.xaml;Views\MainDisplay\Tabs\Viewer3DTabView.xaml;Views\Windows\FileBrowser\FileBrowserWindow.xaml;Views\Windows\FileSaver\FileSaverWindow.xaml;Views\Windows\FileSaver\FreqSaveDialogView.xaml;Views\Windows\FileSaver\OptSaveDialogView.xaml;Views\Windows\FileSaver\TDSaveDialogView.xaml;Views\Windows\Graph\GraphWindow.xaml;Views\Windows\Viewer3D\Overlay3D.xaml;Views\Windows\Viewer3D\Viewer3D.xaml;
+MainWindow.xaml;UI\Themes\ColourfulDarkTheme.xaml;UI\Themes\ColourfulLightTheme.xaml;UI\Themes\DarkTheme.xaml;UI\Themes\LightTheme.xaml;Views\Inspector\FreqInspectorComponent.xaml;Views\Inspector\InspectorView.xaml;Views\Inspector\NMRInspectorComponent.xaml;Views\Inspector\OptInspectorComponent.xaml;Views\Inspector\TDInspectorComponent.xaml;Views\Inspector\UKcomponent.xaml;Views\ItemExplorer\ItemExplorerView.xaml;Views\MainDisplay\DisplayView.xaml;Views\MainDisplay\OpenFileDisplayView.xaml;Views\MainDisplay\TabDisplayView.xaml;Views\MainDisplay\Tabs\ExcitationEnergyTabView.xaml;Views\MainDisplay\Tabs\FileContentTabView.xaml;Views\MainDisplay\Tabs\OrientationTabView.xaml;Views\MainDisplay\Tabs\Overlay3D.xaml;Views\MainDisplay\Tabs\VibrationModeTabView.xaml;Views\Windows\FileBrowser\FileBrowserWindow.xaml;Views\Windows\FileSaver\FileSaverWindow.xaml;Views\Windows\FileSaver\FreqSaveDialogView.xaml;Views\Windows\FileSaver\NmrSaveDialog.xaml;Views\Windows\FileSaver\OptSaveDialogView.xaml;Views\Windows\FileSaver\TDSaveDialogView.xaml;Views\Windows\Graph\NmrGraphWindow.xaml;Views\Windows\Graph\UvVisGraphWindow.xaml;Views\Windows\Viewer3D\Overlay3D.xaml;Views\Windows\Viewer3D\Viewer3D.xaml;
 
 True
 

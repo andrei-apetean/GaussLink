@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-
+using System.Linq;
 
 namespace GaussLink.ViewModels
 {
@@ -31,7 +31,7 @@ namespace GaussLink.ViewModels
             {
                 case "Selected":
                     DataManager.JobsToBeSaved.Clear();
-                    if (DataManager.SelectedJobFile != null)
+                    if (DataManager.SelectedJobFile != null && DataManager.SelectedJobFile.Type != JobType.UNKNOWN)
                     {
                         DataManager.JobsToBeSaved.Add(DataManager.SelectedJobFile);
                         FileSaverWindow fs = new FileSaverWindow();
@@ -42,7 +42,8 @@ namespace GaussLink.ViewModels
                     DataManager.JobsToBeSaved.Clear();
                     if (jobFiles.Count > 0)
                     {
-                        DataManager.JobsToBeSaved.AddRange(jobFiles);
+                        IEnumerable<JobFile> j = jobFiles.Where(x => x.Type != JobType.UNKNOWN);
+                        DataManager.JobsToBeSaved.AddRange(j);
                         FileSaverWindow fsw = new FileSaverWindow();
                         fsw.Show();
                     }

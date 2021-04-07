@@ -49,25 +49,34 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
 
         private void OpenFile(Window window)
         {
-            if(SelectedDirectories.Count >1)
+            if (SelectedDirectories.Count > 1)
             {
-                foreach (var item in SelectedDirectories)
-                {
-                    if (item.Type != DirectoryItemType.File)
+                    FilePaths = new List<string>();
+                    foreach (var item in SelectedDirectories)
                     {
-                        SelectedDirectories = new ObservableCollection<DirectoryItemViewModel>();
-                        return;
+                        if (item.Type == DirectoryItemType.File) FilePaths.Add(item.FullPath);
                     }
-                }
-            }else if(SelectedDirectories[0].Type != DirectoryItemType.File)
+                    Messenger.Default.Send(new FileExOpenFileMessage(FilePaths));
+                    Settings.Default.LastOpenedPath = SelectedDirectory.FullPath;
+                    Settings.Default.Save();
+                    if (window != null)
+                    {
+                        window.Close();
+                    }
+                    return;
+                
+            }
+            else if (SelectedDirectories[0].Type != DirectoryItemType.File)
             {
-                GetDirectoryContents(SelectedDirectories[0],false);
+                SelectedDirectory = SelectedDirectories[0];
+                GetDirectoryContents(SelectedDirectory, false);
                 return;
             }
+
             FilePaths = new List<string>();
             foreach (var item in SelectedDirectories)
             {
-                FilePaths.Add(item.FullPath);
+                if (item.Type == DirectoryItemType.File) FilePaths.Add(item.FullPath);
             }
             Messenger.Default.Send(new FileExOpenFileMessage(FilePaths));
             Settings.Default.LastOpenedPath = SelectedDirectory.FullPath;
@@ -76,6 +85,7 @@ namespace GaussLink.ViewModels.Windows.FileBrowser
             {
                 window.Close();
             }
+
         }
 
         private void OnLvSelectionChanged(FileBrowserLvSelectMessage obj)

@@ -1,4 +1,5 @@
 ﻿using GaussLink.Models;
+using GaussLink.Views.Windows.MessageBox;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,21 +13,23 @@ namespace GaussLink.Data
 
         public static Molecule3D ExtractMolecule3D(JobFile job, bool isStatic, bool isStandard)
         {
+            MoleculeOrientation mo = new MoleculeOrientation();
+            MoleculeBond bonds = new MoleculeBond();
             if (isStatic)
             {
-                MoleculeOrientation molOr = ExtractOrientation(job, isStandard);
-                MoleculeBond bonds = ExtractMoleculeBond(job);
-                return new Molecule3D(bonds, molOr, null);
+                mo = ExtractOrientation(job, isStandard);
+                bonds = ExtractMoleculeBond(job);
+                return new Molecule3D(bonds, mo, null);
             }
             List<VibrationMode> vms = ExtractVibrationModes(job);
-            MoleculeOrientation mo = ExtractOrientation(job, isStandard);
-            MoleculeBond b = ExtractMoleculeBond(job);
-            return new Molecule3D(b, mo, vms);
+            mo = ExtractOrientation(job, isStandard);
+            bonds = ExtractMoleculeBond(job);
+            return new Molecule3D(bonds, mo, vms);
         }
         public static MoleculeOrientation ExtractOrientation(JobFile job, bool isInput)
         {
             List<Atom> orientation = new List<Atom>();
-            string parameter = isInput ? "Input orientation" : "Standard orientation";
+            string parameter = !isInput ? "Input orientation" : "Standard orientation";
             int flagCounter = 0;
             int index = GetLastOrientationIndex(job, parameter);
             int z = 0;
@@ -66,6 +69,8 @@ namespace GaussLink.Data
                     begin = true;
                 }
             }
+            if (orientation.Count == 0) { MessageWindow m = new MessageWindow("No orientation data found!"); }
+
             return new MoleculeOrientation(orientation);
         }
 
@@ -93,6 +98,7 @@ namespace GaussLink.Data
                     begin = true;
                 }
             }
+            if (mb.Bonds.Count == 0) { MessageWindow m = new MessageWindow("No Bond data found!"); }
 
             return mb;
         }
@@ -168,9 +174,10 @@ namespace GaussLink.Data
                         string[] data = RetrieveLineData(line.Split(' '));
                         string eId = data[2].Remove(data[2].Length - 1);
                         e.ID = int.Parse(eId);
-                        e.QuantumState = data[3];
-                        e.ExcitationEnergy = float.Parse(data[4], CultureInfo.InvariantCulture);
-                        e.WaveLength = float.Parse(data[6], CultureInfo.InvariantCulture);
+                        e.Multiplicity = data[3];
+                        e.EvEnergy = float.Parse(data[4], CultureInfo.InvariantCulture);
+                        e.NmEnergy = float.Parse(data[6], CultureInfo.InvariantCulture);
+                        e.CmEnergy = e.EvEnergy * 8065.543937f;
                         string f = data[8].Remove(0, 2);
                         e.OscillatorStrength = float.Parse(f, CultureInfo.InvariantCulture);
                     }
@@ -180,6 +187,8 @@ namespace GaussLink.Data
                     start = true;
                 }
             }
+            if (excitedStates.Count == 0) { MessageWindow m = new MessageWindow("No Excitation Energy data found!"); }
+
             return new ExcitationEnergy(excitedStates);
         }
 
@@ -221,8 +230,8 @@ namespace GaussLink.Data
             StringBuilder sb = new StringBuilder();
             foreach (ExcitedState state in e.ExcitedStates)
             {
-                sb.Append("Excited State: ").Append(state.ID).Append(" ").Append(state.QuantumState).Append(" ").Append(state.ExcitationEnergy).
-                    Append(" ").Append("eV").Append(" ").Append(state.WaveLength).Append(" ").Append("nm").Append(" ").Append("f=").Append(state.OscillatorStrength).AppendLine();
+                sb.Append("Excited State: ").Append(state.ID).Append(" ").Append(state.Multiplicity).Append(" ").Append(state.EvEnergy).
+                    Append(" ").Append("eV").Append(" ").Append(state.NmEnergy).Append(" ").Append("nm").Append(" ").Append("f=").Append(state.OscillatorStrength).AppendLine();
                 foreach (HLGap g in state.HLGaps)
                 {
                     sb.Append("\t").Append(g.HOMO).Append(" ").Append("->").Append(" ").Append(g.LUMO).Append("\t").Append(g.EnergyDelta).AppendLine();
@@ -279,6 +288,7 @@ namespace GaussLink.Data
                 }
 
             }
+            if(lines.Count == 0) { MessageWindow m = new MessageWindow("No frequency data found!"); }
             return lines;
         }
 
@@ -398,6 +408,8 @@ namespace GaussLink.Data
                 }
 
             }
+            if (vms.Count == 0) { MessageWindow m = new MessageWindow("No vibration mode data found!"); }
+
             return vms;
         }
 
@@ -412,7 +424,7 @@ namespace GaussLink.Data
                     if(line.Contains("Isotropic"))
                     {
                        string[] items = RetrieveLineData(line.Split(' '));
-                        tensors.Add(new MagneticShieldTensor(int.Parse(items[0]), items[1], float.Parse(items[4])));
+                        tensors.Add(new MagneticShieldTensor(int.Parse(items[0]), items[1], float.Parse(items[4], CultureInfo.InvariantCulture)));
                     }
                 }
                 if(line.Contains("Magnetic shielding tensor") && !line.Contains("Paramagnetic") && !(line.Contains("Diamagnetic")))
@@ -421,6 +433,8 @@ namespace GaussLink.Data
                 }
                 if(line.Contains("End of Minotr") || line.Contains("End of Minotr"))
                 {
+                    if (tensors.Count == 0) { MessageWindow m = new MessageWindow("No NMR data found!"); }
+
                     return new NMR(tensors);
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using GaussLink.Data.DirStruct;
 using GaussLink.Data.Messages;
 using GaussLink.ViewModels.Themes;
 using GaussLink.ViewModels.Windows.FileBrowser;

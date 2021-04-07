@@ -8,9 +8,9 @@ namespace GaussLink.Models
 {
     public class MagneticShieldTensor
     {
-        int ID { get; set; }
-        string Element { get; set; }
-        float Isotropic { get; set; }
+        public int ID { get; set; }
+        public string Element { get; set; }
+        public float Isotropic { get; set; }
 
         public MagneticShieldTensor(int ID, string Element, float Isotropic)
         {

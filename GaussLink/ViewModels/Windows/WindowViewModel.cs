@@ -3,12 +3,19 @@ using GaussLink.Data.Messages;
 using GaussLink.ViewModels.Base;
 using GaussLink.Views.Windows.FileBrowser;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace GaussLink.ViewModels.WindowViewModel
 {
     public class WindowViewModel : BaseViewModel
     {
+        public WindowViewModel()
+        {
+
+        }
+
         public ICommand OpenFileCommand => new RelayCommand(OpenFile);
         private void OpenFile()
         {

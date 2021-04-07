@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 
 namespace GaussLink.Views.Windows
@@ -21,7 +22,8 @@ namespace GaussLink.Views.Windows
         {
             this.m = molecule3D;
             InitializeComponent();
-            //Messenger.Default.Register<Viewer3DMessage>(this, OnDataReceived);
+            Uri iconUri = new Uri("pack://application:,,,/UI/Images/appIconWhite.png", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             this.MouseWheel += new MouseWheelEventHandler(MouseScrollEvent);
             this.Loaded += new RoutedEventHandler(Window_Loaded);
             this.MouseLeftButtonDown += new MouseButtonEventHandler(MouseButtonDownEvent);
@@ -277,7 +279,6 @@ namespace GaussLink.Views.Windows
                 }
                 selection.Clear();
                 measureCount = 0;
-                dbg.Text = selection.Count.ToString();
             }
             else
             {
@@ -293,7 +294,6 @@ namespace GaussLink.Views.Windows
                             selection.Remove(g);
                             selection.TrimExcess();
                             measureCount--;
-                            dbg.Text = selection.Count.ToString();
                             g.Material = GetMaterial(m.MoleculeOrientation.Atoms[atomGroup.Children.IndexOf(g)].AtomicNumber);
                             break;
                         }
@@ -326,7 +326,6 @@ namespace GaussLink.Views.Windows
                             measureCount++;
                             g.Material = selectionMaterial;
                         }
-                        dbg.Text = selection.Count.ToString();
 
                     }
                 }
@@ -442,7 +441,9 @@ namespace GaussLink.Views.Windows
 
             }
 
-
+            animGrid.Children.Clear();
+            animGrid.Visibility = Visibility.Hidden;
+            parentGrid.Visibility = Visibility.Visible;
         }
 
 

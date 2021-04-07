@@ -54,6 +54,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>appIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
@@ -105,6 +108,7 @@
     <Compile Include="Data\Events\ChildrenEventArgs.cs" />
     <Compile Include="Data\Events\EventAggregator.cs" />
     <Compile Include="Data\Events\SizeChangedArgs.cs" />
+    <Compile Include="Data\Messages\ConsoleMessage.cs" />
     <Compile Include="Data\Messages\DataMessage.cs" />
     <Compile Include="Data\Messages\DirectorySelectMessage.cs" />
     <Compile Include="Data\Messages\DisplayHeaderMessage.cs" />
@@ -155,6 +159,7 @@
     <Compile Include="ViewModels\Inspector\NMRComponentVM.cs" />
     <Compile Include="ViewModels\Inspector\OptComponentVM.cs" />
     <Compile Include="ViewModels\Inspector\TDComponentVM.cs" />
+    <Compile Include="ViewModels\Inspector\UkComponentVM.cs" />
     <Compile Include="ViewModels\ItemExplorer\ExplorerItem.cs" />
     <Compile Include="ViewModels\ItemExplorer\ItemExplorerViewModel.cs" />
     <Compile Include="ViewModels\MainDisplay\DisplayViewModel.cs" />
@@ -178,10 +183,12 @@
     <Compile Include="ViewModels\Windows\FileBrowser\FileBrowserViewModel.cs" />
     <Compile Include="ViewModels\Windows\FileSaver\FileSaverViewModel.cs" />
     <Compile Include="ViewModels\Windows\FileSaver\FreqSaveDialog.cs" />
+    <Compile Include="ViewModels\Windows\FileSaver\NmrSaveDialog.cs" />
     <Compile Include="ViewModels\Windows\FileSaver\OptSaveDialog.cs" />
     <Compile Include="ViewModels\Windows\FileSaver\SaveDialog.cs" />
     <Compile Include="ViewModels\Windows\FileSaver\TdSaveDialog.cs" />
     <Compile Include="ViewModels\Windows\WindowViewModel.cs" />
+    <Compile Include="Views\Helpers\ScrollIntoViewForListBox.cs" />
     <Compile Include="Views\Inspector\FreqInspectorComponent.xaml.cs">
       <DependentUpon>FreqInspectorComponent.xaml</DependentUpon>
     </Compile>
@@ -196,6 +203,9 @@
     </Compile>
     <Compile Include="Views\Inspector\TDInspectorComponent.xaml.cs">
       <DependentUpon>TDInspectorComponent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Inspector\UKcomponent.xaml.cs">
+      <DependentUpon>UKcomponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ItemExplorer\ItemExplorerView.xaml.cs">
       <DependentUpon>ItemExplorerView.xaml</DependentUpon>
@@ -215,9 +225,6 @@
     <Compile Include="Views\MainDisplay\Tabs\FileContentTabView.xaml.cs">
       <DependentUpon>FileContentTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainDisplay\Tabs\GraphTabView.xaml.cs">
-      <DependentUpon>GraphTabView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainDisplay\Tabs\OrientationTabView.xaml.cs">
       <DependentUpon>OrientationTabView.xaml</DependentUpon>
     </Compile>
@@ -227,9 +234,6 @@
     <Compile Include="Views\MainDisplay\Tabs\VibrationModeTabView.xaml.cs">
       <DependentUpon>VibrationModeTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainDisplay\Tabs\Viewer3DTabView.xaml.cs">
-      <DependentUpon>Viewer3DTabView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Windows\FileBrowser\FileBrowserWindow.xaml.cs">
       <DependentUpon>FileBrowserWindow.xaml</DependentUpon>
     </Compile>
@@ -238,6 +242,9 @@
     </Compile>
     <Compile Include="Views\Windows\FileSaver\FreqSaveDialogView.xaml.cs">
       <DependentUpon>FreqSaveDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\FileSaver\NmrSaveDialog.xaml.cs">
+      <DependentUpon>NmrSaveDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\FileSaver\OptSaveDialogView.xaml.cs">
       <DependentUpon>OptSaveDialogView.xaml</DependentUpon>
@@ -250,6 +257,9 @@
     </Compile>
     <Compile Include="Views\Windows\Graph\UvVisGraphWindow.xaml.cs">
       <DependentUpon>UvVisGraphWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\MessageBox\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\Viewer3D\Overlay3D.xaml.cs">
       <DependentUpon>Overlay3D.xaml</DependentUpon>
@@ -306,6 +316,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Inspector\UKcomponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ItemExplorer\ItemExplorerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -330,10 +344,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainDisplay\Tabs\GraphTabView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainDisplay\Tabs\OrientationTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -346,10 +356,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainDisplay\Tabs\Viewer3DTabView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Windows\FileBrowser\FileBrowserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -359,6 +365,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\FileSaver\FreqSaveDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\FileSaver\NmrSaveDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -375,6 +385,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\Graph\UvVisGraphWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\MessageBox\MessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -422,49 +436,21 @@
     <Folder Include="UI\Styles\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\Images\contentIconBlack.png" />
-    <Resource Include="UI\Images\contentIconWhite.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\Images\view3DIconBlack.png" />
-    <Resource Include="UI\Images\view3DIconWhite.png" />
     <Resource Include="UI\Images\appIconBlack.png" />
     <Resource Include="UI\Images\appIconWhite.png" />
-    <Resource Include="UI\Images\binIconBlack.png" />
-    <Resource Include="UI\Images\binIconWhite.png" />
-    <Resource Include="UI\Images\closeIconBlack.png" />
-    <Resource Include="UI\Images\closeIconWhite.png" />
-    <Resource Include="UI\Images\collapseArrowBlack.png" />
-    <Resource Include="UI\Images\collapseArrowWhite.png" />
-    <Resource Include="UI\Images\deleteFileIconBlack.png" />
-    <Resource Include="UI\Images\deleteFileIconWhite.png" />
-    <Resource Include="UI\Images\expandArrowBlack.png" />
-    <Resource Include="UI\Images\expandArrowWhite.png" />
-    <Resource Include="UI\Images\frequencyDataIconBlack.png" />
-    <Resource Include="UI\Images\frequencyDataIconWhite.png" />
-    <Resource Include="UI\Images\jobFileIconBlack.png" />
-    <Resource Include="UI\Images\jobFileIconWhite.png" />
-    <Resource Include="UI\Images\openFileIconBlack.png" />
-    <Resource Include="UI\Images\openFileIconWhite.png" />
-    <Resource Include="UI\Images\orientationIconBlack.png" />
-    <Resource Include="UI\Images\orientationIconWhite.png" />
-    <Resource Include="UI\Images\plotIconBlack.png" />
-    <Resource Include="UI\Images\plotIconWhite.png" />
-    <Resource Include="UI\Images\saveFileIconBlack.png" />
-    <Resource Include="UI\Images\saveFileIconWhite.png" />
-    <Resource Include="UI\Images\settingsIconBlack.png" />
-    <Resource Include="UI\Images\settingsIconWhite.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\Images\vibration3DBlack.png" />
-    <Resource Include="UI\Images\vibration3DWhite.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="UI\Images\drive_dark.png" />
+    <Resource Include="UI\Images\drive_light.png" />
+    <Resource Include="UI\Images\file_dark.png" />
+    <Resource Include="UI\Images\file_light.png" />
+    <Resource Include="UI\Images\folder_closed_dark.png" />
+    <Resource Include="UI\Images\folder_closed_light.png" />
+    <Resource Include="UI\Images\folder_open_dark.png" />
+    <Resource Include="UI\Images\folder_open_light.png" />
+    <Resource Include="appIcon.ico" />
     <Content Include="Data\PeriodicTable\periodicTable.txt" />
-    <Resource Include="UI\Images\drive.png" />
-    <Resource Include="UI\Images\file.png" />
-    <Resource Include="UI\Images\folder-closed.png" />
-    <Resource Include="UI\Images\folder-open.png" />
+    <Resource Include="UI\Images\appIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

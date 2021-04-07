@@ -24,10 +24,8 @@
                                     <ColumnDefinition Width="20"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock  Grid.Column="0" Text="{Binding Name}" ToolTip="{Binding Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                <Button Style="{DynamicResource DangerButton}" Grid.Column="1"  Command="{Binding CloseCommand}">
-                                    <Image Source="{Binding CloseIcon}" Height="12" />
-                                </Button>
-                            </Grid>
+                                    <Button Style="{DynamicResource DangerButton}" Grid.Column="1"  Command="{Binding CloseCommand}" Content="❌" FontSize="9"/>
+                                </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     <ListBox.ItemsPanel>
@@ -46,17 +44,11 @@
                 <DataTemplate DataType="{x:Type tabs:OrientationTab}">
                     <views:OrientationTabView/>
                 </DataTemplate>
-                <DataTemplate DataType="{x:Type tabs:Viewer3DTab}">
-                    <views:Viewer3DTabView/>
-                </DataTemplate>
                 <DataTemplate DataType="{x:Type tabs:VibrationModeTab}">
                     <views:VibrationModeTabView/>
                 </DataTemplate>
                     <DataTemplate DataType="{x:Type tabs:ExcitationEnergyTab}">
                         <views:ExcitationEnergyTabView/>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type tabs:GraphTab}">
-                        <views:GraphTabView/>
                     </DataTemplate>
                 </Grid.Resources>
             <ContentControl Content="{Binding ViewModel}"/>

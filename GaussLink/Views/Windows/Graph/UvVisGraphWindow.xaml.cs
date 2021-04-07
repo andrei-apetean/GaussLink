@@ -45,7 +45,6 @@ namespace GaussLink.Views.Windows.Graph
         float screenWidth, screenHeight;
         float xMax, yMax, xMin, yMin;
         float g = 1;
-        bool xInverted = false;
         SolidColorBrush plotBrush = new SolidColorBrush(Colors.White);
         const double evToCm = 8065.543937;
 
@@ -58,9 +57,10 @@ namespace GaussLink.Views.Windows.Graph
         {
             InitializeComponent();
             this.gt = gt;
-            this.Loaded += GraphTabView_Loaded;
+            this.Loaded += UvVisGraphView_Loaded;
             Messenger.Default.Register<ThemeChangedMessage>(this, ThemeChanged);
-
+            Uri iconUri = new Uri("pack://application:,,,/UI/Images/appIconWhite.png", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             plotView.SizeChanged += plotView_SizeChanged;
         }
 
@@ -124,8 +124,8 @@ namespace GaussLink.Views.Windows.Graph
             yValues = new List<float>();
             for (int i = 0; i < nrOfStates; i++)
             {
-                nmValues.Add(en.ExcitedStates[i].WaveLength);
-                evValues.Add(en.ExcitedStates[i].ExcitationEnergy);
+                nmValues.Add(en.ExcitedStates[i].NmEnergy);
+                evValues.Add(en.ExcitedStates[i].EvEnergy);
                 yValues.Add(en.ExcitedStates[i].OscillatorStrength);
                 if (yValues[i] > yMax)
                 {
@@ -138,7 +138,7 @@ namespace GaussLink.Views.Windows.Graph
 
         }
 
-        private void GraphTabView_Loaded(object sender, RoutedEventArgs e)
+        private void UvVisGraphView_Loaded(object sender, RoutedEventArgs e)
         {
             if (gt != null)
             {
@@ -162,16 +162,18 @@ namespace GaussLink.Views.Windows.Graph
             plotView.Children.Clear();
             plot.Children.Clear();
             xLabels.Children.Clear();
+            lines.Children.Clear();
+            cpoints.Children.Clear();
 
-            Label exEn = new Label();
-            exEn.Content = "Excitation Energy (" + text + ")";
-            exEn.RenderTransform = new TranslateTransform(plotWidth, plotHeight / 2);
-            exEn.LayoutTransform = new RotateTransform(90);
             Label osc = new Label();
             osc.Content = "Oscillator Strength";
-            osc.RenderTransform = new TranslateTransform((plotWidth + xMargin) / 2, 20);
-            plotView.Children.Add(exEn);
+            osc.RenderTransform = new TranslateTransform(plotWidth, plotHeight / 2);
+            osc.LayoutTransform = new RotateTransform(90);
+            Label exE = new Label();
+            exE.Content = "Excitation Energy (" + text + ")";
+            exE.RenderTransform = new TranslateTransform((plotWidth + xMargin) / 2, 20);
             plotView.Children.Add(osc);
+            plotView.Children.Add(exE);
 
             Point[] points = CalculateGraphPoints(values);
             Polyline xAxis = new Polyline();
@@ -189,8 +191,8 @@ namespace GaussLink.Views.Windows.Graph
             {
                 Polyline l = new Polyline();
                 float x = OldToNewRangeConverter(i * xIntervalUnit, xMax, xMin, plotWidth, xMargin);
-                Point p1 = new Point(xInverted?plotWidth-x:x, plotHeight);
-                Point p2 = new Point(xInverted?plotWidth-x:x, yMargin);
+                Point p1 = new Point(x, plotHeight);
+                Point p2 = new Point(x, yMargin);
                 l.Stroke = new SolidColorBrush(Colors.Gray);
                 l.Points.Add(p1);
                 l.Points.Add(p2);
@@ -268,9 +270,9 @@ namespace GaussLink.Views.Windows.Graph
                 p.Points.Add(p1);
                 p.Points.Add(p2);
 
-                plot.Children.Add(p);
-                plot.Children.Add(r);
-                pointIndices.Add(new Tuple<int, int>(plot.Children.IndexOf(r), i));
+                lines.Children.Add(p);
+                cpoints.Children.Add(r);
+                pointIndices.Add(new Tuple<int, int>(cpoints.Children.IndexOf(r), i));
                 i++;
             }
         }
@@ -283,7 +285,7 @@ namespace GaussLink.Views.Windows.Graph
         private void R_MouseEnter(object sender, MouseEventArgs e)
         {
             Rectangle r = sender as Rectangle;
-            int i = plot.Children.IndexOf(r);
+            int i = cpoints.Children.IndexOf(r);
             int p = pointIndices.Single(x => x.Item1 == i).Item2;
             float value =0;
             switch (currentUnit)
@@ -330,34 +332,11 @@ namespace GaussLink.Views.Windows.Graph
             xIntervalUnit = xMax / 10;
             yIntervalUnit = yMax / 10;
             var dE = (Emax - Emin) / (npoints - 1);
-            if (!xInverted)
-            {
-                for (int i = 0; i < nrOfStates; i++)
-                {
-                    var amp = yValues[i];
-                    var x = xValues[i];
-                    var E = Emin;
-                    int j = 0;
-                    do
-                    {
-                        y = L(E, x, amp, g);
-                        ints[j] += y;
-                        points[j] = new Point(E, ints[j]);
-
-
-
-                        j++;
-
-                        E = E + dE;
-                    } while (E <= Emax);
-                }
-                return points;
-            }
             for (int i = 0; i < nrOfStates; i++)
             {
                 var amp = yValues[i];
                 var x = xValues[i];
-                var E = Emax;
+                var E = Emin;
                 int j = 0;
                 do
                 {
@@ -369,8 +348,8 @@ namespace GaussLink.Views.Windows.Graph
 
                     j++;
 
-                    E -= dE;
-                } while (E >= Emin);
+                    E = E + dE;
+                } while (E <= Emax);
             }
             return points;
 
@@ -410,7 +389,27 @@ namespace GaussLink.Views.Windows.Graph
             }
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        private void Points_Checked(object sender, RoutedEventArgs e)
+        {
+            cpoints.Visibility = Visibility.Visible;
+
+        }
+        private void Lines_Checked(object sender, RoutedEventArgs e)
+        {
+            lines.Visibility = Visibility.Visible;
+
+        }
+        private void Points_Unchecked(object sender, RoutedEventArgs e)
+        {
+            cpoints.Visibility = Visibility.Hidden;
+
+        }
+        private void Lines_Unchecked(object sender, RoutedEventArgs e)
+        {
+            lines.Visibility = Visibility.Hidden;
+
+        }
+        private void Inverse_Checked(object sender, RoutedEventArgs e)
         {
 
             foreach (Label item in xLabels.Children)
@@ -419,14 +418,11 @@ namespace GaussLink.Views.Windows.Graph
             }
             plot.LayoutTransform = new ScaleTransform(-1, 1);
             xLabels.LayoutTransform = new ScaleTransform(-1, 1);
-            
-
-            //plotView.Children.Add(rest);
-            //plotView.Children.Add(xLabels);
-            //plotView.Children.Add(plot);
+            cpoints.LayoutTransform = new ScaleTransform(-1, 1);
+            lines.LayoutTransform = new ScaleTransform(-1, 1);
         }
 
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void Inverse_Unchecked(object sender, RoutedEventArgs e)
         {
 
             foreach (Label item in xLabels.Children)
@@ -435,10 +431,8 @@ namespace GaussLink.Views.Windows.Graph
             }
             xLabels.LayoutTransform = new ScaleTransform(1, 1);
             plot.LayoutTransform = new ScaleTransform(1, 1);
-
-            //plotView.Children.Add(rest);
-            //plotView.Children.Add(xLabels);
-            //plotView.Children.Add(plot);
+            cpoints.LayoutTransform = new ScaleTransform(1, 1);
+            lines.LayoutTransform = new ScaleTransform(1, 1);
 
         }
 

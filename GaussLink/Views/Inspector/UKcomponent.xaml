@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="GaussLink.Views.Inspector.UKcomponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GaussLink.Views.Inspector"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <TextBlock TextWrapping="Wrap"  Margin="10"  TextTrimming="None" Text="Job unknown. Make sure job command begins with #p or #P and make sure the parameters (opt/freq/td/nmr) are in a single word on the same line or the following line."/>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

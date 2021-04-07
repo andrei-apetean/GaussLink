@@ -21,7 +21,14 @@
             <Canvas  x:Name="xLabels" ClipToBounds="True">
 
             </Canvas>
-            <Canvas  x:Name="plot" ClipToBounds="True">
+            <Canvas  x:Name="cpoints" ClipToBounds="True">
+
+            </Canvas>
+            <Canvas  x:Name="lines" ClipToBounds="True">
+
+            </Canvas>
+
+            <Canvas   x:Name="plot"  ClipToBounds="True">
             </Canvas>
 
 
@@ -31,18 +38,12 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                 <StackPanel Margin="10">
                     <Label Content="Smoothing Factor:"/>
-                    <TextBox Text="1" Name="SmoothFactorTxt" HorizontalContentAlignment="Center" TextChanged="SmoothFactorTxt_TextChanged"/>
+                    <TextBox  Name="sFactor" TextChanged="Sfactor_TextChanged"/>
+                    <!--<TextBox Text="0.4" x:Name="sFactor" />-->
                 </StackPanel>
-
-                <StackPanel Margin="10">
-                    <Label Content="Unit:"/>
-                    <ComboBox   VerticalAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="ComboBox_SelectionChanged" DropDownClosed="ComboBox_DropDownClosed" >
-                        <ComboBoxItem IsSelected="True">nm</ComboBoxItem>
-                        <ComboBoxItem>cm^-1</ComboBoxItem>
-                        <ComboBoxItem>eV</ComboBoxItem>
-                    </ComboBox>
-                </StackPanel>
-                <CheckBox  Margin="10" IsChecked="False" Content="Inverse X axis" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+                <CheckBox  Margin="10" IsChecked="False" Content="Inverse X axis" Checked="Inverse_Checked" Unchecked="Inverse_Unchecked"/>
+                <CheckBox Margin="10" IsChecked="True" Content="Points" Checked="Points_Checked" Unchecked="Points_Unchecked" />
+                <CheckBox Margin="10" IsChecked="True" Content="Lines" Checked="Lines_Checked" Unchecked="Lines_Unchecked" />
                 <TextBlock Margin="10"  x:Name="pointVal"  Text="Hover over points to see their coordinates" TextWrapping="Wrap" TextAlignment="Center"/>
             </StackPanel>
         </Grid>

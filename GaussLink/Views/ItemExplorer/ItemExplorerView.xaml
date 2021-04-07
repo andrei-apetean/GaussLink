@@ -22,7 +22,7 @@
                             <TextBlock Grid.Column="0" Margin="10,0,0,0" Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontSize="14" />
                         </Grid >
                         <Grid  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Button Style="{DynamicResource DangerButton}"  Command="{Binding DeleteCommand}" Content="❌" HorizontalContentAlignment="Center"  />
+                            <Button Style="{DynamicResource DangerButton}"  Command="{Binding DeleteCommand}" Content="❌" FontSize="9" HorizontalContentAlignment="Center"  />
                         </Grid>
                     </Grid>
                 </DataTemplate>

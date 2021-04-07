@@ -11,6 +11,7 @@ using GaussLink.Views.Windows.FileSaver;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,9 @@ namespace GaussLink.ViewModels.Windows.FileSaver
                     case JobType.TD:
                         Items.Add(new TdSaveDialog(item));
                         break;
+                    case JobType.NMR:
+                        Items.Add(new NmrSaveDialog(item));
+                        break;
 
                 }
             }
@@ -75,13 +79,7 @@ namespace GaussLink.ViewModels.Windows.FileSaver
 
         public RelayCommand<Window> SaveFileCommand { get; private set; }
 
-        private string folderName="New Folder";
-
-        public string FolderName
-        {
-            get { return folderName; }
-            set { folderName = value; OnPropertyChanged(nameof(FolderName)); }
-        }
+ 
 
 
 
@@ -100,12 +98,9 @@ namespace GaussLink.ViewModels.Windows.FileSaver
             OptSaveDialog o = new OptSaveDialog();
             FreqSaveDialog f = new FreqSaveDialog();
             TdSaveDialog t = new TdSaveDialog();
+            NmrSaveDialog n = new NmrSaveDialog();
             foreach (var item in Items)
             {
-                if(item is OptSaveDialog)
-                {
-                     }
-
                 switch (item.JobFile.Type)
                 {
                     case JobType.OPT:
@@ -121,7 +116,7 @@ namespace GaussLink.ViewModels.Windows.FileSaver
                         SaveTDJob(t, path);
                         break;
                     case JobType.NMR:
-                        //SaveNMRJob(item);
+                        SaveNMRJob(n, path);
                         break;
                 }
 
@@ -133,10 +128,22 @@ namespace GaussLink.ViewModels.Windows.FileSaver
             }
         }
 
-        //private void SaveNMRJob(NSaveDialog item)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        private void SaveNMRJob(SaveDialog item, string path)
+        {
+            if (item.AsJob)
+            {
+                string p = Path.Combine(path, item.Name + ".out");
+                string output = string.Join(Environment.NewLine, item.JobFile.Content.ToArray());
+                File.WriteAllText(p, output);
+            }
+            if (item.Content)
+            {
+                string p = Path.Combine(path, item.Name + ".txt");
+                string output = string.Join(Environment.NewLine, item.JobFile.Content.ToArray());
+                File.WriteAllText(p, output);
+            }
+        }
+
 
         private void SaveTDJob(TdSaveDialog item, string path)
         {
@@ -156,8 +163,39 @@ namespace GaussLink.ViewModels.Windows.FileSaver
             {
                 string p = Path.Combine(path, item.Name + "_excitation_energies.txt");
                 ExcitationEnergy e = Extractor.ExtractExcitationEnergies(item.JobFile);
-                File.WriteAllText(p, e.ToString());
+                File.WriteAllText(p, ArrangeEnergy(e));
             }
+        }
+
+        private string ArrangeEnergy(ExcitationEnergy e)
+        {
+            StringBuilder sb = new StringBuilder();
+            int idSize = 15, mSize = 16, evSize = 14, cmSize = 16, nmSize = 14, oscSize = 22;
+            sb.Append("Excited State |  Multiplicity | Energy (eV) | Energy (cm-1) | Energy (nm) | Oscillator Strength | Transition ").AppendLine().AppendLine();
+            foreach (ExcitedState s in e.ExcitedStates)
+            {
+                string cm = Convert(s.EvEnergy);
+                sb.Append(s.ID).Append(string.Concat(Enumerable.Repeat(' ', idSize - s.ID.ToString().Length > 0 ? idSize - s.ID.ToString().Length : 1)))
+                    .Append(s.Multiplicity).Append(string.Concat(Enumerable.Repeat(' ', mSize - s.Multiplicity.Length > 0 ? mSize - s.Multiplicity.Length : 1)))
+                    .Append(s.EvEnergy.ToString(CultureInfo.InvariantCulture)).Append(string.Concat(Enumerable.Repeat(' ',evSize- s.EvEnergy.ToString().Length  > 0 ? evSize - s.EvEnergy.ToString().Length: 1)))
+                    .Append(cm).Append(string.Concat(Enumerable.Repeat(' ', cmSize - cm.Length> 0 ?   cmSize - cm.Length : 1)))
+                    .Append(s.NmEnergy.ToString(CultureInfo.InvariantCulture)).Append(string.Concat(Enumerable.Repeat(' ', nmSize- s.NmEnergy.ToString().Length  > 0 ? nmSize- s.NmEnergy.ToString().Length  : 1)))
+                    .Append(s.OscillatorStrength.ToString(CultureInfo.InvariantCulture)).Append(string.Concat(Enumerable.Repeat(' ',oscSize- s.OscillatorStrength.ToString().Length  > 0 ? oscSize - s.OscillatorStrength.ToString().Length  : 1)))
+                    .Append(s.HLGaps[0].LUMO).Append(" -> ").Append(s.HLGaps[0].HOMO).Append(" ").Append(s.HLGaps[0].EnergyDelta.ToString(CultureInfo.InvariantCulture)).AppendLine();
+                for (int i = 1; i < s.HLGaps.Count; i++)
+                {
+                    sb.Append(string.Concat(Enumerable.Repeat(' ',idSize + mSize+evSize + cmSize+nmSize+oscSize))).Append(s.HLGaps[i].HOMO).Append(" -> ").Append(s.HLGaps[i].LUMO).Append(" ").Append(s.HLGaps[i].EnergyDelta.ToString(CultureInfo.InvariantCulture)).AppendLine();
+                    
+                }
+                sb.AppendLine();
+            }
+            
+            return sb.ToString() ;
+        }
+
+        private string Convert(float value)
+        {
+            return (value * 8065.543937).ToString("0.00", CultureInfo.InvariantCulture);
         }
 
         private void SaveFreqJob(FreqSaveDialog item, string path)
@@ -209,7 +247,7 @@ namespace GaussLink.ViewModels.Windows.FileSaver
             }
             if (item.StandardOrientation)
             {
-                string p = System.IO.Path.Combine(path, item.Name + "_standard_orientation.txt");
+                string p = Path.Combine(path, item.Name + "_standard_orientation.txt");
 
                 MoleculeOrientation orientation = Extractor.ExtractOrientation(item.JobFile, false);
                 File.WriteAllText(p, orientation.ToString());
@@ -223,16 +261,7 @@ namespace GaussLink.ViewModels.Windows.FileSaver
         }
 
 
-        public ICommand NewFolderCommand => new RelayCommand(NewFolder);
-
-        private void NewFolder()
-        {
-            if(SelectedDirectory !=null)
-            {
-                Directory.CreateDirectory(Path.Combine(SelectedDirectory.FullPath, FolderName));
-                GetDirectoryContents(SelectedDirectory, false);
-            }
-        }
+  
 
         private void OnTvSelectionChanged(FileBrowserTvSelectMessage obj)
         {

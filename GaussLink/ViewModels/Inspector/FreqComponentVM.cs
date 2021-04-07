@@ -63,6 +63,7 @@ namespace GaussLink.ViewModels
                 if (i > ModeCount)
                 {
                     index = ModeCount;
+                    SelectedMode = ModeCount.ToString();
                 }
             }
         }
@@ -99,7 +100,7 @@ namespace GaussLink.ViewModels
         public virtual void NewViewer3D()
         {
             jobFile = DataManager.SelectedJobFile;
-            Molecule3D m = Extractor.ExtractMolecule3D(jobFile, false, false);
+            Molecule3D m = Extractor.ExtractMolecule3D(jobFile, false, true);
             //Messenger.Default.Send(new DataMessage("3D Structure",jobFile,false,false));
             Viewer3D viewer3D = new Viewer3D(m);
             viewer3D.Show();

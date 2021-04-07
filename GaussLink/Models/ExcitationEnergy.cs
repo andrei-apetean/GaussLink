@@ -16,8 +16,8 @@ namespace GaussLink.Models
             StringBuilder sb = new StringBuilder();
             foreach (ExcitedState e in ExcitedStates)
             {
-                sb.Append("Excited State ").Append(e.ID).Append(": ").Append(e.QuantumState).Append(" ").Append(e.ExcitationEnergy)
-                    .Append(" eV ").Append(e.WaveLength).Append(" nm f=").Append(e.OscillatorStrength).AppendLine().AppendLine();
+                sb.Append("Excited State ").Append(e.ID).Append(": ").Append(e.Multiplicity).Append(" ").Append(e.EvEnergy)
+                    .Append(" eV ").Append(e.NmEnergy).Append(" nm f=").Append(e.OscillatorStrength).AppendLine().AppendLine();
                 foreach(var item in e.HLGaps)
                 {
                     sb.Append(item.LUMO).Append(" -> ").Append(item.HOMO).Append("   ").Append(item.EnergyDelta).AppendLine().AppendLine();

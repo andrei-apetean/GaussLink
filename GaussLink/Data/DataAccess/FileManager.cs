@@ -1,4 +1,6 @@
-﻿using GaussLink.Models;
+﻿using GalaSoft.MvvmLight.Messaging;
+using GaussLink.Data.Messages;
+using GaussLink.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,57 +10,30 @@ namespace GaussLink.Data.DataAccess
 {
     public static class FileManager
     {
+        static int unknownCount =0;
+        static int fileCount = 0;
         /// <summary>
         /// Creates a File Dialog to open a Gaussian *.out file and extracts the jobs inside
         /// </summary>
         /// <returns>List of DataFile</returns>
         public static List<JobFile> OpenFile(List<string> filePaths)
         {
-                List<JobFile> dataItemJobs = new List<JobFile>();
-                foreach (string s in filePaths)
-                {
-                    string fullPath = s;
-                    string fileName = Path.GetFileNameWithoutExtension(fullPath);
-                    dataItemJobs.AddRange(DataFileJobSplit(fileName, File.ReadAllLines(fullPath).ToList()));
-                }
-
-                return dataItemJobs;
-        }
-
-        /// <summary>
-        /// Saves a DataFile as a Gaussian *.out file
-        /// </summary>
-        /// <param name="job">The job to be saved</param>
-        public static void SaveJobFileContent(JobFile job)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            unknownCount = 0;
+            fileCount = 0;
+            List<JobFile> dataItemJobs = new List<JobFile>();
+            foreach (string s in filePaths)
             {
-                Filter = "Gaussian Output File|*.out",
-                FileName = job.JobName
-            };
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string path = saveFileDialog.FileName;
-                File.WriteAllLines(path, job.Content);
-                saveFileDialog.Dispose();
+                string fullPath = s;
+                string fileName = Path.GetFileNameWithoutExtension(fullPath);
+                dataItemJobs.AddRange(DataFileJobSplit(fileName, File.ReadAllLines(fullPath).ToList()));
             }
+            string message = $"{fileCount} files opened successfully! ";
+            if (unknownCount > 0) message += $"{unknownCount} unknown.";
+            Messenger.Default.Send(new ConsoleMessage(message));
+            return dataItemJobs;
+        }
 
 
-        }
-        public static void SaveText(string fileName, string text)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "Text File|*.txt",
-                FileName = fileName
-            };
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string path = saveFileDialog.FileName;
-                File.WriteAllText(path, text);
-                saveFileDialog.Dispose();
-            }
-        }
         public static void SaveOrientation(string fileName, MoleculeOrientation orientation)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -91,29 +66,30 @@ namespace GaussLink.Data.DataAccess
             string name = "";
             JobType type = JobType.OPT;
             //iterate through the lines of the DataFile
-            foreach (var l in fileLines)
+            for (int i=0; i< fileLines.Count; i++)
             {
                 //add lines to JobFile lines
-                lines.Add(l);
+                lines.Add(fileLines[i]);
                 //if the line is the beginning of the Job
-                if (l.StartsWith(" #p") || l.StartsWith(" #P") || l.StartsWith("#"))
+                if (fileLines[i].StartsWith(" #p") || fileLines[i].StartsWith(" #P") || fileLines[i].StartsWith("#"))
                 {
                     //Check the type of  Job and add a name
-                    if (l.Contains("opt") || l.Contains("Opt")) { name = fileName + "_opt"; type = JobType.OPT; continue; }
-                    if (l.Contains("Freq") || l.Contains("freq") || l.EndsWith("Fr")) { name = fileName + "_freq"; type = JobType.FREQ; }
-                    if (l.Contains("td")) { name = fileName + "_td"; type = JobType.TD; }
-                    if (l.Contains("nmr")) { name = fileName + "_nmr"; type = JobType.NMR; }
+                    if (fileLines[i].Contains("opt") || fileLines[i].Contains("Opt") || fileLines[i + 1].Contains("opt") || fileLines[i + 1].Contains("Opt")) { name = fileName + "_opt"; type = JobType.OPT; continue; }
+                    if (fileLines[i].Contains("Freq") || fileLines[i].Contains("freq") || fileLines[i+1].Contains("Freq") || fileLines[i+1].Contains("freq")){ name = fileName + "_freq"; type = JobType.FREQ; }
+                    if (fileLines[i].Contains("td")) { name = fileName + "_td"; type = JobType.TD; }
+                    if (fileLines[i].Contains("nmr")) { name = fileName + "_nmr"; type = JobType.NMR; }
                 }
                 //If end of JobFile has been reached
-                if (l.Contains("Normal termination of Gaussian"))
+                if (fileLines[i].Contains("Normal termination of Gaussian"))
                 {
-                    if (name == "") { name = fileName + "_unknown"; type = JobType.UNKNOWN; }
+                    if (name == "") { name = fileName + "_unknown"; type = JobType.UNKNOWN; unknownCount++; fileCount--; }
                     //add new JobFile to the list of Jobs
                     children.Add(new JobFile(name, type, lines));
                     //empty the temporary list
                     lines = new List<string>();
                     //clear name
                     name = "";
+                    fileCount++;
                 }
             }
             //return list of JobFiles
