@@ -1,10 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GaussLink.Data.Messages;
 using GaussLink.ViewModels.Base;
-using GaussLink.Views.Windows.FileBrowser;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace GaussLink.ViewModels.WindowViewModel
@@ -19,8 +17,16 @@ namespace GaussLink.ViewModels.WindowViewModel
         public ICommand OpenFileCommand => new RelayCommand(OpenFile);
         private void OpenFile()
         {
-            FileBrowserWindow fb = new FileBrowserWindow();
-            fb.Show();
+            OpenFileDialog ofd = new OpenFileDialog();
+            if(ofd.ShowDialog() == DialogResult.OK)
+            {
+                var fileList = new List<string>();
+                foreach(var file in ofd.FileNames)
+                {
+                    fileList.Add(file);
+                }
+                Messenger.Default.Send(new FileExOpenFileMessage(fileList));
+            }
         }
 
         public ICommand SaveSelectedCommand => new RelayCommand(SaveSelected);

@@ -4,7 +4,6 @@ using GalaSoft.MvvmLight.Messaging;
 using GaussLink.Data.DirStruct;
 using GaussLink.Data.Messages;
 using GaussLink.Properties;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
